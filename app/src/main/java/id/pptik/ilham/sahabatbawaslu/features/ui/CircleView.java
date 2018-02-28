@@ -49,7 +49,7 @@ public class CircleView extends View{
         super.onDraw(canvas);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setShadowLayer(12, 0, 0, Color.DKGRAY);
-        paint.setShader(new LinearGradient(0, getHeight()*40/100, 0, getHeight(), Color.parseColor("#FD7E16"), Color.parseColor("#FAD961"), Shader.TileMode.MIRROR));
+        paint.setShader(new LinearGradient(0, getHeight()*10/100, 0, getHeight(), Color.parseColor("#FAD961"), Color.parseColor("#FD7E16"), Shader.TileMode.MIRROR));
         canvas.drawCircle(getWidth()/2,0,getWidth()*70/100,paint);
         setLayerType(LAYER_TYPE_SOFTWARE, paint);
 
