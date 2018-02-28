@@ -5,13 +5,13 @@ package id.pptik.ilham.sahabatbawaslu.models;
  */
 
 public class UserModel {
-    private String identificationNumber;
-    private String name;
-    private String username;
-    private String password;
-    private String phoneNumber;
-    private String address;
-    private String email;
-    private String villageID;
-    private String signupType;
+    public String identificationNumber;
+    public String name;
+    public String username;
+    public String password;
+    public String phoneNumber;
+    public String address;
+    public String email;
+    public String villageID;
+    public String signupType;
 }
