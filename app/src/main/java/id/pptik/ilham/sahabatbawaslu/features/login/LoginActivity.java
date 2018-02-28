@@ -11,6 +11,8 @@ import android.view.Window;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.features.ui.CircleView;
+import id.pptik.ilham.sahabatbawaslu.models.UserModel;
+import id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding activityLoginBinding;
@@ -21,6 +23,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+
+        UserViewModel userViewModel = new UserViewModel(new UserModel());
+        activityLoginBinding.setLogin(userViewModel);
 
 
         CircleView circleView = new CircleView(this);
