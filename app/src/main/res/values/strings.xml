@@ -5,4 +5,6 @@
     <string name="masuk_label">Masuk</string>
     <string name="belum_punya_akun_label">Belum punya akun?</string>
     <string name="daftar_label">Daftar</string>
+    <string name="pastikan_internet_label">Mohon pastikan anda terhubung dengan Internet</string>
+    <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
 </resources>

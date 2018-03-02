@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         activityLoginBinding.setLoginevent(new UserInterface() {
             @Override
             public void onClickLogin() {
-                progressDialog.setMessage("Mohon tunggu sedang dalam proses");
+                progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
                 progressDialog.show();
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                     login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
                 }else{
                     progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "Mohon pastikan anda terhubung dengan Internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
                 }
 
 
