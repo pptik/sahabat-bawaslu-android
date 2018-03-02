@@ -12,6 +12,7 @@ import id.pptik.ilham.sahabatbawaslu.commands.UserInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.features.ui.CircleView;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel;
@@ -25,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
 
