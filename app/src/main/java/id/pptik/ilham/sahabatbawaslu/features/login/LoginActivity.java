@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.features.login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.UserInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
@@ -33,22 +37,20 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding activityLoginBinding;
     private RestServiceInterface restServiceInterface;
     private ProgressDialog progressDialog;
-
-
+    private Snackbar snackbar;
+    @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+        ButterKnife.bind(this);
+
+
         Window window = this.getWindow();
-        // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        // finally change the color
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
 
         progressDialog = new ProgressDialog(this);
@@ -94,9 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                 LoginPOJO loginPOJO = response.body();
                 if (loginPOJO != null){
                     if (loginPOJO.getRc().toString().equals("0000")){
-                        Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
+                        snackbar = Snackbar.make(linearLayout,"Selamat datang "+loginPOJO.getResults().getName(),Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }else{
-                        Toast.makeText(LoginActivity.this, loginPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                        snackbar = Snackbar.make(linearLayout,loginPOJO.getRm(),Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 }
             }
