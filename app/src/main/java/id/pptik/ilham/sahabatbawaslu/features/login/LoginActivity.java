@@ -49,17 +49,19 @@ public class LoginActivity extends AppCompatActivity {
         call1.enqueue(new Callback<LoginPOJO>() {
             @Override
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
-                Toast.makeText(LoginActivity.this, "Email: "+field+" ,Sandi: "+password, Toast.LENGTH_SHORT).show();
                 LoginPOJO loginPOJO = response.body();
-
                 if (loginPOJO != null){
-                    Log.e("RESPONSE","RESPONSE: "+ loginPOJO.getRm());
+                    if (loginPOJO.getRc().equals(0000)){
+                        Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(LoginActivity.this, loginPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<LoginPOJO> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "There is something wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Maaf terjadi gangguan pada koneksi ke server.", Toast.LENGTH_LONG).show();
                 call.cancel();
             }
         });
