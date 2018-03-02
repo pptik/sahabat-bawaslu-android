@@ -1,10 +1,14 @@
 package id.pptik.ilham.sahabatbawaslu.features.login;
 
+import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -23,13 +27,17 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding activityLoginBinding;
-    RestServiceInterface restServiceInterface;
+    private RestServiceInterface restServiceInterface;
+    private ProgressDialog progressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+        progressDialog = new ProgressDialog(this);
 
         final UserViewModel userViewModel = new UserViewModel(new UserModel());
         //Binding View Model
@@ -38,6 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         activityLoginBinding.setLoginevent(new UserInterface() {
             @Override
             public void onClickLogin() {
+                progressDialog.setMessage("Mohon tunggu sedang dalam proses");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setProgress(0);
+                progressDialog.show();
+
                 login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
             }
         });
@@ -50,6 +63,9 @@ public class LoginActivity extends AppCompatActivity {
         call1.enqueue(new Callback<LoginPOJO>() {
             @Override
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
+                //progressBar.setVisibility(View.GONE);
                 LoginPOJO loginPOJO = response.body();
                 if (loginPOJO != null){
                     if (loginPOJO.getRc().toString().equals("0000")){
