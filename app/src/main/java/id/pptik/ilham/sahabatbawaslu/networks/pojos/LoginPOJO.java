@@ -1,4 +1,4 @@
-package id.pptik.ilham.sahabatbawaslu.networks.responses;
+package id.pptik.ilham.sahabatbawaslu.networks.pojos;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,12 +6,15 @@ import com.google.gson.annotations.SerializedName;
  * Created by Ilham on 02/03/18.
  */
 
-public class LoginResponse {
+public class LoginPOJO {
     @SerializedName("success")
     public Boolean success;
 
-    @SerializedName("user_id")
-    public String user_id;
+    @SerializedName("email")
+    public String email;
+
+    @SerializedName("password")
+    public String password;
 
     @SerializedName("user_nmae")
     public String username;
@@ -25,19 +28,25 @@ public class LoginResponse {
     @SerializedName("rc")
     public String rc;
 
-    public LoginResponse(Boolean success, String user_id, String username, String access_token) {
-        this.success = success;
-        this.user_id = user_id;
-        this.username = username;
-        this.access_token = access_token;
+    @SerializedName("force")
+    public boolean force;
+
+    @SerializedName("app_id")
+    public Integer app_id;
+
+    public LoginPOJO(String email, String password, Boolean force, Integer app_id) {
+        this.email = email;
+        this.password = password;
+        this.force = force;
+        this.app_id = app_id;
     }
 
     public Boolean getSuccess() {
         return success;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getEmail() {
+        return email;
     }
 
     public String getUsername() {

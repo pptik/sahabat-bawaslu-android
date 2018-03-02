@@ -1,12 +1,8 @@
 package id.pptik.ilham.sahabatbawaslu.networks;
 
-import id.pptik.ilham.sahabatbawaslu.commands.UserInterface;
-import id.pptik.ilham.sahabatbawaslu.models.UserModel;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.POST;
 
 /**
@@ -14,5 +10,6 @@ import retrofit2.http.POST;
  */
 
 public interface RestServiceInterface {
-
+    @POST("users/signin")
+    Call<LoginPOJO> createUser(@Body LoginPOJO login);
 }
