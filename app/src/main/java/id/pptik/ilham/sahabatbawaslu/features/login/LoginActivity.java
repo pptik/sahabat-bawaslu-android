@@ -51,7 +51,14 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.setProgress(0);
                 progressDialog.show();
 
-                login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
+                if(RestServiceClass.isNetworkAvailable(LoginActivity.this)){
+                    login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
+                }else{
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Mohon pastikan anda terhubung dengan Internet", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }
