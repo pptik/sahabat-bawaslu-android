@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 
 
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
                 LoginPOJO loginPOJO = response.body();
                 if (loginPOJO != null){
-                    if (loginPOJO.getRc().equals(0000)){
+                    if (loginPOJO.getRc().toString().equals("0000")){
                         Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(LoginActivity.this, loginPOJO.getRm(), Toast.LENGTH_SHORT).show();
