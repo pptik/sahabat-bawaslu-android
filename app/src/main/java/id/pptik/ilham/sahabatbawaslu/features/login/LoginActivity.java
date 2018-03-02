@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
 
+
         progressDialog = new ProgressDialog(this);
 
         final UserViewModel userViewModel = new UserViewModel(new UserModel());
@@ -71,7 +72,9 @@ public class LoginActivity extends AppCompatActivity {
                     login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
                 }else{
                     progressDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
+                    snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -108,7 +111,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginPOJO> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Maaf terjadi gangguan pada koneksi ke server.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "Maaf terjadi gangguan pada koneksi ke server.", Toast.LENGTH_LONG).show();
+                snackbar = Snackbar.make(linearLayout,"Maaf terjadi gangguan pada koneksi ke server.",Snackbar.LENGTH_LONG);
+                snackbar.show();
                 call.cancel();
             }
         });

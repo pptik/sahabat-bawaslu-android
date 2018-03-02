@@ -5,11 +5,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/oranyeGelap</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/oranyeTerang</item>
     </style>
     <style name="EditText" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorControlActivated">@color/oranyeTerang</item>
         <item name="android:colorControlHighlight">@color/oranyeTerang</item>
         <item name="android:textColorHint">@color/oranyeTerang</item>
     </style>
+
 </resources>
