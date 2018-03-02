@@ -10,13 +10,13 @@ public class LoginPOJO {
     @SerializedName("success")
     public Boolean success;
 
-    @SerializedName("email")
-    public String email;
+    @SerializedName("field")
+    public String field;
 
     @SerializedName("password")
     public String password;
 
-    @SerializedName("user_nmae")
+    @SerializedName("username")
     public String username;
 
     @SerializedName("access_token")
@@ -34,8 +34,8 @@ public class LoginPOJO {
     @SerializedName("app_id")
     public Integer app_id;
 
-    public LoginPOJO(String email, String password, Boolean force, Integer app_id) {
-        this.email = email;
+    public LoginPOJO(String field, String password, Boolean force, Integer app_id) {
+        this.field = field;
         this.password = password;
         this.force = force;
         this.app_id = app_id;
@@ -45,8 +45,8 @@ public class LoginPOJO {
         return success;
     }
 
-    public String getEmail() {
-        return email;
+    public String getField() {
+        return field;
     }
 
     public String getUsername() {

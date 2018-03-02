@@ -43,14 +43,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void login(String email, String password){
-        final LoginPOJO login = new LoginPOJO(email,password,true,4501);
-        Call<LoginPOJO> call1 = restServiceInterface.createUser(login);
+    private void login(final String field, final String password){
+        //final LoginPOJO login = new LoginPOJO(field, password, true, 4501);
+        Call<LoginPOJO> call1 = restServiceInterface.userLogin(field,true,password,4501);
         call1.enqueue(new Callback<LoginPOJO>() {
             @Override
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
+                Toast.makeText(LoginActivity.this, "Email: "+field+" ,Sandi: "+password, Toast.LENGTH_SHORT).show();
                 LoginPOJO loginPOJO = response.body();
-                Log.e("RESPONSE","RESPONSE: "+ loginPOJO);
+
+                if (loginPOJO != null){
+                    Log.e("RESPONSE","RESPONSE: "+ loginPOJO.getRm());
+                }
             }
 
             @Override
