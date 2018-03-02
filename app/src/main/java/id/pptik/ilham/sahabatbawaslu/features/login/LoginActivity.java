@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.login;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.UserInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
+import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.features.ui.CircleView;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
@@ -57,8 +59,12 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
                 }
+            }
 
-
+            @Override
+            public void onClickSignUpPage() {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -6,4 +6,5 @@ package id.pptik.ilham.sahabatbawaslu.commands;
 
 public interface UserInterface {
     public void onClickLogin();
+    public void onClickSignUpPage();
 }

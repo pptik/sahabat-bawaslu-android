@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/text_view_belum_punya_akun"
+                android:onClick="@{(v)->loginevent.onClickSignUpPage()}"
                 />
         </RelativeLayout>
     </LinearLayout>
