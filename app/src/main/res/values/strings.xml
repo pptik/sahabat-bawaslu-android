@@ -9,12 +9,13 @@
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
-    <string name="data_pribadi_label">DATA PRIBADI</string>
+    <string name="data_pribadi_label">DATA PRIBADI SESUAI KTP</string>
     <string name="no_ktp_label">No. KTP</string>
-    <string name="nama_sesuai_ktp_label">Nama Sesuai KTP</string>
+    <string name="nama_sesuai_ktp_label">Nama</string>
     <string name="no_handphone_label">No Handphone</string>
     <string name="provinsi_label">Provinsi</string>
     <string name="kota_label">Kota</string>
     <string name="kecamatan_label">Kecamatan</string>
     <string name="kelurahan_label">Kelurahan</string>
+    <string name="alamat_label">Alamat</string>
 </resources>

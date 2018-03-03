@@ -166,6 +166,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     ></Spinner>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_alamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/alamat_label"
+                        android:theme="@style/EditText"
+                        android:inputType="text"
+                        android:lines="10"/>
+                </android.support.design.widget.TextInputLayout>
+
                 <Button
                     android:id="@+id/button_masuk"
                     android:layout_width="match_parent"
@@ -174,7 +189,6 @@
                     android:text="@string/daftar_label"
                     android:textColor="@color/putih"
                     android:background="@drawable/ripple_effect"
-
                     />
             </LinearLayout>
         </ScrollView>
