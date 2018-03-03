@@ -5,6 +5,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -16,5 +17,16 @@
         android:id="@+id/toolbar"
         >
     </android.support.v7.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/text_view_informasi_akun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/informasi_akun_label"
+            android:theme="@style/TextViewTitle"/>
+    </ScrollView>
 </LinearLayout>
 </layout>

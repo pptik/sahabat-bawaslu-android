@@ -79,11 +79,11 @@
             android:layout_marginTop="20dp"
             android:text="@string/masuk_label"
             android:textColor="@color/putih"
-            android:background="@color/oranyeGelap"
+            android:background="@drawable/ripple_effect"
             android:onClick="@{(v)->loginevent.onClickLogin()}"
             />
         <RelativeLayout
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

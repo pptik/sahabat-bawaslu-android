@@ -11,5 +11,9 @@
         <item name="android:colorControlHighlight">@color/oranyeTerang</item>
         <item name="android:textColorHint">@color/oranyeTerang</item>
     </style>
-
+    <style name="TextViewTitle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/oranyeGelap</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
