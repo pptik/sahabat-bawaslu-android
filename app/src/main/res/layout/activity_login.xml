@@ -9,7 +9,7 @@
             type="id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel"/>
         <variable
             name="loginevent"
-            type="id.pptik.ilham.sahabatbawaslu.commands.UserInterface"/>
+            type="id.pptik.ilham.sahabatbawaslu.commands.LoginInterface"/>
     </data>
 <LinearLayout
     android:id="@+id/LinearLayoutParent"

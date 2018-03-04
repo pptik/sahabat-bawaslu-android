@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="user"
+            type="id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel"/>
+        <variable
+            name="signupevent"
+            type="id.pptik.ilham.sahabatbawaslu.commands.SignUpInterface"/>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -189,6 +198,7 @@
                     android:text="@string/daftar_label"
                     android:textColor="@color/putih"
                     android:background="@drawable/ripple_effect"
+                    android:onClick="@{(v)->signupevent.onClickSignUp()}"
                     />
             </LinearLayout>
         </ScrollView>

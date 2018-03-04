@@ -7,23 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
-import id.pptik.ilham.sahabatbawaslu.commands.UserInterface;
+import id.pptik.ilham.sahabatbawaslu.commands.LoginInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
-import id.pptik.ilham.sahabatbawaslu.features.ui.CircleView;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -60,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         //Binding View Model
         activityLoginBinding.setUser(userViewModel);
         //Binding Interface
-        activityLoginBinding.setLoginevent(new UserInterface() {
+        activityLoginBinding.setLoginevent(new LoginInterface() {
             @Override
             public void onClickLogin() {
                 progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
