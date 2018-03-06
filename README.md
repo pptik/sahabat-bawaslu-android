@@ -1,4 +1,5 @@
-# sahabat-bawaslu-android
+# Sahabat Bawaslu Android
+Aplikasi pada branch master ini berisikan app bawaslu untuk penyediaan berita, blog, forum, form C1
 
 ## Fitur Aplikasi Android untuk Sahabat Bawaslu antara lain:
 
