@@ -49,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
         callProvinces.enqueue(new Callback<ProvincesPOJO>() {
             @Override
             public void onResponse(Call<ProvincesPOJO> call, Response<ProvincesPOJO> response) {
-                Log.d("PROVINCES","PROVINCES: "+response.body());
+                Log.d("PROVINCES","PROVINCES: "+response.body().getResults());
             }
 
             @Override
