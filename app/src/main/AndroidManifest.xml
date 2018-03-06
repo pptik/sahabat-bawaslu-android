@@ -15,15 +15,15 @@
         <activity
             android:name=".features.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            >
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.signup.SignUpActivity"></activity>
+        <activity android:name=".features.signup.SignUpActivity" />
+        <activity android:name=".features.dashboard.DashboardActivity"></activity>
     </application>
 
 </manifest>

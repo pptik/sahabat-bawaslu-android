@@ -69,7 +69,8 @@
                         android:hint="@string/no_handphone_label"
                         android:theme="@style/EditText"
                         android:inputType="number"
-                        android:text="@={user.phoneNumber}"/>
+                        android:text="@={user.phoneNumber}"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -83,7 +84,8 @@
                         android:hint="@string/email_label"
                         android:theme="@style/EditText"
                         android:inputType="textEmailAddress"
-                        android:text="@={user.email}"/>
+                        android:text="@={user.email}"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -97,7 +99,8 @@
                         android:hint="@string/password_label"
                         android:theme="@style/EditText"
                         android:inputType="textPassword"
-                        android:text="@={user.password}"/>
+                        android:text="@={user.password}"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -110,8 +113,9 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/kode_kelas_label"
                         android:theme="@style/EditText"
-                        android:inputType="textEmailAddress"
-                        android:text="@={user.classCode}"/>
+                        android:inputType="text"
+                        android:text="@={user.classCode}"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -124,8 +128,9 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/kode_referensi"
                         android:theme="@style/EditText"
-                        android:inputType="textEmailAddress"
-                        android:text="@={user.referenceCode}"/>
+                        android:inputType="text"
+                        android:text="@={user.referenceCode}"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button

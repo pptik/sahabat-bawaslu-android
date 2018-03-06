@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.signup;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +24,7 @@ import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.SignUpInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivitySignUpBinding;
+import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
@@ -58,8 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
         activitySignUpBinding.setSignupevent(new SignUpInterface() {
             @Override
             public void onClickSignUp() {
-                //Toast.makeText(SignUpActivity.this, "Yuhuuuuu", Toast.LENGTH_SHORT).show();
-                progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+                Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                /*progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
                 progressDialog.show();
@@ -73,8 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
-                }
+                }*/
+
 
             }
         });
