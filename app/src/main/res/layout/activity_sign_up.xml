@@ -49,6 +49,18 @@
                     android:layout_height="wrap_content">
 
                     <EditText
+                        android:id="@+id/edit_text_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/username_label"
+                        android:theme="@style/EditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
                         android:id="@+id/edit_text_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -70,16 +82,112 @@
                         android:inputType="textPassword"/>
                 </android.support.design.widget.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/text_view_data_pribadi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/data_pribadi_label"
+                    android:theme="@style/TextViewTitle" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/edit_text_kode_kelas"
+                        android:id="@+id/edit_text_no_ktp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/kode_kelas_label"
+                        android:hint="@string/no_ktp_label"
+                        android:inputType="number"
                         android:theme="@style/EditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_nama_sesuai_ktp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nama_sesuai_ktp_label"
+                        android:theme="@style/EditText" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_no_handphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/no_handphone_label"
+                        android:theme="@style/EditText"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/text_view_provinsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/provinsi_label"/>
+
+                <Spinner
+                    android:id="@+id/spinner_provinsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></Spinner>
+
+                <TextView
+                    android:id="@+id/text_view_kota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kota_label"/>
+
+                <Spinner
+                    android:id="@+id/spinner_kota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></Spinner>
+
+                <TextView
+                    android:id="@+id/text_view_kecamatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kecamatan_label"/>
+
+                <Spinner
+                    android:id="@+id/spinner_kecamatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></Spinner>
+
+                <TextView
+                    android:id="@+id/text_view_kelurahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kelurahan_label"/>
+
+                <Spinner
+                    android:id="@+id/spinner_kelurahan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></Spinner>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_alamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/alamat_label"
+                        android:theme="@style/EditText"
+                        android:inputType="text"
+                        android:lines="10"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
