@@ -1,14 +1,18 @@
 package id.pptik.ilham.sahabatbawaslu.features.signup;
 
+import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.BoringLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -19,10 +23,13 @@ import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.SignUpInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivitySignUpBinding;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,37 +39,43 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     ActivitySignUpBinding activitySignUpBinding;
     private RestServiceInterface restServiceInterface;
+    private ProgressDialog progressDialog;
+    private Snackbar snackbar;
+    @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
+    Boolean referenceCodeStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-
-        setContentView(R.layout.activity_sign_up);
-
+        //setContentView(R.layout.activity_sign_up);
         activitySignUpBinding = DataBindingUtil.setContentView(this,R.layout.activity_sign_up);
         final UserViewModel userViewModel = new UserViewModel(new UserModel());
         activitySignUpBinding.setUser(userViewModel);
 
-        //Call<ProvincesPOJO> callProvinces = restServiceInterface.provincesList();
-        Call<ProvincesPOJO> callProvinces = restServiceInterface.provincesList();
-        callProvinces.enqueue(new Callback<ProvincesPOJO>() {
-            @Override
-            public void onResponse(Call<ProvincesPOJO> call, Response<ProvincesPOJO> response) {
-                Log.d("PROVINCES","PROVINCES: "+response.body());
-            }
-
-            @Override
-            public void onFailure(Call<ProvincesPOJO> call, Throwable t) {
-                Log.d("PROVINCES","GAGAL: "+t.toString());
-            }
-        });
-
+        progressDialog = new ProgressDialog(this);
 
         activitySignUpBinding.setSignupevent(new SignUpInterface() {
             @Override
             public void onClickSignUp() {
                 //Toast.makeText(SignUpActivity.this, "Yuhuuuuu", Toast.LENGTH_SHORT).show();
+                progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setProgress(0);
+                progressDialog.show();
+
+                if(RestServiceClass.isNetworkAvailable(SignUpActivity.this)){
+                    signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
+                            activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
+                            activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getClassCode(),
+                            referenceCodeStatus,true,40215);
+                }else{
+                    progressDialog.dismiss();
+                    snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    //Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -76,6 +89,27 @@ public class SignUpActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void signup(final String email, final String password, final String username,
+                        final int no_handphone, final String kode_kelas, final String kode_referensi,
+                        final Boolean status_referensi, final Boolean force, final Integer app_id){
+
+        Call<SignUpPOJO> callSignUp = restServiceInterface.userSignUp(username,no_handphone,
+                email,password,kode_kelas,kode_referensi,status_referensi, force, app_id);
+        callSignUp.enqueue(new Callback<SignUpPOJO>() {
+
+            @Override
+            public void onResponse(Call<SignUpPOJO> call, Response<SignUpPOJO> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<SignUpPOJO> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override

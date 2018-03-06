@@ -13,11 +13,13 @@ public class UserViewModel extends BaseObservable {
     private String name;
     private String username;
     private String password;
-    private String phoneNumber;
+    private int phoneNumber;
     private String address;
     private String email;
     private String villageID;
     private String signupType;
+    private String classCode;
+    private String referenceCode;
 
     public UserViewModel(UserModel userModel) {
         this.identificationNumber = userModel.identificationNumber;
@@ -29,6 +31,22 @@ public class UserViewModel extends BaseObservable {
         this.email = userModel.email;
         this.villageID = userModel.villageID;
         this.signupType = userModel.signupType;
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
+
+    public String getReferenceCode() {
+        return referenceCode;
+    }
+
+    public void setReferenceCode(String referenceCode) {
+        this.referenceCode = referenceCode;
     }
 
     public String getIdentificationNumber() {
@@ -63,11 +81,11 @@ public class UserViewModel extends BaseObservable {
         this.password = password;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
