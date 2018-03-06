@@ -1,10 +1,13 @@
-# Sahabat Bawaslu Android
-Aplikasi pada branch learning ini berisikan app bawaslu untuk pembelajaran
+# Sahabat bawaslu Android
 
-## Fitur Aplikasi Android untuk Sahabat Bawaslu antara lain:
+## Fitur Aplikasi Android untuk Sahabat Bawaslu antara lain
 
-1.	Pendaftaran pengguna.
-2.	Belajar dari materi.
-3.	Mengumpulkan tugas.
-4.	Integrasi dengan gamifikasi.
-
+-	Pendaftaran Awal dari User sesuai informasi Kartu dan verifikasi dari Admin Bawaslu dan Lokasi Sahabat Bawaslu.
+-	News merupakan Upload Artikel dari Admin, untuk menampilkan materi sosialisasi, berita seputar kegiatan yang dilaksanakan, Tugas untuk relawan bawaslu, atau berita kegiatan bawaslu.
+-	Notifikasi per kegiatan dalam artikel, news kalender,
+-	Tracking Pengguna
+-	Blog yang ditulis oleh pengguna sebagai laporan kegiatan.
+-	Forum untuk interaksi antar sahabat bawaslu berdasarkan kategori masalah.
+-	Peta sebaran Sahabat Bawaslu untuk Pengguna.
+-	Dashboard Pelaporan Sahabat Bawaslu berupa Photo,Video, berdasarkan unsur Pelaporan.
+_	Gamifikasi untuk aktifitas sahabat bawaslu.
