@@ -1,6 +1,9 @@
 package id.pptik.ilham.sahabatbawaslu.networks;
 
+import java.util.List;
+
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -21,7 +24,13 @@ public interface RestServiceInterface {
     })
     @FormUrlEncoded
     @POST("users/signin")
-    //Call<LoginPOJO> userLogin(@Body LoginPOJO login);
     Call<LoginPOJO> userLogin(@Field("field") String field, @Field("force") Boolean force,
                                @Field("password") String password, @Field("app_id") Integer app_id);
+
+    /*@Headers({
+            "Content-Type: application/x-www-form-urlencoded"
+    })*/
+    //@FormUrlEncoded
+    @POST("regions/provinces")
+    Call<ProvincesPOJO> provincesList();
 }

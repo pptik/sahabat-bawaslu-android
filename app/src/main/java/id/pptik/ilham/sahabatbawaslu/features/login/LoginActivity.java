@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void login(final String field, final String password){
-        //final LoginPOJO login = new LoginPOJO(field, password, true, 4501);
         Call<LoginPOJO> call1 = restServiceInterface.userLogin(field,true,password,4501);
         call1.enqueue(new Callback<LoginPOJO>() {
             @Override
