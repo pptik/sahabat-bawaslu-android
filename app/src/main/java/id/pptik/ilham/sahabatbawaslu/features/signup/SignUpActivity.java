@@ -57,17 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.d("PROVINCES","GAGAL: "+t.toString());
             }
         });
-        /*callProvinces.enqueue(new Callback<ProvincesPOJO>() {
-            @Override
-            public void onResponse(Call<List<ProvincesPOJO>> call, Response<List<ProvincesPOJO>> response) {
-                Log.d("PROVINCES","PROVINCES: "+response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<ProvincesPOJO>> call, Throwable t) {
-                Log.d("PROVINCES","GAGAL: "+t.toString());
-            }
-        });*/
 
         activitySignUpBinding.setSignupevent(new SignUpInterface() {
             @Override

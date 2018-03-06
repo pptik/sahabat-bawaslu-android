@@ -61,6 +61,19 @@
                     android:layout_height="wrap_content">
 
                     <EditText
+                        android:id="@+id/edit_text_no_handphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/no_handphone_label"
+                        android:theme="@style/EditText"
+                        android:inputType="number"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
                         android:id="@+id/edit_text_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
