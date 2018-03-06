@@ -18,4 +18,6 @@
     <string name="kecamatan_label">Kecamatan</string>
     <string name="kelurahan_label">Kelurahan</string>
     <string name="alamat_label">Alamat</string>
+    <string name="kode_kelas_label">Kode kelas</string>
+    <string name="kode_referensi">Kode referensi(Opsional)</string>
 </resources>
