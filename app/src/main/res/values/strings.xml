@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Sahabat Bawaslu</string>
     <string name="email_label">E-mail</string>
-    <string name="kode_referensi">Kode referensi(Opsional)</string>
     <string name="password_label">Password</string>
     <string name="masuk_label">Masuk</string>
     <string name="belum_punya_akun_label">Belum punya akun?</string>
@@ -19,5 +18,4 @@
     <string name="kecamatan_label">Kecamatan</string>
     <string name="kelurahan_label">Kelurahan</string>
     <string name="alamat_label">Alamat</string>
-    <string name="kode_kelas_label">Kode Kelas</string>
 </resources>
