@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.dashboard;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.WindowManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
 
 public class DashboardActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
@@ -19,6 +21,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        //Status and Toolbar Section
         ButterKnife.bind(this);
 
         Window window = this.getWindow();
@@ -29,6 +32,11 @@ public class DashboardActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.dashboard_label));
         setSupportActionBar(toolbar);
 
+        //Sliding section
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        SlidingTabsBasicFragment slidingTabsBasicFragment = new SlidingTabsBasicFragment();
+        fragmentTransaction.replace(R.id.sample_content_fragment,slidingTabsBasicFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
