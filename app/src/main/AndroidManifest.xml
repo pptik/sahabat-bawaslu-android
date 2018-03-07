@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".features.signup.SignUpActivity" />
-        <activity android:name=".features.dashboard.DashboardActivity"></activity>
+        <activity android:name=".features.dashboard.DashboardActivity" />
+        <activity android:name=".intro.IntroActivity"></activity>
     </application>
 
 </manifest>

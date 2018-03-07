@@ -26,6 +26,7 @@ import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivitySignUpBinding;
 import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.intro.IntroActivity;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -60,7 +61,8 @@ public class SignUpActivity extends AppCompatActivity {
         activitySignUpBinding.setSignupevent(new SignUpInterface() {
             @Override
             public void onClickSignUp() {
-                Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+                //Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+                Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 /*progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
