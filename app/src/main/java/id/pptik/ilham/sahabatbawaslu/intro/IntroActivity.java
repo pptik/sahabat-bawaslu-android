@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.intro;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,9 +44,15 @@ public class IntroActivity extends AppCompatActivity {
         buttonSkip = (Button) findViewById(R.id.btn_skip);
         buttonNext = (Button) findViewById(R.id.btn_next);
 
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+
         layouts = new int[]{
                 R.layout.intro1,
-                R.layout.intro2
+                R.layout.intro2,
+                R.layout.intro3
                 };
 
         addBottomDots(0);
