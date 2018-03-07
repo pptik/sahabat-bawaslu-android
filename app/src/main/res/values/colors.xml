@@ -5,6 +5,7 @@
     <color name="colorAccent">#E37114</color>
     <color name="oranyeTerang">#FD7E16</color>
     <color name="oranyeGelap">#E37114</color>
+    <color name="abu">#bdc3c7</color>
     <color name="putih">#FFFFFF</color>
 
     <!-- Screens background color-->
@@ -26,16 +27,16 @@
     <color name="dot_light_screen4">#e4b5fc</color>
 
     <array name="array_dot_active">
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen2</item>
-        <item>@color/dot_light_screen3</item>
-        <item>@color/dot_light_screen4</item>
+        <item>@color/putih</item>
+        <item>@color/putih</item>
+        <item>@color/putih</item>
+        <item>@color/putih</item>
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/dot_dark_screen1</item>
-        <item>@color/dot_dark_screen2</item>
-        <item>@color/dot_dark_screen3</item>
-        <item>@color/dot_dark_screen4</item>
+        <item>@color/abu</item>
+        <item>@color/abu</item>
+        <item>@color/abu</item>
+        <item>@color/abu</item>
     </array>
 </resources>
