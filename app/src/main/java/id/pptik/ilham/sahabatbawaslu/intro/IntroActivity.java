@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.intro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 
 public class IntroActivity extends AppCompatActivity {
     @BindView(R.id.view_pager)ViewPager viewPager;
@@ -25,7 +29,6 @@ public class IntroActivity extends AppCompatActivity {
     @BindView(R.id.btn_next)Button buttonNext;
     private int[] layouts;
     private TextView[] dots;
-    private LinearLayout dotsLayout;
     private MyViewPagerAdapter myViewPagerAdapter;
 
     @Override
@@ -88,6 +91,23 @@ public class IntroActivity extends AppCompatActivity {
                 }
             }
         });
+
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int current = getItem(1);
+                if (current < layouts.length) {
+                    // move to next screen
+                    viewPager.setCurrentItem(current);
+                } else {
+                    //Toast.makeText(IntroActivity.this, "Bbbb", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(IntroActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            }
+        });
     }
 
 
@@ -101,13 +121,13 @@ public class IntroActivity extends AppCompatActivity {
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
 
-        dotsLayout.removeAllViews();
+        linearLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
             dots[i].setTextSize(35);
             dots[i].setTextColor(colorsInactive[currentPage]);
-            dotsLayout.addView(dots[i]);
+            linearLayout.addView(dots[i]);
         }
 
         if (dots.length > 0)
@@ -146,6 +166,14 @@ public class IntroActivity extends AppCompatActivity {
             View view = (View) object;
             container.removeView(view);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
 
