@@ -16,18 +16,24 @@
 
 package id.pptik.ilham.sahabatbawaslu.features.slidingtab;
 
+import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 
@@ -37,8 +43,8 @@ public class SlidingTabsBasicFragment extends Fragment {
     static final String LOG_TAG = "SlidingTabsBasicFragment";
     public int[] titleIcon = {
             R.drawable.ic_chrome_reader_mode_white_24dp,
-            R.drawable.ic_forum_white_24dp,
-            R.drawable.ic_turned_in_white_24dp
+            R.drawable.ic_turned_in_white_24dp,
+            R.drawable.ic_forum_white_24dp
     };
 
     /**
@@ -59,7 +65,15 @@ public class SlidingTabsBasicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_sample, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //getActivity().getActionBar().setTitle(R.string.app_name);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
     }
 
     // BEGIN_INCLUDE (fragment_onviewcreated)
@@ -74,10 +88,12 @@ public class SlidingTabsBasicFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         // BEGIN_INCLUDE (setup_viewpager)
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new SamplePagerAdapter());
+
         // END_INCLUDE (setup_viewpager)
 
         // BEGIN_INCLUDE (setup_slidingtablayout)
@@ -86,6 +102,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setCustomTabView(R.layout.sliding_custom_tab,0);
+
         mSlidingTabLayout.setViewPager(mViewPager);
 
         mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
@@ -94,6 +111,37 @@ public class SlidingTabsBasicFragment extends Fragment {
                 return getResources().getColor(R.color.putih);
             }
         });
+
+        mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //Toast.makeText(getContext(), "Posisi: "+position, Toast.LENGTH_SHORT).show();
+                switch (position){
+                    case 0:
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.slide_title_berita);
+                        break;
+                    case 1:
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.slide_title_tugas);
+                        break;
+                    case 2:
+                        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.slide_title_diskusi);
+                        break;
+
+                }
+                //Log.d("Posisi: ","Posisi: "+position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         // END_INCLUDE (setup_slidingtablayout)
     }
     // END_INCLUDE (fragment_onviewcreated)
@@ -150,6 +198,11 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            /*switch (position){
+                case 0:
+
+                    return view;
+            }*/
             // Inflate a new layout from our resources
             View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item,
                     container, false);
