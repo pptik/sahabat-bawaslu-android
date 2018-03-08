@@ -4,12 +4,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +45,11 @@ public class DashboardActivity extends AppCompatActivity {
         SlidingTabsBasicFragment slidingTabsBasicFragment = new SlidingTabsBasicFragment();
         fragmentTransaction.replace(R.id.sample_content_fragment,slidingTabsBasicFragment);
         fragmentTransaction.commit();
+
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -49,11 +58,20 @@ public class DashboardActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        /*if(item.getItemId() == android.R.id.home){
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }*/
+
+        switch (item.getItemId()){
+            case R.id.action_more:
+                //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

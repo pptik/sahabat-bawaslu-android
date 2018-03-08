@@ -51,8 +51,7 @@ public class IntroActivity extends AppCompatActivity {
 
         layouts = new int[]{
                 R.layout.intro1,
-                R.layout.intro2,
-                R.layout.intro3
+                R.layout.intro2
                 };
 
         addBottomDots(0);
@@ -69,7 +68,7 @@ public class IntroActivity extends AppCompatActivity {
                 } else {
                     // still pages are left
                     buttonNext.setText(getString(R.string.next));
-                    buttonSkip.setVisibility(View.VISIBLE);
+                    buttonSkip.setVisibility(View.GONE);
                 }
             }
 
