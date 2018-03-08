@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.dashboard;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     @BindView(R.id.toolbar)Toolbar toolbar;
 
     @Override
@@ -50,7 +51,6 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -59,21 +59,24 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
+    public void popUpMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.show();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*if(item.getItemId() == android.R.id.home){
-            finish();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        }*/
-
+        View view = findViewById(R.id.action_more);
         switch (item.getItemId()){
             case R.id.action_more:
                 //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
-
+                popUpMenu(view);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -82,5 +85,21 @@ public class DashboardActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.slidingtab, menu);
         return true;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.pop_up_settings_slidingtab:
+                Toast.makeText(this, "Setting menu clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.pop_up_edit_profile_slidingtab:
+                Toast.makeText(this, "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.pop_up_log_out_slidingtab:
+                Toast.makeText(this, "Log Out menu clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            default:return false;
+        }
     }
 }
