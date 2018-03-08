@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.dashboard;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
 
 public class DashboardActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
@@ -97,7 +99,10 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
                 Toast.makeText(this, "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.pop_up_log_out_slidingtab:
-                Toast.makeText(this, "Log Out menu clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
             default:return false;
         }

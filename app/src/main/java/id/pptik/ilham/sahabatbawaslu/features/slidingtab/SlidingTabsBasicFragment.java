@@ -16,10 +16,14 @@
 
 package id.pptik.ilham.sahabatbawaslu.features.slidingtab;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +35,11 @@ import id.pptik.ilham.sahabatbawaslu.R;
 public class SlidingTabsBasicFragment extends Fragment {
 
     static final String LOG_TAG = "SlidingTabsBasicFragment";
+    public int[] titleIcon = {
+            R.drawable.ic_chrome_reader_mode_white_24dp,
+            R.drawable.ic_forum_white_24dp,
+            R.drawable.ic_turned_in_white_24dp
+    };
 
     /**
      * A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
@@ -75,7 +84,16 @@ public class SlidingTabsBasicFragment extends Fragment {
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setCustomTabView(R.layout.sliding_custom_tab,0);
         mSlidingTabLayout.setViewPager(mViewPager);
+
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.putih);
+            }
+        });
         // END_INCLUDE (setup_slidingtablayout)
     }
     // END_INCLUDE (fragment_onviewcreated)
@@ -115,7 +133,14 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Item " + (position + 1);
+            Drawable drawable = getResources().getDrawable(titleIcon[position]);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            SpannableString spannableString = new SpannableString(" ");
+            ImageSpan imageSpan = new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM);
+            spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //return "Item " + (position + 1);
+            return spannableString;
+
         }
         // END_INCLUDE (pageradapter_getpagetitle)
 
