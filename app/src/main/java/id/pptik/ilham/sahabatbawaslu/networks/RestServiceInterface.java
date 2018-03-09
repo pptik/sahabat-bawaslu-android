@@ -40,9 +40,8 @@ public interface RestServiceInterface {
     })
     @FormUrlEncoded
     @POST("users/simple/signup")
-    Call<SignUpPOJO> userSignUp(@Field("Username") String username, @Field("PhoneNumber") int phone_number,
+    Call<SignUpPOJO> userSignUp(@Field("Username") String username, @Field("PhoneNumber") String phone_number,
                                @Field("Email") String email, @Field("Password") String password,
-                                @Field("kode_kelas") String kode_kelas,
                                 @Field("ReferenceCode") String reference_code,
                                 @Field("Referenced") Boolean referenced,
                                 @Field("SignupType") int signup_type,

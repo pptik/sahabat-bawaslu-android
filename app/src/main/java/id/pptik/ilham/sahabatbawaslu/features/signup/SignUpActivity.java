@@ -61,11 +61,10 @@ public class SignUpActivity extends AppCompatActivity {
         activitySignUpBinding.setSignupevent(new SignUpInterface() {
             @Override
             public void onClickSignUp() {
-                //Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
-                Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
+                /*Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                /*progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
                 progressDialog.show();
@@ -73,13 +72,13 @@ public class SignUpActivity extends AppCompatActivity {
                 if(RestServiceClass.isNetworkAvailable(SignUpActivity.this)){
                     signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
                             activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
-                            activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getClassCode(),
-                            referenceCodeStatus,true,40215);
+                            activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getReferenceCode(),
+                            referenceCodeStatus,1);
                 }else{
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }*/
+                }
 
 
             }
@@ -98,16 +97,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signup(final String email, final String password, final String username,
-                        final int no_handphone, final String kode_kelas, final String kode_referensi,
-                        final Boolean status_referensi, final Boolean force, final Integer app_id){
+                        final String no_handphone, final String kode_kelas, final String kode_referensi,
+                        final Boolean status_referensi, final int signup_type){
 
         Call<SignUpPOJO> callSignUp = restServiceInterface.userSignUp(username,no_handphone,
-                email,password,kode_kelas,kode_referensi,status_referensi, force, app_id);
+                email,password,kode_referensi,status_referensi, signup_type, kode_kelas);
         callSignUp.enqueue(new Callback<SignUpPOJO>() {
 
             @Override
             public void onResponse(Call<SignUpPOJO> call, Response<SignUpPOJO> response) {
-
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override
