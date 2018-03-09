@@ -37,18 +37,15 @@ public interface RestServiceInterface {
 
     @Headers({
             "Content-Type: application/x-www-form-urlencoded",
-            "current_device: test1",
-            "current_number: test1",
-            "carrier: test1"
     })
     @FormUrlEncoded
-    @POST("users/signup")
-    Call<SignUpPOJO> userSignUp(@Field("username") String field, @Field("no_handphone") int no_handphone,
-                               @Field("email") String email, @Field("password") String password,
+    @POST("users/simple/signup")
+    Call<SignUpPOJO> userSignUp(@Field("Username") String username, @Field("PhoneNumber") int phone_number,
+                               @Field("Email") String email, @Field("Password") String password,
                                 @Field("kode_kelas") String kode_kelas,
-                                @Field("kode_referensi") String kode_referensi,
-                                @Field("status_referensi") Boolean status_refernsi,
-                                @Field("force") Boolean force,
-                                @Field("app_id") int app_id);
+                                @Field("ReferenceCode") String reference_code,
+                                @Field("Referenced") Boolean referenced,
+                                @Field("SignupType") int signup_type,
+                                @Field("ClassCode") String class_code);
 
 }
