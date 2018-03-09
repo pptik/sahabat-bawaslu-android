@@ -109,7 +109,7 @@ public class IntroActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(current);
                 } else {
                     //Toast.makeText(IntroActivity.this, "Bbbb", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(IntroActivity.this, DashboardActivity.class);
+                    Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

@@ -25,7 +25,7 @@
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
     <string name="skip">OKE</string>
-    <string name="start">START</string>
+    <string name="start">LOGIN</string>
     <string name="slide_title_berita">Berita</string>
     <string name="slide_title_diskusi">Diskusi</string>
     <string name="slide_title_tugas">Tugas</string>
@@ -33,10 +33,10 @@
     <string name="slide_1_desc">Selamat Anda sudah menjadi anggota relawan Bawaslu</string>
     <string name="slide_2_title">Learning</string>
     <string name="slide_2_desc">Materi berupa tulisan dan video belajar dari pemateri yang disediakan oleh Bawaslu</string>
-    <string name="slide_3_title">Forum Diskusi</string>
+    <string name="slide_3_title">Diskusi</string>
     <string name="slide_3_desc">Berdialog secara aktif untuk mempererat hubungan kebersamaan dan rasa saling memiliki dan bersaudara</string>
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title">Login</string>
+    <string name="slide_4_desc">Silahkan login untuk memulai</string>
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="menu_more">More</string>
     <string name="menu_settings">Settings</string>
