@@ -17,7 +17,9 @@ import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.LoginInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
+import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
+import id.pptik.ilham.sahabatbawaslu.intro.IntroActivity;
 import id.pptik.ilham.sahabatbawaslu.models.UserModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -94,8 +96,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginPOJO != null){
                     if (loginPOJO.getRc().toString().equals("0000")){
                         //Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
-                        snackbar = Snackbar.make(linearLayout,"Selamat datang "+loginPOJO.getResults().getName(),Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        /*snackbar = Snackbar.make(linearLayout,"Selamat datang "+loginPOJO.getResults().getName(),Snackbar.LENGTH_LONG);
+                        snackbar.show();*/
+                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }else{
                         snackbar = Snackbar.make(linearLayout,loginPOJO.getRm(),Snackbar.LENGTH_LONG);
                         snackbar.show();

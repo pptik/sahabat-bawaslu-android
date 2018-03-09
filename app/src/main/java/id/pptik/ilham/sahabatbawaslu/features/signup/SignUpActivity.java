@@ -70,10 +70,21 @@ public class SignUpActivity extends AppCompatActivity {
                 progressDialog.show();
 
                 if(RestServiceClass.isNetworkAvailable(SignUpActivity.this)){
-                    signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
-                            activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
-                            activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getReferenceCode(),
-                            referenceCodeStatus,1);
+                    if (activitySignUpBinding.getUser().getReferenceCode() == null ||
+                            activitySignUpBinding.getUser().getReferenceCode() == ""){
+
+                        signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
+                                activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
+                                activitySignUpBinding.getUser().getClassCode(),"",
+                                false,1);
+
+                    }else if(activitySignUpBinding.getUser().getReferenceCode() != null ||
+                            activitySignUpBinding.getUser().getReferenceCode() != ""){
+                        signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
+                                activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
+                                activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getReferenceCode(),
+                                true,1);
+                    }
                 }else{
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
@@ -108,6 +119,18 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpPOJO> call, Response<SignUpPOJO> response) {
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
+
+                SignUpPOJO signUpPOJO = response.body();
+                if (signUpPOJO != null){
+                    if (signUpPOJO.getRc().toString().equals("0000")){
+                        Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }else{
+                        snackbar = Snackbar.make(linearLayout,signUpPOJO.getRm(),Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
             }
 
             @Override
