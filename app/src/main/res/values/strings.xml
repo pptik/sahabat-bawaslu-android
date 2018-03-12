@@ -11,6 +11,9 @@
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
+    <string name="date_label">12 Februari 2018</string>
+    <string name="post_title_label">Berita Terbaru Peraturan</string>
+    <string name="post_content_label">Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt</string>
     <string name="data_pribadi_label">DATA PRIBADI SESUAI KTP</string>
     <string name="no_ktp_label">No. KTP</string>
     <string name="nama_sesuai_ktp_label">Nama</string>
