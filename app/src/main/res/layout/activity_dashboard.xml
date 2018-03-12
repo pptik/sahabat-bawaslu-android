@@ -13,9 +13,18 @@
         android:background="@color/oranyeTerang"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/sample_content_fragment"
         android:layout_weight="2"
         android:layout_width="match_parent"
-        android:layout_height="0px" />
+        android:layout_height="0px" />-->
+    <id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 </LinearLayout>

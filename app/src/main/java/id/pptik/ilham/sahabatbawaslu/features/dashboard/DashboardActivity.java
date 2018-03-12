@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
@@ -22,10 +23,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
 
 public class DashboardActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     @BindView(R.id.toolbar)Toolbar toolbar;
+    SlidingTabLayout slidingTabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +48,21 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         setSupportActionBar(toolbar);
 
         //Sliding section
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         SlidingTabsBasicFragment slidingTabsBasicFragment = new SlidingTabsBasicFragment();
         fragmentTransaction.replace(R.id.sample_content_fragment,slidingTabsBasicFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
 
+        //Pengaturan tab
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new SlidingTabsBasicFragment(getSupportFragmentManager(), this));
+
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout.setBackgroundColor(getResources().getColor(R.color.oranyeTerang));
+        slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.putih));
+        slidingTabLayout.setCustomTabView(R.layout.sliding_tab_view, R.id.tv_tab);
+        slidingTabLayout.setViewPager(viewPager);
 
     }
 

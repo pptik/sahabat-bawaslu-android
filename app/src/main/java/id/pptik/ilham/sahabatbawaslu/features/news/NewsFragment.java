@@ -48,7 +48,8 @@ public class NewsFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MaterialsRecyclerView(dataSetJudulMateri, dataSetCoverMateri,dataSetSubJudulMateri);
+        //mAdapter = new MaterialsRecyclerView(dataSetJudulMateri, dataSetCoverMateri,dataSetSubJudulMateri);
+        mAdapter = new MaterialsRecyclerView();
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
 
