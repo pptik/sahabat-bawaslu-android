@@ -30,6 +30,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,8 +46,7 @@ import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
 
     private Context context;
-    public String[] labelsSlidingTab = {"Materi", "Bimbingan", "Profile"};
-    public int[] icons = {R.drawable.ic_chrome_reader_mode_white_24dp,R.drawable.ic_turned_in_white_24dp,R.drawable.ic_forum_white_24dp};
+    public int[] titleIcon = {R.drawable.ic_chrome_reader_mode_white_24dp,R.drawable.ic_turned_in_white_24dp,R.drawable.ic_forum_white_24dp};
     private int tinggiIcon;
 
     public SlidingTabsBasicFragment(FragmentManager fm, Context c) {
@@ -82,12 +82,13 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
     //Based on the length of icons's array
     @Override
     public int getCount() {
-        return icons.length;
+        return titleIcon.length;
     }
 
-    /*@Override
+    //Untuk menampilkan title dengan icon
+    @Override
     public CharSequence getPageTitle(int position) {
-        Drawable d = context.getResources().getDrawable(icons[position]);
+        Drawable d = context.getResources().getDrawable(titleIcon[position]);
         d.setBounds(0 ,0 , tinggiIcon, tinggiIcon);
 
         ImageSpan is = new ImageSpan(d);
@@ -96,9 +97,10 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         sp.setSpan(is,0,sp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return (sp);
-    }*/
+    }
 
-    @Override
+    //Untuk menampilkan title dengan text
+    /*@Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
@@ -110,5 +112,5 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         }
         return null;
 
-    }
+    }*/
 }
