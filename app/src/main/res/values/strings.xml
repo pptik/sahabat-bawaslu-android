@@ -36,10 +36,10 @@
     <string name="slide_1_desc">Selamat Anda sudah menjadi anggota</string>
     <string name="slide_2_title">Learning</string>
     <string name="slide_2_desc">Materi berupa tulisan dan video belajar dari pemateri yang disediakan oleh Bawaslu</string>
-    <string name="slide_3_title">Diskusi</string>
-    <string name="slide_3_desc">Berdialog secara aktif untuk mempererat hubungan kebersamaan dan rasa saling memiliki dan bersaudara</string>
-    <string name="slide_4_title">Login</string>
-    <string name="slide_4_desc">Silahkan login untuk memulai</string>
+    <string name="slide_4_title">Diskusi</string>
+    <string name="slide_4_desc">Berdialog secara aktif untuk mempererat hubungan kebersamaan dan rasa saling memiliki dan bersaudara</string>
+    <string name="slide_3_title">Tugas</string>
+    <string name="slide_3_desc">Kerjakan tugas dan dapatkan poinnya.</string>
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="menu_more">More</string>
     <string name="menu_settings">Settings</string>

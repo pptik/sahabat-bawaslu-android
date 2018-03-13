@@ -123,6 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
                 SignUpPOJO signUpPOJO = response.body();
                 if (signUpPOJO != null){
                     if (signUpPOJO.getRc().toString().equals("0000")){
+                        finish();
                         Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
