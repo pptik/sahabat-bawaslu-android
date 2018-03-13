@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.features.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -34,10 +35,16 @@ public class LoginActivity extends AppCompatActivity {
     private RestServiceInterface restServiceInterface;
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
+    public static final String SessionPengguna = "User";
+    SharedPreferences sharedPreferences;
+
     @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences(SessionPengguna, MODE_PRIVATE);
+
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
@@ -98,6 +105,14 @@ public class LoginActivity extends AppCompatActivity {
                         //Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
                         /*snackbar = Snackbar.make(linearLayout,"Selamat datang "+loginPOJO.getResults().getName(),Snackbar.LENGTH_LONG);
                         snackbar.show();*/
+
+                        //Shared Preference
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("accessToken", loginPOJO.getResults().getAccess_token().toString());
+                        editor.putString("userId", loginPOJO.getResults().getId().toString());
+                        editor.commit();
+
+                        finish();
                         Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -118,4 +133,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 }

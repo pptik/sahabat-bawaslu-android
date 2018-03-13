@@ -1,7 +1,9 @@
 package id.pptik.ilham.sahabatbawaslu.features.dashboard;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -30,6 +32,7 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
     @BindView(R.id.toolbar)Toolbar toolbar;
     SlidingTabLayout slidingTabLayout;
     ViewPager viewPager;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +66,39 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.putih));
         slidingTabLayout.setCustomTabView(R.layout.sliding_tab_view, R.id.tv_tab);
         slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                switch (position){
+                    case 0:
+                        getSupportActionBar().setTitle(R.string.slide_title_berita);
+                        break;
+                    case 1:
+                        getSupportActionBar().setTitle(R.string.slide_title_tugas);
+                        break;
+                    case 2:
+                        getSupportActionBar().setTitle(R.string.slide_title_diskusi);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
     }
 
 
@@ -113,6 +140,11 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
                 Toast.makeText(this, "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.pop_up_log_out_slidingtab:
+                sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();

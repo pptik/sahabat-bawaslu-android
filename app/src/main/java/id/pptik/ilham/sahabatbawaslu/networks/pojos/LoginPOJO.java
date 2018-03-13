@@ -20,8 +20,7 @@ public class LoginPOJO {
     @SerializedName("username")
     public String username;
 
-    @SerializedName("access_token")
-    public String access_token;
+
 
     @SerializedName("rm")
     public String rm;
@@ -62,9 +61,7 @@ public class LoginPOJO {
         return username;
     }
 
-    public String getAccess_token() {
-        return access_token;
-    }
+
 
     public String getRm() {
         return rm;
