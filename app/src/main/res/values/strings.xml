@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sahabat Bawaslu</string>
+    <string name="app_name">Bawaslu Relawan Activity</string>
     <string name="field_label">E-mail/Username/No Handphone</string>
     <string name="email_label">E-mail</string>
     <string name="password_label">Password</string>

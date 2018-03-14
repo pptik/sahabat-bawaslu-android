@@ -25,8 +25,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     private String[] username = {"Asep","Jajang"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018"};
-    private String[] titlePost = {"Intro","Prelimi"};
-    private String[] contentPost = {"Lorem Ipsum","Lorem Ipsum"};
+    private String[] titlePost = {"Berita Terbaru Peraturan","Berita Terbaru Peraturan"};
+    private String[] contentPost = {"Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+            "Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt. is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "};
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView tvUsername, tvDatePost, tvTitlePost, tvContentPost;
@@ -44,7 +45,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
             ivThumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
 
-            view = (View) itemView.findViewById(R.id.separatorLine);
+
         }
     }
 
