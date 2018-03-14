@@ -29,8 +29,7 @@ public class SignUpPOJO {
     @SerializedName("rc")
     public String rc;
 
-    @SerializedName("kode_kelas")
-    public String kode_kelas;
+
 
     @SerializedName("kode_referensi")
     public String kode_referensi;
@@ -49,11 +48,10 @@ public class SignUpPOJO {
     public Results results;
 
     public SignUpPOJO(String field, String password, String username, int no_handphone,
-                      String kode_kelas, String kode_referensi, Boolean force, Integer app_id) {
+                       String kode_referensi, Boolean force, Integer app_id) {
         this.field = field;
         this.username = username;
         this.no_handphone = no_handphone;
-        this.kode_kelas = kode_kelas;
         this.kode_referensi = kode_referensi;
         this.password = password;
         this.force = force;

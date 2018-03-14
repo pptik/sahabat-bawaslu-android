@@ -108,21 +108,6 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/edit_text_kode_kelas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/kode_kelas_label"
-                        android:theme="@style/EditText"
-                        android:inputType="text"
-                        android:text="@={user.classCode}"
-                        />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
                         android:id="@+id/edit_text_kode_referensi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

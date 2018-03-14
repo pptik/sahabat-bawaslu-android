@@ -108,11 +108,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signup(final String email, final String password, final String username,
-                        final String no_handphone, final String kode_kelas, final String kode_referensi,
+                        final String no_handphone, final String kode_referensi,
                         final Boolean status_referensi, final int signup_type){
 
         Call<SignUpPOJO> callSignUp = restServiceInterface.userSignUp(username,no_handphone,
-                email,password,kode_referensi,status_referensi, signup_type, kode_kelas);
+                email,password,kode_referensi,status_referensi, signup_type);
         callSignUp.enqueue(new Callback<SignUpPOJO>() {
 
             @Override

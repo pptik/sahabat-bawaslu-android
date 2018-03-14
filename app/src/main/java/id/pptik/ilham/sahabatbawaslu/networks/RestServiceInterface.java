@@ -44,7 +44,6 @@ public interface RestServiceInterface {
                                @Field("Email") String email, @Field("Password") String password,
                                 @Field("ReferenceCode") String reference_code,
                                 @Field("Referenced") Boolean referenced,
-                                @Field("SignupType") int signup_type,
-                                @Field("ClassCode") String class_code);
+                                @Field("SignupType") int signup_type);
 
 }
