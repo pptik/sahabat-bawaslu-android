@@ -70,28 +70,14 @@ public class SignUpActivity extends AppCompatActivity {
                 progressDialog.show();
 
                 if(RestServiceClass.isNetworkAvailable(SignUpActivity.this)){
-                    if (activitySignUpBinding.getUser().getReferenceCode() == null ||
-                            activitySignUpBinding.getUser().getReferenceCode() == ""){
-
-                        signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
-                                activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
-                                activitySignUpBinding.getUser().getClassCode(),"",
-                                false,1);
-
-                    }else if(activitySignUpBinding.getUser().getReferenceCode() != null ||
-                            activitySignUpBinding.getUser().getReferenceCode() != ""){
-                        signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
-                                activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
-                                activitySignUpBinding.getUser().getClassCode(),activitySignUpBinding.getUser().getReferenceCode(),
-                                true,1);
-                    }
+                    signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
+                            activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
+                            activitySignUpBinding.getUser().getReferenceCode(),true,1);
                 }else{
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-
-
             }
         });
 
