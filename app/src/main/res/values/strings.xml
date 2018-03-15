@@ -12,6 +12,8 @@
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
     <string name="date_label">12 Februari 2018</string>
+    <string name="courtesy">oleh</string>
+    <string name="material_author_label">Achmad</string>
     <string name="post_title_label">Berita Terbaru Peraturan</string>
     <string name="post_content_label">Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt</string>
     <string name="data_pribadi_label">DATA PRIBADI SESUAI KTP</string>
@@ -32,6 +34,7 @@
     <string name="slide_title_berita">Berita</string>
     <string name="slide_title_diskusi">Diskusi</string>
     <string name="slide_title_tugas">Tugas</string>
+    <string name="slide_title_materi">Materi</string>
     <string name="slide_1_title">Bawaslu Relawan Activity</string>
     <string name="slide_1_desc">Selamat Anda sudah menjadi anggota</string>
     <string name="slide_2_title">Learning</string>

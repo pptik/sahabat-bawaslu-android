@@ -22,27 +22,23 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     public Integer[] userPicture, ivThumbnail;
     */
 
-    private String[] username = {"Tono","Budi"};
-    private String[] datePost = {"11 Maret 2018","12 Maret 2018"};
-    private String[] titlePost = {"Berita Terbaru Peraturan","Berita Terbaru Peraturan"};
-    private String[] contentPost = {"Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-            "Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt. is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "};
+    private String[] author = {"Tono","Budi","Jaka"};
+    private String[] datePost = {"11 Maret 2018","12 Maret 2018","12 Maret 2018"};
+    private String[] desc = {"Materi ini A","Materi ini B","Materi ini C"};
+    private String[] title = {"Materi 1","Materi 2","Materi 3"};
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView tvUsername, tvDatePost, tvTitlePost, tvContentPost;
-        public ImageView ivUserpicture, ivThumbnail;
+        public TextView tvAuthor, tvDatePost, tvTitlePost, tvContentPost;
         public View view;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvUsername = (TextView)itemView.findViewById(R.id.username);
+            tvAuthor = (TextView)itemView.findViewById(R.id.material_author);
             tvDatePost = (TextView)itemView.findViewById(R.id.date_post);
             tvTitlePost = (TextView)itemView.findViewById(R.id.title_post);
             tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
-
-            ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-            ivThumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
 
 
         }
@@ -67,7 +63,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_news_content, parent, false);
+                .inflate(R.layout.fragment_learning_content, parent, false);
 
         return new ViewHolder(view);
     }
@@ -76,9 +72,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     public void onBindViewHolder(ViewHolder holder, int position) {
 
 
-        holder.tvUsername.setText(username[position]);
-        holder.tvContentPost.setText(contentPost[position]);
-        holder.tvTitlePost.setText(titlePost[position]);
+        holder.tvAuthor.setText(author[position]);
+        holder.tvContentPost.setText(desc[position]);
+        holder.tvTitlePost.setText(title[position]);
         holder.tvDatePost.setText(datePost[position]);
 
         //holder.imageView.setImageDrawable(null);
@@ -99,7 +95,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
 
     @Override
     public int getItemCount() {
-        return username.length;
+        return title.length;
     }
 }
 

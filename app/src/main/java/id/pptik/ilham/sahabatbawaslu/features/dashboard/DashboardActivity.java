@@ -74,7 +74,7 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
                         getSupportActionBar().setTitle(R.string.slide_title_berita);
                         break;
                     case 1:
-                        getSupportActionBar().setTitle(R.string.slide_title_tugas);
+                        getSupportActionBar().setTitle(R.string.slide_title_materi);
                         break;
                     case 2:
                         getSupportActionBar().setTitle(R.string.slide_title_diskusi);
