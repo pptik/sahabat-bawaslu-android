@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.learning.LearningFragment;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 
 
@@ -65,7 +66,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         if(position == 0){
             fragment = new NewsFragment();
         } else if (position == 1) {
-            fragment = new NewsFragment();
+            fragment = new LearningFragment();
         } else if (position == 2) {
             fragment = new NewsFragment();
         }
