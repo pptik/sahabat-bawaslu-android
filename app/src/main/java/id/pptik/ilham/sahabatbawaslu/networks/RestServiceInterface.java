@@ -30,12 +30,6 @@ public interface RestServiceInterface {
     Call<LoginPOJO> userLogin(@Field("field") String field, @Field("force") Boolean force,
                                @Field("password") String password, @Field("app_id") Integer app_id);
 
-    /*@Headers({
-            "Content-Type: application/x-www-form-urlencoded"
-    })
-    @FormUrlEncoded
-    @POST("regions/provinces")
-    Call<ProvincesPOJO> provincesList();*/
 
     @Headers({
             "Content-Type: application/x-www-form-urlencoded",
@@ -52,5 +46,9 @@ public interface RestServiceInterface {
     @FormUrlEncoded
     @POST("material/list")
     Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip, @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("dashboard")
+    Call<MaterialsListPOJO> dashboard(@Field("Skip") int skip, @Header("access_token") String access_token);
 
 }
