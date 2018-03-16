@@ -67,9 +67,10 @@ public class MaterialsListPOJO {
         @SerializedName("type")
         @Expose
         private Integer type;
-        /*@SerializedName("post_by")
+        @SerializedName("post_by")
         @Expose
         private PostBy postBy;
+        /*
         @SerializedName("files")
         @Expose
         private List<File> files = null;*/
@@ -121,7 +122,7 @@ public class MaterialsListPOJO {
             this.type = type;
         }
 
-        /*public PostBy getPostBy() {
+        public PostBy getPostBy() {
             return postBy;
         }
 
@@ -129,6 +130,7 @@ public class MaterialsListPOJO {
             this.postBy = postBy;
         }
 
+        /*
         public List<File> getFiles() {
             return files;
         }
@@ -175,6 +177,33 @@ public class MaterialsListPOJO {
 
         public void setUpdatedAt(List<Object> updatedAt) {
             this.updatedAt = updatedAt;
+        }
+
+    }
+
+    public class PostBy {
+
+        @SerializedName("user_id")
+        @Expose
+        private String userId;
+        @SerializedName("username")
+        @Expose
+        private String username;
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
         }
 
     }

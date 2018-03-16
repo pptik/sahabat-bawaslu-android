@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -32,7 +34,10 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public RestServiceInterface restServiceInterface;
-
+    private List<String> authors = new ArrayList<String>();
+    private List<String> datePosts = new ArrayList<String>();
+    private List<String> descs = new ArrayList<String>();
+    private List<String> titles = new ArrayList<String>();
 
     public LearningFragment() {
     }
@@ -49,10 +54,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        //mAdapter = new MaterialsRecyclerView(dataSetJudulMateri, dataSetCoverMateri,dataSetSubJudulMateri);
-        mAdapter = new LearningRecyclerView();
+        /*mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles);
         mAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -66,28 +70,24 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             @Override
             public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
                 MaterialsListPOJO materialsListPOJO = response.body();
-                Log.d("RETROFIT:","RETROFIT: "+materialsListPOJO.getResults().get(0).getTitle().toString());
+                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                  authors.add(materialsListPOJO.getResults().get(materi).getPostBy().getUsername());
+                  datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAt());
+                  descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                  titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                }
+                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles);
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
             public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
-                Log.d("RETROFIT","RETROFIT: "+t.toString());
+                Log.d("RETROFIT ERROR","ERROR: "+t.toString());
             }
         });
 
-        /*callMaterialsList.enqueue(new Callback<List<MaterialsListPOJO>>() {
-            @Override
-            public void onResponse(Call<List<MaterialsListPOJO>> call, Response<List<MaterialsListPOJO>> response) {
 
-            }
-
-            @Override
-            public void onFailure(Call<List<MaterialsListPOJO>> call, Throwable t) {
-
-            }
-
-
-        });*/
         return view;
 
     }

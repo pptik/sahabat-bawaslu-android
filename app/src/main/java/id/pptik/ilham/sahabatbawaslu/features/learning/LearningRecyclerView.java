@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import id.pptik.ilham.sahabatbawaslu.R;
 
 /**
@@ -14,18 +17,17 @@ import id.pptik.ilham.sahabatbawaslu.R;
  */
 
 public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerView.ViewHolder> {
-    /*private List<String> dataJudulMateri;
-    private List<Integer> dataSubMateri;
-    private List<String> dataCoverMateri;
 
-    public String[] username, datePost, titlePost, contentPost;
-    public Integer[] userPicture, ivThumbnail;
-    */
+    private List<String> authorList;
+    private List<String> datePostList;
+    private List<String> descList;
+    private List<String> titleList;
+    private String[] author, datePost, desc, title;
 
-    private String[] author = {"Tono","Budi","Jaka"};
+    /*private String[] author = {"Tono","Budi","Jaka"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018","12 Maret 2018"};
     private String[] desc = {"Materi ini A","Materi ini B","Materi ini C"};
-    private String[] title = {"Materi 1","Materi 2","Materi 3"};
+    private String[] title = {"Materi 1","Materi 2","Materi 3"};*/
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -44,19 +46,22 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         }
     }
 
-    //public MaterialsRecyclerView(List<String> dataBerupaJudul, List<String> dataBerupaCover, List<Integer> dataBerupaSubMateri) {
-    public LearningRecyclerView() {
-        /*this.dataJudulMateri = dataBerupaJudul;
-        this.dataCoverMateri = dataBerupaCover;
-        this.dataSubMateri = dataBerupaSubMateri;
+    public LearningRecyclerView(List<String> authorListParam, List<String> datePostListParam, List<String> descriptionListParam, List<String> titleListParam) {
 
-        judul =  new String[dataJudulMateri.size()];
-        cover =  new String[dataCoverMateri.size()];
-        subMateri =  new Integer[dataSubMateri.size()];
+        this.authorList = authorListParam;
+        this.datePostList = datePostListParam;
+        this.descList = descriptionListParam;
+        this.titleList = titleListParam;
 
-        judul = dataBerupaJudul.toArray(judul);
-        cover = dataBerupaCover.toArray(cover);
-        subMateri = dataBerupaSubMateri.toArray(subMateri);*/
+        author = new String[authorList.size()];
+        datePost = new String[datePostList.size()];
+        desc = new String[descList.size()];
+        title = new String[titleList.size()];
+
+        author = authorList.toArray(author);
+        datePost = datePostList.toArray(datePost);
+        desc = descList.toArray(desc);
+        title = titleList.toArray(desc);
     }
 
     @Override
