@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.networks;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import retrofit2.Call;
@@ -45,5 +46,13 @@ public interface RestServiceInterface {
                                 @Field("ReferenceCode") String reference_code,
                                 @Field("Referenced") Boolean referenced,
                                 @Field("SignupType") int signup_type);
+
+    @Headers({
+            "Content-Type: application/x-www-form-urlencoded",
+            "access_token: test1",
+    })
+    @FormUrlEncoded
+    @POST("material/list")
+    Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip);
 
 }

@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.learning.LearningRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
+import retrofit2.Call;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -21,6 +25,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RestServiceInterface restServiceInterface;
 
     public LearningFragment() {
     }
@@ -41,6 +46,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         mAdapter = new LearningRecyclerView();
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
+
+        Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0);
 
         return view;
 
