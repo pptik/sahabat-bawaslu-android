@@ -61,7 +61,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         author = authorList.toArray(author);
         datePost = datePostList.toArray(datePost);
         desc = descList.toArray(desc);
-        title = titleList.toArray(desc);
+        title = titleList.toArray(title);
     }
 
     @Override
