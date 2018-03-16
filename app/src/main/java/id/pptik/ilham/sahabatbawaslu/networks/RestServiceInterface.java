@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -47,12 +48,9 @@ public interface RestServiceInterface {
                                 @Field("Referenced") Boolean referenced,
                                 @Field("SignupType") int signup_type);
 
-    @Headers({
-            "Content-Type: application/x-www-form-urlencoded",
-            "access_token: test1",
-    })
+
     @FormUrlEncoded
     @POST("material/list")
-    Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip);
+    Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip, @Header("access_token") String access_token);
 
 }
