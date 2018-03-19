@@ -57,6 +57,10 @@ public class DashboardPOJO {
         @Expose
         private PostBy postBy;
 
+        @SerializedName("user_detail")
+        @Expose
+        private UserDetail userDetail;
+
         @SerializedName("activity_text")
         @Expose
         private String activityText;
@@ -148,6 +152,19 @@ public class DashboardPOJO {
 
             public void setUsername(String username) {
                 this.username = username;
+            }
+
+        }
+
+        public class UserDetail {
+
+            @SerializedName("display_picture")
+            @Expose
+            private String displayPicture;
+
+
+            public String getDisplayPicture() {
+                return displayPicture;
             }
 
         }
