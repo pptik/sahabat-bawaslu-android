@@ -65,7 +65,7 @@ public class DashboardPOJO {
         @Expose
         private String activityText;
 
-        @SerializedName("content_text")
+        @SerializedName("desc")
         @Expose
         private String contentText;
 
@@ -81,7 +81,7 @@ public class DashboardPOJO {
         @Expose
         private int favorite;
 
-        @SerializedName("created_at_string")
+        @SerializedName("created_at_from_now")
         @Expose
         private String createdAt;
 
@@ -125,8 +125,22 @@ public class DashboardPOJO {
             return postBy;
         }
 
+        public UserDetail getUserDetail() {
+            return userDetail;
+        }
+
         public void setPostBy(PostBy postBy) {
             this.postBy = postBy;
+        }
+
+        public class UserDetail {
+            @SerializedName("display_picture")
+            @Expose
+            private String displayPicture;
+
+            public String getDisplayPicture() {
+                return displayPicture;
+            }
         }
 
         public class PostBy {
@@ -156,18 +170,7 @@ public class DashboardPOJO {
 
         }
 
-        public class UserDetail {
 
-            @SerializedName("display_picture")
-            @Expose
-            private String displayPicture;
-
-
-            public String getDisplayPicture() {
-                return displayPicture;
-            }
-
-        }
     }
 
 

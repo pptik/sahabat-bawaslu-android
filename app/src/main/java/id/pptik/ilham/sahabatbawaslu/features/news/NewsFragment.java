@@ -23,6 +23,8 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Ilham on 12/03/18.
@@ -75,7 +77,30 @@ public class NewsFragment extends Fragment {
 
 
         Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(0,access_token);
+        dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+            @Override
+            public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                DashboardPOJO dashboardPOJO = response.body();
+                for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    username.add(dashboardPOJO.getResults().get(item).getPostBy().getUsername());
+                    datePost.add(dashboardPOJO.getResults().get(item).getCreatedAt());
+                    titlePost.add(dashboardPOJO.getResults().get(item).getTitle());
+                    contentPost.add(dashboardPOJO.getResults().get(item).getDesc());
+                    userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
+                    contentType.add(dashboardPOJO.getResults().get(item).getContent_code());
+                    /*
+                    titlePost
+                    contentPost
+                    userPicturePost
+                    contentType*/
+                }
+            }
 
+            @Override
+            public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+
+            }
+        });
 
         return view;
 
