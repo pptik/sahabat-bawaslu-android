@@ -86,8 +86,12 @@ public class NewsFragment extends Fragment {
                     titlePost.add(dashboardPOJO.getResults().get(item).getTitle());
                     contentPost.add(dashboardPOJO.getResults().get(item).getDesc());
                     userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
+                    /*switch (dashboardPOJO.getResults().get(item).getContent_code().toString()){
+                        case "1":
+                            contentType.add("Material")
+                            ;break;
+                    }*/
                     contentType.add(dashboardPOJO.getResults().get(item).getContent_code().toString());
-                    //Log.d("FOTO PENGGUNA","URL: "+dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
                 mAdapter.notifyDataSetChanged();
