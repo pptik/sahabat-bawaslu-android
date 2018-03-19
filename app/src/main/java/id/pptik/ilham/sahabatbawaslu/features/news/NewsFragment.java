@@ -86,7 +86,7 @@ public class NewsFragment extends Fragment {
                     username.add(dashboardPOJO.getResults().get(item).getPostBy().getUsername());
                     datePost.add(dashboardPOJO.getResults().get(item).getCreatedAt());
                     titlePost.add(dashboardPOJO.getResults().get(item).getTitle());
-                    contentPost.add(dashboardPOJO.getResults().get(item).getDesc());
+                    contentPost.add(dashboardPOJO.getResults().get(item).getSynopsis());
                     userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
                     contentLabel.add(dashboardPOJO.getResults().get(item).getContentText());
                     activityLabel.add(dashboardPOJO.getResults().get(item).getActivityText());

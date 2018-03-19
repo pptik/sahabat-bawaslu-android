@@ -49,6 +49,10 @@ public class DashboardPOJO {
         @Expose
         private String desc;
 
+        @SerializedName("synopsis")
+        @Expose
+        private String synopsis;
+
         @SerializedName("content_code")
         @Expose
         private Integer content_code;
@@ -91,6 +95,10 @@ public class DashboardPOJO {
 
         public String getDesc() {
             return desc;
+        }
+
+        public String getSynopsis() {
+            return synopsis;
         }
 
         public Integer getContent_code() {
