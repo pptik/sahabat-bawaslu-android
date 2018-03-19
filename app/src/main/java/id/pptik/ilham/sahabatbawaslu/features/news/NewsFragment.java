@@ -64,9 +64,7 @@ public class NewsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //mAdapter = new MaterialsRecyclerView(dataSetJudulMateri, dataSetCoverMateri,dataSetSubJudulMateri);
-        mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(mAdapter);
+
 
 
         //Ambil Data dari Networking REST
@@ -88,12 +86,17 @@ public class NewsFragment extends Fragment {
                     contentPost.add(dashboardPOJO.getResults().get(item).getDesc());
                     userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
                     contentType.add(dashboardPOJO.getResults().get(item).getContent_code());
+
+
                     /*
                     titlePost
                     contentPost
                     userPicturePost
                     contentType*/
                 }
+                mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override

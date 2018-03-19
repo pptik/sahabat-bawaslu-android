@@ -65,7 +65,7 @@ public class DashboardPOJO {
         @Expose
         private String activityText;
 
-        @SerializedName("desc")
+        @SerializedName("content_text")
         @Expose
         private String contentText;
 

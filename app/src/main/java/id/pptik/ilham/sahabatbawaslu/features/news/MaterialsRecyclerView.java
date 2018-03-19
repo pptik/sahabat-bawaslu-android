@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
 import id.pptik.ilham.sahabatbawaslu.R;
 
 import java.util.List;
@@ -94,18 +97,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvTitlePost.setText(titlePost[position]);
         holder.tvDatePost.setText(datePost[position]);
 
-        //holder.imageView.setImageDrawable(null);
+        //holder.ivUserpicture.setImageDrawable(null);
+        //holder.ivThumbnail.setImageDrawable(null);
 
         /*Glide
-                .with(holder.imageView.getContext())
-                .load(cover[position])
-                .crossFade()
-                .placeholder(R.drawable.loading)
-                .into(holder.imageView);
+                .with(holder.ivUserpicture.getContext())
+                .load(userPictureProfile[position])
+                .into(holder.ivUserpicture);*/
 
-        if(judul.length == (position+1)){
-            holder.view.setVisibility(View.GONE);
-        }*/
+
 
     }
 
