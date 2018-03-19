@@ -26,9 +26,15 @@ public class NewsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    List<String> dataSetJudulMateri = new ArrayList<>();
+    /*List<String> dataSetJudulMateri = new ArrayList<>();
     List<String> dataSetCoverMateri = new ArrayList<>();
-    List<Integer> dataSetSubJudulMateri = new ArrayList<>();
+    List<Integer> dataSetSubJudulMateri = new ArrayList<>();*/
+    private List<String> username = new ArrayList<String>();
+    private List<String> datePost = new ArrayList<String>();
+    private List<String> titlePost = new ArrayList<String>();
+    private List<String> contentPost = new ArrayList<String>();
+    private List<String> userPicturePost = new ArrayList<String>();
+    private List<Integer> contentType = new ArrayList<Integer>();
 
     ProgressDialog progressDialog;
 
@@ -49,7 +55,7 @@ public class NewsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         //mAdapter = new MaterialsRecyclerView(dataSetJudulMateri, dataSetCoverMateri,dataSetSubJudulMateri);
-        mAdapter = new MaterialsRecyclerView();
+        mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
 
