@@ -77,7 +77,7 @@ public class DashboardPOJO {
         @Expose
         private int favorite;
 
-        @SerializedName("created_at")
+        @SerializedName("created_at_string")
         @Expose
         private String createdAt;
 

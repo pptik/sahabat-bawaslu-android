@@ -72,7 +72,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 MaterialsListPOJO materialsListPOJO = response.body();
                 for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                   authors.add(materialsListPOJO.getResults().get(materi).getPostBy().getUsername());
-                  datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAt());
+                  datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
                   descs.add(materialsListPOJO.getResults().get(materi).getDesc());
                   titles.add(materialsListPOJO.getResults().get(materi).getTitle());
                 }

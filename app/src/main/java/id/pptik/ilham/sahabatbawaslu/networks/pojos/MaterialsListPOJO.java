@@ -86,6 +86,9 @@ public class MaterialsListPOJO {
         @SerializedName("created_at")
         @Expose
         private String createdAt;
+        @SerializedName("created_at_from_now")
+        @Expose
+        private String createdAtFromNow;
         @SerializedName("updated_at")
         @Expose
         private List<Object> updatedAt = null;
@@ -165,6 +168,9 @@ public class MaterialsListPOJO {
 
         public String getCreatedAt() {
             return createdAt;
+        }
+        public String getCreatedAtFromNow() {
+            return createdAtFromNow;
         }
 
         public void setCreatedAt(String createdAt) {
