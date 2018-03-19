@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.features.news;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,6 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
+import retrofit2.Call;
 
 /**
  * Created by Ilham on 12/03/18.
@@ -29,6 +35,7 @@ public class NewsFragment extends Fragment {
     /*List<String> dataSetJudulMateri = new ArrayList<>();
     List<String> dataSetCoverMateri = new ArrayList<>();
     List<Integer> dataSetSubJudulMateri = new ArrayList<>();*/
+    public RestServiceInterface restServiceInterface;
     private List<String> username = new ArrayList<String>();
     private List<String> datePost = new ArrayList<String>();
     private List<String> titlePost = new ArrayList<String>();
@@ -58,6 +65,17 @@ public class NewsFragment extends Fragment {
         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
         mAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(mAdapter);
+
+
+        //Ambil Data dari Networking REST
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+        //Log.d("AKSES TOKEN:","AKSES TOKEN: "+access_token);
+
+
+        Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(0,access_token);
+
 
         return view;
 
