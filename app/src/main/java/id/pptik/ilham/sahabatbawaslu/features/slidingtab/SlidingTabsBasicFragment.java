@@ -68,7 +68,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         } else if (position == 1) {
             fragment = new LearningFragment();
         } else if (position == 2) {
-            fragment = new NewsFragment();
+            fragment = new LearningFragment();
         }
 
         //Bundle b = new Bundle();

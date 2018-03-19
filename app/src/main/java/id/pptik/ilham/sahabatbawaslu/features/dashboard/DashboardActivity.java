@@ -115,6 +115,10 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
     public boolean onOptionsItemSelected(MenuItem item) {
         View view = findViewById(R.id.action_more);
         switch (item.getItemId()){
+            case R.id.action_notification:
+                Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
+                //popUpMenu(view);
+                return true;
             case R.id.action_more:
                 //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
                 popUpMenu(view);
