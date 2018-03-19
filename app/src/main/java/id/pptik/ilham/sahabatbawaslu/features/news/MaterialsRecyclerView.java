@@ -24,8 +24,16 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> titlePostList;
     private List<String> contentPostList;
     private List<String> userPictureProfileList;
+    //Buat menentukan warna marker
     private List<String> contentTypeList;
-    private String[] username, datePost, titlePost, contentPost, userPictureProfile, contentType;
+
+    //Buar menentukan label marker card
+    private List<String> contentTextList;
+    private List<String> activityTextList;
+
+    private String[] username, datePost, titlePost,
+            contentPost, userPictureProfile, contentType,
+            contentText, activityText;
 
 
     /*private String[] username = {"Asep","Jajang"};
@@ -35,7 +43,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             "Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt. is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "};*/
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView tvUsername, tvDatePost, tvTitlePost, tvContentPost, tvContentCode;
+        public TextView tvUsername, tvDatePost, tvTitlePost,
+                tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel;
         public ImageView ivUserpicture;
         public View viewLabelColorNews,viewLabelColorMaterial;
 
@@ -46,8 +55,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             tvDatePost = (TextView)itemView.findViewById(R.id.date_post);
             tvTitlePost = (TextView)itemView.findViewById(R.id.title_post);
             tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
-            tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
             tvContentCode = (TextView)itemView.findViewById(R.id.post_label);
+            tvContentLabel = (TextView)itemView.findViewById(R.id.post_content_desc);
+            tvActivityLabel = (TextView)itemView.findViewById(R.id.post_activity_desc);
 
             viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
@@ -61,7 +71,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     public MaterialsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
-                                 List<String> contentTypeListParam,List<String> titlePostListParam) {
+                                 List<String> contentTypeListParam,List<String> titlePostListParam,
+                                 List<String> contentLabelListParam,List<String> activityLabelListParam) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -69,6 +80,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.userPictureProfileList = userPictureProfileListParam;
         this.contentTypeList = contentTypeListParam;
         this.titlePostList = titlePostListParam;
+        this.contentTextList = contentLabelListParam;
+        this.activityTextList = activityLabelListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -76,6 +89,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         contentPost = new String[contentPostList.size()];
         userPictureProfile = new String[userPictureProfileList.size()];
         contentType = new String[contentTypeList.size()];
+        contentText = new String[contentTextList.size()];
+        activityText = new String[activityTextList.size()];
 
 
         username = usernameList.toArray(username);
@@ -84,6 +99,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         contentPost = contentPostList.toArray(contentPost);
         userPictureProfile = userPictureProfileList.toArray(userPictureProfile);
         contentType = contentTypeList.toArray(contentType);
+        contentText = contentTextList.toArray(contentText);
+        activityText = activityTextList.toArray(activityText);
     }
 
     @Override
@@ -104,6 +121,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvTitlePost.setText(titlePost[position]);
         holder.tvDatePost.setText(datePost[position]);
         holder.tvContentCode.setText(contentType[position]);
+        holder.tvContentLabel.setText(contentText[position]);
+        holder.tvActivityLabel.setText(activityText[position]);
 
         //Menggunakan library Glide untuk menampilkan foto pengguna
         holder.ivUserpicture.setImageDrawable(null);
