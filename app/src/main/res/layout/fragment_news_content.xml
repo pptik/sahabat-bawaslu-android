@@ -11,7 +11,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         card_view:cardCornerRadius="4dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
             android:layout_height="100dp"
             android:foregroundGravity="right"
             android:layout_below="@+id/user_picture"
-            android:layout_toRightOf="@+id/title_post"
+
             android:src="@drawable/recycleview_thumbnail"
             android:layout_marginLeft="10dp"
             android:layout_alignTop="@+id/title_post"
@@ -59,11 +59,13 @@
         <TextView
             android:id="@+id/title_post"
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/user_picture"
+            android:layout_toLeftOf="@id/thumbnail"
             android:textStyle="bold"
             android:textSize="20sp"
             android:text="@string/post_title_label"
-            android:layout_below="@+id/user_picture"
+
             android:layout_height="wrap_content"
             android:textColor="@color/hitam"/>
         <TextView
