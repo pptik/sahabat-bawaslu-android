@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         public ImageView ivUserpicture;
         public View viewLabelColorNews,viewLabelColorMaterial;
         public ImageView infoButton;
+        public static Snackbar snackbar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,12 +69,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
 
             infoButton = (ImageView) itemView.findViewById(R.id.info_button_content_activity);
-            infoButton.setOnClickListener(new View.OnClickListener() {
+            /*infoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(v.getContext(), "Infonya", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
 
         }
     }
@@ -121,7 +123,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
 
         holder.tvUsername.setText(username[position]);
@@ -147,7 +149,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 ;break;
         }
 
-
+        holder.infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(v.getContext(), activityText[position]+" "+contentText[position], Toast.LENGTH_SHORT).show();
+                ViewHolder.snackbar = Snackbar.make(v.getRootView(),activityText[position]+" "+contentText[position],Snackbar.LENGTH_SHORT);
+                ViewHolder.snackbar.show();
+            }
+        });
 
     }
 
