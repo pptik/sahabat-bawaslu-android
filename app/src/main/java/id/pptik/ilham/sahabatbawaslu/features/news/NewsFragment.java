@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class NewsFragment extends Fragment {
     private List<String> titlePost = new ArrayList<String>();
     private List<String> contentPost = new ArrayList<String>();
     private List<String> userPicturePost = new ArrayList<String>();
-    private List<Integer> contentType = new ArrayList<Integer>();
+    private List<String> contentType = new ArrayList<String>();
 
     ProgressDialog progressDialog;
 
@@ -85,14 +86,8 @@ public class NewsFragment extends Fragment {
                     titlePost.add(dashboardPOJO.getResults().get(item).getTitle());
                     contentPost.add(dashboardPOJO.getResults().get(item).getDesc());
                     userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
-                    contentType.add(dashboardPOJO.getResults().get(item).getContent_code());
-
-
-                    /*
-                    titlePost
-                    contentPost
-                    userPicturePost
-                    contentType*/
+                    contentType.add(dashboardPOJO.getResults().get(item).getContent_code().toString());
+                    //Log.d("FOTO PENGGUNA","URL: "+dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,userPicturePost,contentType,titlePost);
                 mAdapter.notifyDataSetChanged();

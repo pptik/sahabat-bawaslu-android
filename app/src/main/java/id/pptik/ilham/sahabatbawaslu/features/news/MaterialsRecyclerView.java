@@ -23,8 +23,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> titlePostList;
     private List<String> contentPostList;
     private List<String> userPictureProfileList;
-    private List<Integer> contentTypeList;
+    private List<String> contentTypeList;
     private String[] username, datePost, titlePost, contentPost, userPictureProfile, contentType;
+
 
     /*private String[] username = {"Asep","Jajang"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018"};
@@ -54,7 +55,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     public MaterialsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
-                                 List<Integer> contentTypeListParam,List<String> titlePostListParam) {
+                                 List<String> contentTypeListParam,List<String> titlePostListParam) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -75,8 +76,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         datePost = datePostList.toArray(datePost);
         titlePost = titlePostList.toArray(titlePost);
         contentPost = contentPostList.toArray(contentPost);
-        userPictureProfile = contentPostList.toArray(userPictureProfile);
-        contentType = contentPostList.toArray(contentType);
+        userPictureProfile = userPictureProfileList.toArray(userPictureProfile);
+        contentType = contentTypeList.toArray(contentType);
     }
 
     @Override
@@ -97,7 +98,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvTitlePost.setText(titlePost[position]);
         holder.tvDatePost.setText(datePost[position]);
 
-        //holder.ivUserpicture.setImageDrawable(null);
+        holder.ivUserpicture.setImageDrawable(null);
+        Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
         //holder.ivThumbnail.setImageDrawable(null);
 
         /*Glide
