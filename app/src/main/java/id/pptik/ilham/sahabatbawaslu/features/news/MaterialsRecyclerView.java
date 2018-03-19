@@ -5,8 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -47,7 +49,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel;
         public ImageView ivUserpicture;
         public View viewLabelColorNews,viewLabelColorMaterial;
-
+        public ImageView infoButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -63,8 +65,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
 
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-            //ivThumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
 
+            infoButton = (ImageView) itemView.findViewById(R.id.info_button_content_activity);
+            infoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Infonya", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }
