@@ -25,6 +25,7 @@
         <activity android:name=".features.signup.SignUpActivity" />
         <activity android:name=".features.dashboard.DashboardActivity" />
         <activity android:name=".intro.IntroActivity" />
+        <activity android:name=".features.notification.NotificationActivity"></activity>
     </application>
 
 </manifest>
