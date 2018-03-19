@@ -47,6 +47,9 @@ public class NewsFragment extends Fragment {
     private List<String> contentType = new ArrayList<String>();
     private List<String> contentLabel = new ArrayList<String>();
     private List<String> activityLabel = new ArrayList<String>();
+    private List<Integer> numberFavorite = new ArrayList<Integer>();
+    private List<Integer> numberUpvote = new ArrayList<Integer>();
+    private List<Integer> numberDownvote = new ArrayList<Integer>();
 
     ProgressDialog progressDialog;
 
@@ -91,9 +94,14 @@ public class NewsFragment extends Fragment {
                     contentLabel.add(dashboardPOJO.getResults().get(item).getContentText());
                     activityLabel.add(dashboardPOJO.getResults().get(item).getActivityText());
                     contentType.add(dashboardPOJO.getResults().get(item).getContent_code().toString());
+                    numberFavorite.add(dashboardPOJO.getResults().get(item).getFavorite());
+                    numberUpvote.add(dashboardPOJO.getResults().get(item).getUpvote());
+                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDownvote());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                        userPicturePost,contentType,titlePost,contentLabel,activityLabel);
+                        userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                        numberUpvote,numberDownvote
+                        );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

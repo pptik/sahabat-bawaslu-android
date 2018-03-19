@@ -189,7 +189,7 @@
                     android:id="@+id/text_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="6 Komentar"
+                    android:text="0 Komentar"
                     android:gravity="right"
                     android:layout_gravity="right"
                     />
