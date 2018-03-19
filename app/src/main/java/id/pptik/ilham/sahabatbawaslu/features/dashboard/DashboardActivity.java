@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
+import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
 
@@ -116,8 +118,12 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         View view = findViewById(R.id.action_more);
         switch (item.getItemId()){
             case R.id.action_notification:
-                Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
                 //popUpMenu(view);
+                Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
                 return true;
             case R.id.action_more:
                 //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
