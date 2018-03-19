@@ -133,9 +133,9 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.pop_up_settings_slidingtab:
+            /*case R.id.pop_up_settings_slidingtab:
                 Toast.makeText(this, "Setting menu clicked", Toast.LENGTH_SHORT).show();
-                return true;
+                return true;*/
             case R.id.pop_up_edit_profile_slidingtab:
                 Toast.makeText(this, "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                 return true;

@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- "Mark Favorite", should appear as action button if possible -->
-    <item android:id="@+id/pop_up_settings_slidingtab"
-        android:title="@string/menu_settings"/>
+    <!--<item android:id="@+id/pop_up_settings_slidingtab"
+        android:title="@string/menu_settings"/>-->
     <item android:id="@+id/pop_up_edit_profile_slidingtab"
         android:title="@string/menu_edit_profile"/>
     <item android:id="@+id/pop_up_log_out_slidingtab"
