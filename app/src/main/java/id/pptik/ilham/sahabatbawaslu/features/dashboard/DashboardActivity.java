@@ -117,14 +117,14 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
     public boolean onOptionsItemSelected(MenuItem item) {
         View view = findViewById(R.id.action_more);
         switch (item.getItemId()){
-            case R.id.action_notification:
+            /*case R.id.action_notification:
                 //Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
                 //popUpMenu(view);
                 Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                return true;
+                return true;*/
             case R.id.action_more:
                 //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
                 popUpMenu(view);
@@ -143,9 +143,11 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
-            /*case R.id.pop_up_settings_slidingtab:
-                Toast.makeText(this, "Setting menu clicked", Toast.LENGTH_SHORT).show();
-                return true;*/
+            case R.id.pop_up_notifikasi:
+                Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                return true;
             case R.id.pop_up_edit_profile_slidingtab:
                 Toast.makeText(this, "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                 return true;
@@ -155,8 +157,8 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
                 editor.clear();
                 editor.commit();
 
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(this, LoginActivity.class);
+                startActivity(intent2);
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;

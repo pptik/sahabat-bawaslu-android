@@ -1,6 +1,8 @@
 package id.pptik.ilham.sahabatbawaslu.features.notification;
 
+import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +13,13 @@ import android.view.WindowManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout;
 
 public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
+    SlidingTabLayout slidingTabLayout;
+    ViewPager viewPager;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
