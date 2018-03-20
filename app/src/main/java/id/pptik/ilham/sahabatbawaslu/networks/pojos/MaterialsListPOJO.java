@@ -61,7 +61,7 @@ public class MaterialsListPOJO {
         @SerializedName("title")
         @Expose
         private String title;
-        @SerializedName("desc")
+        @SerializedName("synopsis")
         @Expose
         private String desc;
         @SerializedName("type")
@@ -81,6 +81,9 @@ public class MaterialsListPOJO {
         @Expose
         private Integer downvote;
         @SerializedName("favorite")
+        @Expose
+        private Integer comment;
+        @SerializedName("comment")
         @Expose
         private Integer favorite;
         @SerializedName("created_at")
@@ -156,6 +159,10 @@ public class MaterialsListPOJO {
 
         public void setDownvote(Integer downvote) {
             this.downvote = downvote;
+        }
+
+        public Integer getComment() {
+            return comment;
         }
 
         public Integer getFavorite() {
