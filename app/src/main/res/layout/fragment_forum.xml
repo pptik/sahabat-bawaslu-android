@@ -16,7 +16,7 @@
         android:layout_gravity="end|bottom"
         android:backgroundTint="@color/oranyeTerang"
         android:layout_margin="16dp"
-
+        android:src="@drawable/ic_create_white_36dp"
         />
 
 </FrameLayout>
