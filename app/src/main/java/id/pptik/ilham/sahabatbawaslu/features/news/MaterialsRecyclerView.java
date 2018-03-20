@@ -23,7 +23,7 @@ import static android.R.id.redo;
 
 
 public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecyclerView.ViewHolder> {
-    private List<String> usernameList;
+    private List<Integer> materialTypeList;
     private List<String> datePostList;
     private List<String> titlePostList;
     private List<String> contentPostList;
@@ -39,12 +39,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> contentTextList;
     private List<String> activityTextList;
 
-    private String[] username, datePost, titlePost,
+    private String[] datePost, titlePost,
             contentPost, userPictureProfile, contentType,
             contentText, activityText;
     private Integer[] textNumberFavorite,
             textNumberDownvote, textNumberUpvote,
-            textNumberComment;
+            textNumberComment, materialType;
 
 
 
@@ -95,14 +95,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         }
     }
 
-    public MaterialsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
+    public MaterialsRecyclerView(List<Integer> materialTypeListParam, List<String> datePostListParam,
                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
                                  List<String> contentTypeListParam,List<String> titlePostListParam,
                                  List<String> contentLabelListParam,List<String> activityLabelListParam,
                                  List<Integer> textNumberFavoriteListParam,List<Integer> textNumberUpvoteListParam,
                                  List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam) {
 
-        this.usernameList = usernameListParam;
+        this.materialTypeList = materialTypeListParam;
         this.datePostList = datePostListParam;
         this.contentPostList = contentPostListParam;
         this.userPictureProfileList = userPictureProfileListParam;
@@ -115,7 +115,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.textNumberFavoriteList = textNumberFavoriteListParam;
         this.textNumberCommentList = textNumberCommentListParam;
 
-        username = new String[usernameList.size()];
+        materialType = new Integer[materialTypeList.size()];
         datePost = new String[datePostList.size()];
         titlePost = new String[titlePostList.size()];
         contentPost = new String[contentPostList.size()];
@@ -128,7 +128,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberDownvote = new Integer[textNumberDownvoteList.size()];
         textNumberComment = new Integer[textNumberCommentList.size()];
 
-        username = usernameList.toArray(username);
+        materialType = materialTypeList.toArray(materialType);
         datePost = datePostList.toArray(datePost);
         titlePost = titlePostList.toArray(titlePost);
         contentPost = contentPostList.toArray(contentPost);
@@ -155,7 +155,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
 
-        holder.tvUsername.setText(username[position]);
+        holder.tvUsername.setText(materialType[position]);
         holder.tvContentPost.setText(contentPost[position]);
         holder.tvTitlePost.setText(titlePost[position]);
         holder.tvDatePost.setText(datePost[position]);
@@ -197,6 +197,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     @Override
     public int getItemCount() {
-        return username.length;
+        return materialType.length;
     }
 }

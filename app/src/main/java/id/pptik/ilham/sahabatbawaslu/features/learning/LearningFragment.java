@@ -34,10 +34,14 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public RestServiceInterface restServiceInterface;
-    private List<String> authors = new ArrayList<String>();
+    private List<Integer> materialType = new ArrayList<Integer>();
     private List<String> datePosts = new ArrayList<String>();
     private List<String> descs = new ArrayList<String>();
     private List<String> titles = new ArrayList<String>();
+    private List<Integer> favorites = new ArrayList<Integer>();
+    private List<Integer> upVotes = new ArrayList<Integer>();
+    private List<Integer> downVotes = new ArrayList<Integer>();
+    private List<Integer> comments = new ArrayList<Integer>();
 
     public LearningFragment() {
     }
@@ -71,12 +75,17 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
                 MaterialsListPOJO materialsListPOJO = response.body();
                 for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
-                  authors.add(materialsListPOJO.getResults().get(materi).getPostBy().getUsername());
+                  materialType.add(materialsListPOJO.getResults().get(materi).getType());
                   datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
                   descs.add(materialsListPOJO.getResults().get(materi).getDesc());
                   titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                  upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                  downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                  comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                  favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles);
+                mAdapter = new LearningRecyclerView(materialType,datePosts,descs,
+                        titles,favorites,upVotes,downVotes,comments);
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

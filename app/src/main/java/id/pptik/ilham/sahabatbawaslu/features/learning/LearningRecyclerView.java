@@ -22,7 +22,14 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     private List<String> datePostList;
     private List<String> descList;
     private List<String> titleList;
+    private List<Integer> upVoteNumbersList;
+    private List<Integer> downVoteNumbersList;
+    private List<Integer> commentNumbersList;
+    private List<Integer> favoriteNumbersList;
+
     private String[] author, datePost, desc, title;
+    private Integer[] favoriteNumbers, upVoteNumbers, downVoteNumbers,
+                     commentNumbers;
 
     /*private String[] author = {"Tono","Budi","Jaka"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018","12 Maret 2018"};
@@ -31,7 +38,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView tvAuthor, tvDatePost, tvTitlePost, tvContentPost;
+        public TextView tvAuthor, tvDatePost, tvTitlePost, tvContentPost,
+                tvUpVoteNumbers, tvDownVoteNumbers, tvCommentNumbers,
+                tvFavoriteNumbers;
         public View view;
 
 
@@ -41,27 +50,44 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
             tvDatePost = (TextView)itemView.findViewById(R.id.date_post);
             tvTitlePost = (TextView)itemView.findViewById(R.id.title_post);
             tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
-
-
+            tvUpVoteNumbers = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
+            tvDownVoteNumbers = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
+            tvCommentNumbers = (TextView)itemView.findViewById(R.id.text_comments);
+            tvFavoriteNumbers = (TextView)itemView.findViewById(R.id.text_number_favorite);
         }
     }
 
-    public LearningRecyclerView(List<String> authorListParam, List<String> datePostListParam, List<String> descriptionListParam, List<String> titleListParam) {
+    public LearningRecyclerView(List<String> authorListParam, List<String> datePostListParam,
+                                List<String> descriptionListParam, List<String> titleListParam,
+                                List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
+                                List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
 
         this.authorList = authorListParam;
         this.datePostList = datePostListParam;
         this.descList = descriptionListParam;
         this.titleList = titleListParam;
+        this.favoriteNumbersList = favoriteNumberListParam;
+        this.upVoteNumbersList = upVoteNumberListParam;
+        this.downVoteNumbersList = downVoteNumberListParam;
+        this.commentNumbersList= commentNumberListParam;
 
         author = new String[authorList.size()];
         datePost = new String[datePostList.size()];
         desc = new String[descList.size()];
         title = new String[titleList.size()];
+        favoriteNumbers = new Integer[favoriteNumbersList.size()];
+        upVoteNumbers = new Integer[upVoteNumbersList.size()];
+        downVoteNumbers = new Integer[downVoteNumbersList.size()];
+        commentNumbers = new Integer[commentNumbersList.size()];
 
         author = authorList.toArray(author);
         datePost = datePostList.toArray(datePost);
         desc = descList.toArray(desc);
         title = titleList.toArray(title);
+        favoriteNumbers = favoriteNumbersList.toArray(favoriteNumbers);
+        upVoteNumbers= upVoteNumbersList.toArray(upVoteNumbers);
+        downVoteNumbers= downVoteNumbersList.toArray(downVoteNumbers);
+        commentNumbers= commentNumbersList.toArray(commentNumbers);
     }
 
     @Override
@@ -81,6 +107,11 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         holder.tvContentPost.setText(desc[position]);
         holder.tvTitlePost.setText(title[position]);
         holder.tvDatePost.setText(datePost[position]);
+
+        holder.tvFavoriteNumbers.setText(Integer.toString(favoriteNumbers[position]));
+        holder.tvUpVoteNumbers.setText(Integer.toString(upVoteNumbers[position]));
+        holder.tvDownVoteNumbers.setText(Integer.toString(downVoteNumbers[position]));
+        holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Komentar");
 
         //holder.imageView.setImageDrawable(null);
 

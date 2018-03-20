@@ -67,7 +67,7 @@ public class MaterialsListPOJO {
         @SerializedName("type")
         @Expose
         private Integer type;
-        @SerializedName("post_by")
+        @SerializedName("type")
         @Expose
         private PostBy postBy;
         /*
