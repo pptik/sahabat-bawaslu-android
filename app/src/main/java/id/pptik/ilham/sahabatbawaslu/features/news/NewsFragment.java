@@ -50,6 +50,7 @@ public class NewsFragment extends Fragment {
     private List<Integer> numberFavorite = new ArrayList<Integer>();
     private List<Integer> numberUpvote = new ArrayList<Integer>();
     private List<Integer> numberDownvote = new ArrayList<Integer>();
+    private List<Integer> numberComments = new ArrayList<Integer>();
 
     ProgressDialog progressDialog;
 
@@ -97,10 +98,11 @@ public class NewsFragment extends Fragment {
                     numberFavorite.add(dashboardPOJO.getResults().get(item).getFavorite());
                     numberUpvote.add(dashboardPOJO.getResults().get(item).getUpvote());
                     numberDownvote.add(dashboardPOJO.getResults().get(item).getDownvote());
+                    numberComments.add(dashboardPOJO.getResults().get(item).getComment());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote
+                        numberUpvote,numberDownvote,numberComments
                         );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

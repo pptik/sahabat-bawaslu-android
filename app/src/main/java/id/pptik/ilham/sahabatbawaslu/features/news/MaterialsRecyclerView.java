@@ -31,6 +31,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<Integer> textNumberFavoriteList;
     private List<Integer> textNumberDownvoteList;
     private List<Integer> textNumberUpvoteList;
+    private List<Integer> textNumberCommentList;
     //Buat menentukan warna marker
     private List<String> contentTypeList;
 
@@ -42,7 +43,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             contentPost, userPictureProfile, contentType,
             contentText, activityText;
     private Integer[] textNumberFavorite,
-            textNumberDownvote, textNumberUpvote;
+            textNumberDownvote, textNumberUpvote,
+            textNumberComment;
+
 
 
     /*private String[] username = {"Asep","Jajang"};
@@ -54,7 +57,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView tvUsername, tvDatePost, tvTitlePost,
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
-                tvNumberFavorite, tvNumberDownvote, tvNumberUpvote;
+                tvNumberFavorite, tvNumberDownvote, tvNumberUpvote,
+                tvNumberComment;
         public ImageView ivUserpicture;
         public View viewLabelColorNews,viewLabelColorMaterial;
         public ImageView infoButton;
@@ -72,6 +76,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             tvNumberFavorite = (TextView)itemView.findViewById(R.id.text_number_favorite);
             tvNumberDownvote = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
             tvNumberUpvote = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
+            tvNumberComment = (TextView)itemView.findViewById(R.id.text_comments);
 
             viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
@@ -94,7 +99,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<String> contentTypeListParam,List<String> titlePostListParam,
                                  List<String> contentLabelListParam,List<String> activityLabelListParam,
                                  List<Integer> textNumberFavoriteListParam,List<Integer> textNumberUpvoteListParam,
-                                 List<Integer> textNumberDownvoteListParam) {
+                                 List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -107,6 +112,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.textNumberDownvoteList = textNumberDownvoteListParam;
         this.textNumberUpvoteList = textNumberUpvoteListParam;
         this.textNumberFavoriteList = textNumberFavoriteListParam;
+        this.textNumberCommentList = textNumberCommentListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -119,7 +125,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberFavorite = new Integer[textNumberFavoriteList.size()];
         textNumberUpvote = new Integer[textNumberUpvoteList.size()];
         textNumberDownvote = new Integer[textNumberDownvoteList.size()];
-
+        textNumberComment = new Integer[textNumberCommentList.size()];
 
         username = usernameList.toArray(username);
         datePost = datePostList.toArray(datePost);
@@ -132,6 +138,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberFavorite = textNumberFavoriteList.toArray(textNumberFavorite);
         textNumberUpvote = textNumberUpvoteList.toArray(textNumberUpvote);
         textNumberDownvote = textNumberDownvoteList.toArray(textNumberDownvote);
+        textNumberComment = textNumberDownvoteList.toArray(textNumberComment);
     }
 
     @Override
@@ -157,6 +164,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
+        holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
 
         //Menggunakan library Glide untuk menampilkan foto pengguna
         holder.ivUserpicture.setImageDrawable(null);

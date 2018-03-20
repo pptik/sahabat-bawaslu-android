@@ -85,6 +85,10 @@ public class DashboardPOJO {
         @Expose
         private int favorite;
 
+        @SerializedName("comment")
+        @Expose
+        private int comment;
+
         @SerializedName("created_at_from_now")
         @Expose
         private String createdAt;
@@ -123,6 +127,10 @@ public class DashboardPOJO {
 
         public int getFavorite() {
             return favorite;
+        }
+
+        public int getComment() {
+            return comment;
         }
 
         public String getCreatedAt() {
