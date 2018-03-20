@@ -67,7 +67,7 @@ public class MaterialsListPOJO {
         @SerializedName("type")
         @Expose
         private Integer type;
-        @SerializedName("type")
+        @SerializedName("post_by")
         @Expose
         private PostBy postBy;
         /*
@@ -162,7 +162,7 @@ public class MaterialsListPOJO {
         }
 
         public Integer getComment() {
-            return comment;
+            return upvote;
         }
 
         public Integer getFavorite() {

@@ -1,11 +1,10 @@
-package id.pptik.ilham.sahabatbawaslu.features.learning;
+package id.pptik.ilham.sahabatbawaslu.features.forum;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,14 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
-import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -29,7 +27,7 @@ import retrofit2.Response;
  * Created by Ilham on 15/03/18.
  */
 
-public class LearningFragment extends android.support.v4.app.Fragment {
+public class ForumFragment extends android.support.v4.app.Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -42,15 +40,16 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
+    private FloatingActionButton floatingActionButton;
 
-    public LearningFragment() {
+    public ForumFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_learning, container, false);
+        View view = inflater.inflate(R.layout.fragment_forum, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -84,7 +83,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                   comments.add(materialsListPOJO.getResults().get(materi).getComment());
                   favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,favorites,upVotes,downVotes,comments);
+                mAdapter = new ForumRecyclerView(authors,datePosts,descs,titles,favorites,upVotes,downVotes,comments);
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

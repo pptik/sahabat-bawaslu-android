@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.forum.ForumFragment;
 import id.pptik.ilham.sahabatbawaslu.features.learning.LearningFragment;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 
@@ -47,7 +48,7 @@ import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
 
     private Context context;
-    public int[] titleIcon = {R.drawable.ic_news,R.drawable.ic_book_shelf,R.drawable.ic_talk_balloon};
+    public int[] titleIcon = {R.drawable.ic_news,R.drawable.ic_book_white_24dp,R.drawable.ic_forum_white_24dp};
     private int tinggiIcon;
 
     public SlidingTabsBasicFragment(FragmentManager fm, Context c) {
@@ -68,7 +69,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         } else if (position == 1) {
             fragment = new LearningFragment();
         } else if (position == 2) {
-            fragment = new NewsFragment();
+            fragment = new ForumFragment();
         }
 
         //Bundle b = new Bundle();

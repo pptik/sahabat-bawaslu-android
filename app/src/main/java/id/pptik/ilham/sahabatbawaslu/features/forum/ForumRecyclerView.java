@@ -1,13 +1,11 @@
-package id.pptik.ilham.sahabatbawaslu.features.learning;
+package id.pptik.ilham.sahabatbawaslu.features.forum;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -16,7 +14,7 @@ import id.pptik.ilham.sahabatbawaslu.R;
  * Created by Ilham on 15/03/18.
  */
 
-public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerView.ViewHolder> {
+public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.ViewHolder> {
 
     private List<Integer> materialTypeList;
     private List<String> datePostList;
@@ -57,10 +55,10 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         }
     }
 
-    public LearningRecyclerView(List<Integer> materialTypeListParam, List<String> datePostListParam,
-                                List<String> descriptionListParam, List<String> titleListParam,
-                                List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
-                                List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
+    public ForumRecyclerView(List<Integer> materialTypeListParam, List<String> datePostListParam,
+                             List<String> descriptionListParam, List<String> titleListParam,
+                             List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
+                             List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
 
         this.materialTypeList = materialTypeListParam;
         this.datePostList = datePostListParam;
