@@ -37,156 +37,164 @@ public class DashboardPOJO {
     }
 
     public class Results{
-        @SerializedName("_id")
+        @SerializedName("dashboard")
         @Expose
-        private String id;
+        private Dashboard dashboard;
 
-        @SerializedName("title")
-        @Expose
-        private String title;
-
-        @SerializedName("desc")
-        @Expose
-        private String desc;
-
-        @SerializedName("synopsis")
-        @Expose
-        private String synopsis;
-
-        @SerializedName("content_code")
-        @Expose
-        private Integer content_code;
-
-        @SerializedName("post_by")
-        @Expose
-        private PostBy postBy;
-
-        @SerializedName("user_detail")
-        @Expose
-        private UserDetail userDetail;
-
-        @SerializedName("activity_text")
-        @Expose
-        private String activityText;
-
-        @SerializedName("content_text")
-        @Expose
-        private String contentText;
-
-        @SerializedName("upvote")
-        @Expose
-        private int upvote;
-
-        @SerializedName("downvote")
-        @Expose
-        private int downvote;
-
-        @SerializedName("favorite")
-        @Expose
-        private int favorite;
-
-        @SerializedName("comment")
-        @Expose
-        private int comment;
-
-        @SerializedName("created_at_from_now")
-        @Expose
-        private String createdAt;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-        public String getSynopsis() {
-            return synopsis;
-        }
-
-        public Integer getContent_code() {
-            return content_code;
-        }
-
-        public String getActivityText() {
-            return activityText;
-        }
-
-        public String getContentText() {
-            return contentText;
-        }
-
-        public int getUpvote() {
-            return upvote;
-        }
-
-        public int getDownvote() {
-            return downvote;
-        }
-
-        public int getFavorite() {
-            return favorite;
-        }
-
-        public int getComment() {
-            return comment;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public PostBy getPostBy() {
-            return postBy;
-        }
-
-        public UserDetail getUserDetail() {
-            return userDetail;
-        }
-
-        public void setPostBy(PostBy postBy) {
-            this.postBy = postBy;
-        }
-
-        public class UserDetail {
-            @SerializedName("display_picture")
+        public class Dashboard {
+            @SerializedName("_id")
             @Expose
-            private String displayPicture;
+            private String id;
 
-            public String getDisplayPicture() {
-                return displayPicture;
+            @SerializedName("title")
+            @Expose
+            private String title;
+
+            @SerializedName("desc")
+            @Expose
+            private String desc;
+
+            @SerializedName("synopsis")
+            @Expose
+            private String synopsis;
+
+            @SerializedName("content_code")
+            @Expose
+            private Integer content_code;
+
+            @SerializedName("post_by")
+            @Expose
+            private PostBy postBy;
+
+            @SerializedName("user_detail")
+            @Expose
+            private UserDetail userDetail;
+
+            @SerializedName("activity_text")
+            @Expose
+            private String activityText;
+
+            @SerializedName("content_text")
+            @Expose
+            private String contentText;
+
+            @SerializedName("upvote")
+            @Expose
+            private int upvote;
+
+            @SerializedName("downvote")
+            @Expose
+            private int downvote;
+
+            @SerializedName("favorite")
+            @Expose
+            private int favorite;
+
+            @SerializedName("comment")
+            @Expose
+            private int comment;
+
+            @SerializedName("created_at_from_now")
+            @Expose
+            private String createdAt;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public String getDesc() {
+                return desc;
+            }
+
+            public String getSynopsis() {
+                return synopsis;
+            }
+
+            public Integer getContent_code() {
+                return content_code;
+            }
+
+            public String getActivityText() {
+                return activityText;
+            }
+
+            public String getContentText() {
+                return contentText;
+            }
+
+            public int getUpvote() {
+                return upvote;
+            }
+
+            public int getDownvote() {
+                return downvote;
+            }
+
+            public int getFavorite() {
+                return favorite;
+            }
+
+            public int getComment() {
+                return comment;
+            }
+
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public PostBy getPostBy() {
+                return postBy;
+            }
+
+            public UserDetail getUserDetail() {
+                return userDetail;
+            }
+
+            public void setPostBy(PostBy postBy) {
+                this.postBy = postBy;
+            }
+
+            public class UserDetail {
+                @SerializedName("display_picture")
+                @Expose
+                private String displayPicture;
+
+                public String getDisplayPicture() {
+                    return displayPicture;
+                }
+            }
+
+            public class PostBy {
+
+                @SerializedName("user_id")
+                @Expose
+                private String userId;
+                @SerializedName("username")
+                @Expose
+                private String username;
+
+                public String getUserId() {
+                    return userId;
+                }
+
+                public void setUserId(String userId) {
+                    this.userId = userId;
+                }
+
+                public String getUsername() {
+                    return username;
+                }
+
+                public void setUsername(String username) {
+                    this.username = username;
+                }
+
             }
         }
 
-        public class PostBy {
-
-            @SerializedName("user_id")
-            @Expose
-            private String userId;
-            @SerializedName("username")
-            @Expose
-            private String username;
-
-            public String getUserId() {
-                return userId;
-            }
-
-            public void setUserId(String userId) {
-                this.userId = userId;
-            }
-
-            public String getUsername() {
-                return username;
-            }
-
-            public void setUsername(String username) {
-                this.username = username;
-            }
-
+        public Dashboard getDashboard() {
+            return dashboard;
         }
-
-
     }
 
 

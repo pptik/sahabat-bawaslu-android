@@ -87,18 +87,18 @@ public class NewsFragment extends Fragment {
             public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
                 DashboardPOJO dashboardPOJO = response.body();
                 for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
-                    username.add(dashboardPOJO.getResults().get(item).getPostBy().getUsername());
-                    datePost.add(dashboardPOJO.getResults().get(item).getCreatedAt());
-                    titlePost.add(dashboardPOJO.getResults().get(item).getTitle());
-                    contentPost.add(dashboardPOJO.getResults().get(item).getSynopsis());
-                    userPicturePost.add(dashboardPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
-                    contentLabel.add(dashboardPOJO.getResults().get(item).getContentText());
-                    activityLabel.add(dashboardPOJO.getResults().get(item).getActivityText());
-                    contentType.add(dashboardPOJO.getResults().get(item).getContent_code().toString());
-                    numberFavorite.add(dashboardPOJO.getResults().get(item).getFavorite());
-                    numberUpvote.add(dashboardPOJO.getResults().get(item).getUpvote());
-                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDownvote());
-                    numberComments.add(dashboardPOJO.getResults().get(item).getComment());
+                    username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                    datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                    titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                    contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                    userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                    contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                    activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                    contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                    numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                    numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                    numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
