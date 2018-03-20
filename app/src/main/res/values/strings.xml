@@ -12,6 +12,7 @@
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
+    <string name="username_activity_label">membuat materi</string>
     <string name="date_label">12 Februari 2018</string>
     <string name="courtesy">oleh</string>
     <string name="material_author_label">Achmad</string>

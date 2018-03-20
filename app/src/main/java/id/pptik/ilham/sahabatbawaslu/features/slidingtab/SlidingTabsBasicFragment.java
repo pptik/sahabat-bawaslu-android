@@ -55,7 +55,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
 
         context = c;
         double scale = c.getResources().getDisplayMetrics().density;
-        tinggiIcon = (int)(30 * scale + 0.5f);
+        tinggiIcon = (int)(24 * scale + 0.5f);
 
     }
 

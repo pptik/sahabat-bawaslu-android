@@ -58,7 +58,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         public TextView tvUsername, tvDatePost, tvTitlePost,
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
                 tvNumberFavorite, tvNumberDownvote, tvNumberUpvote,
-                tvNumberComment;
+                tvNumberComment, tvActivityUsername;
         public ImageView ivUserpicture;
         public View viewLabelColorNews,viewLabelColorMaterial;
         public ImageView infoButton;
@@ -77,6 +77,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             tvNumberDownvote = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
             tvNumberUpvote = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
             tvNumberComment = (TextView)itemView.findViewById(R.id.text_comments);
+            tvActivityUsername = (TextView)itemView.findViewById(R.id.activity_username);
 
             viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
@@ -161,6 +162,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvContentCode.setText(contentType[position]);
         holder.tvContentLabel.setText(contentText[position]);
         holder.tvActivityLabel.setText(activityText[position]);
+        holder.tvActivityUsername.setText(activityText[position].toLowerCase()+" "+contentText[position].toLowerCase());
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
@@ -174,10 +176,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         //holder.viewLabelColor.setBackgroundColor(R.drawable.gradient_color);
         switch (contentType[position]){
             case "1":
-                holder.viewLabelColorMaterial.setVisibility(View.VISIBLE);
+                //holder.viewLabelColorMaterial.setVisibility(View.VISIBLE);
                 ;break;
             case "2":
-                holder.viewLabelColorNews.setVisibility(View.VISIBLE);
+                //holder.viewLabelColorNews.setVisibility(View.VISIBLE);
                 ;break;
         }
 
