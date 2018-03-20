@@ -47,7 +47,7 @@ import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
 
     private Context context;
-    public int[] titleIcon = {R.drawable.ic_chrome_reader_mode_white_24dp,R.drawable.ic_turned_in_white_24dp,R.drawable.ic_forum_white_24dp};
+    public int[] titleIcon = {R.drawable.ic_news,R.drawable.ic_book_shelf,R.drawable.ic_talk_balloon};
     private int tinggiIcon;
 
     public SlidingTabsBasicFragment(FragmentManager fm, Context c) {
@@ -55,7 +55,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
 
         context = c;
         double scale = c.getResources().getDisplayMetrics().density;
-        tinggiIcon = (int)(24 * scale + 0.5f);
+        tinggiIcon = (int)(30 * scale + 0.5f);
 
     }
 
@@ -68,7 +68,7 @@ public class SlidingTabsBasicFragment extends FragmentPagerAdapter {
         } else if (position == 1) {
             fragment = new LearningFragment();
         } else if (position == 2) {
-            fragment = new LearningFragment();
+            fragment = new NewsFragment();
         }
 
         //Bundle b = new Bundle();
