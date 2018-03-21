@@ -36,9 +36,9 @@
     </array>
 
     <array name="array_dot_inactive">
-        <item>@color/abu</item>
-        <item>@color/abu</item>
-        <item>@color/abu</item>
-        <item>@color/abu</item>
+        <item>@color/awan</item>
+        <item>@color/awan</item>
+        <item>@color/awan</item>
+        <item>@color/awan</item>
     </array>
 </resources>

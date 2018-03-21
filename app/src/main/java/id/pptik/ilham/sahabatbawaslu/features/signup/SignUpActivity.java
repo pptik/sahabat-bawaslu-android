@@ -104,7 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignUpPOJO> call, Response<SignUpPOJO> response) {
                 SignUpPOJO signUpPOJO = response.body();
-                Log.d("SIGNUPREQUEST","A: "+signUpPOJO.getRc());
+                /*Log.d("SIGNUPREQUEST","A: "+signUpPOJO.getRc());
+                Toast.makeText(SignUpActivity.this, "A: "+signUpPOJO.getRc(), Toast.LENGTH_SHORT).show();*/
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
 
