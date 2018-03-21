@@ -45,7 +45,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 tvFavoriteNumbers;
         public View view,separator;
         public ImageView buttonComment;
-        public LinearLayout linearLayout;
+        public LinearLayout secondaryContent,secondaryContentSuplemen;
 
 
         public ViewHolder(View itemView) {
@@ -59,8 +59,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
             tvCommentNumbers = (TextView)itemView.findViewById(R.id.text_comments);
             tvFavoriteNumbers = (TextView)itemView.findViewById(R.id.text_number_favorite);
             separator = (View)itemView.findViewById(R.id.separator);
-            linearLayout = (LinearLayout)itemView.findViewById(R.id.secondary_content);
-            buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
+            secondaryContent = (LinearLayout)itemView.findViewById(R.id.secondary_content);
+            secondaryContentSuplemen = (LinearLayout)itemView.findViewById(R.id.secondary_content_suplemen);
+            //buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
         }
     }
 
@@ -113,7 +114,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
             case 0:
                 holder.tvMaterialType.setText("suplemen");
                 holder.tvCommentNumbers.setVisibility(View.INVISIBLE);
-                holder.buttonComment.setVisibility(View.INVISIBLE);
+                holder.secondaryContent.setVisibility(View.INVISIBLE);
+                holder.secondaryContentSuplemen.setVisibility(View.VISIBLE);
+                //holder.buttonComment.setVisibility(View.INVISIBLE);
                 ;break;
             case 1:
                 holder.tvMaterialType.setText("kasus");
