@@ -84,7 +84,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                   comments.add(materialsListPOJO.getResults().get(materi).getComment());
                   favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,favorites,upVotes,downVotes,comments);
+                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                        favorites,upVotes,downVotes,comments,getActivity());
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

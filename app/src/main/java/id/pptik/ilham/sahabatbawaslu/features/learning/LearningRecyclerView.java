@@ -1,5 +1,8 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +11,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.forum.AddForumActivity;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -32,6 +39,8 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     private String[]  datePost, desc, title;
     private Integer[] favoriteNumbers, upVoteNumbers, downVoteNumbers,
                      commentNumbers,materialType;
+
+   private  Activity activity;
 
     /*private String[] author = {"Tono","Budi","Jaka"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018","12 Maret 2018"};
@@ -68,8 +77,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
     public LearningRecyclerView(List<Integer> materialTypeListParam, List<String> datePostListParam,
                                 List<String> descriptionListParam, List<String> titleListParam,
                                 List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
-                                List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
-
+                                List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam,
+                                Activity activity) {
+        this.activity = activity;
         this.materialTypeList = materialTypeListParam;
         this.datePostList = datePostListParam;
         this.descList = descriptionListParam;
@@ -107,6 +117,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -135,18 +146,15 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         holder.tvDownVoteNumbers.setText(Integer.toString(downVoteNumbers[position]));
         holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Komentar");
 
-        //holder.imageView.setImageDrawable(null);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
+                v.getContext().startActivity(intent);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
 
-        /*Glide
-                .with(holder.imageView.getContext())
-                .load(cover[position])
-                .crossFade()
-                .placeholder(R.drawable.loading)
-                .into(holder.imageView);
-
-        if(judul.length == (position+1)){
-            holder.view.setVisibility(View.GONE);
-        }*/
 
     }
 
