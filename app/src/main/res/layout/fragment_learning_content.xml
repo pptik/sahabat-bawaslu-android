@@ -140,6 +140,7 @@
             />
     </LinearLayout>
     <View
+        android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/awan"></View>

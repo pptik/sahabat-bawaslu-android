@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,7 +43,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         public TextView tvMaterialType, tvDatePost, tvTitlePost, tvContentPost,
                 tvUpVoteNumbers, tvDownVoteNumbers, tvCommentNumbers,
                 tvFavoriteNumbers;
-        public View view;
+        public View view,separator;
+        public ImageView buttonComment;
+        public LinearLayout linearLayout;
 
 
         public ViewHolder(View itemView) {
@@ -54,6 +58,9 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
             tvDownVoteNumbers = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
             tvCommentNumbers = (TextView)itemView.findViewById(R.id.text_comments);
             tvFavoriteNumbers = (TextView)itemView.findViewById(R.id.text_number_favorite);
+            separator = (View)itemView.findViewById(R.id.separator);
+            linearLayout = (LinearLayout)itemView.findViewById(R.id.secondary_content);
+            buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
         }
     }
 
@@ -105,6 +112,8 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         switch (materialType[position]){
             case 0:
                 holder.tvMaterialType.setText("suplemen");
+                holder.tvCommentNumbers.setVisibility(View.INVISIBLE);
+                holder.buttonComment.setVisibility(View.INVISIBLE);
                 ;break;
             case 1:
                 holder.tvMaterialType.setText("kasus");

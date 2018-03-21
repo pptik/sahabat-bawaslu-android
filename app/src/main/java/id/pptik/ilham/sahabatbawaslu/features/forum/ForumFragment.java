@@ -46,7 +46,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
-    @BindView(R.id.fab)FloatingActionButton floatingActionButton;
+    //private FloatingActionButton floatingActionButton;
 
     public ForumFragment() {
     }
@@ -56,6 +56,17 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
+        /*floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });*/
+
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -100,15 +111,6 @@ public class ForumFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        ButterKnife.bind(getActivity());
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });
 
         return view;
 
