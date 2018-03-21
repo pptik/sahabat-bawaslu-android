@@ -32,15 +32,14 @@ public interface RestServiceInterface {
                                @Field("password") String password, @Field("app_id") Integer app_id);
 
 
-    @Headers({
+    /*@Headers({
             "Content-Type: application/x-www-form-urlencoded",
-    })
+    })*/
     @FormUrlEncoded
     @POST("users/simple/signup")
     Call<SignUpPOJO> userSignUp(@Field("Username") String username, @Field("PhoneNumber") String phone_number,
                                @Field("Email") String email, @Field("Password") String password,
                                 @Field("ReferenceCode") String reference_code,
-                                @Field("Referenced") Boolean referenced,
                                 @Field("SignupType") int signup_type);
 
 

@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(RestServiceClass.isNetworkAvailable(SignUpActivity.this)){
                     signup(activitySignUpBinding.getUser().getEmail(),activitySignUpBinding.getUser().getPassword(),
                             activitySignUpBinding.getUser().getUsername(),activitySignUpBinding.getUser().getPhoneNumber(),
-                            activitySignUpBinding.getUser().getReferenceCode(),true,1);
+                            activitySignUpBinding.getUser().getReferenceCode(),1);
                 }else{
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
@@ -95,20 +95,22 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void signup(final String email, final String password, final String username,
                         final String no_handphone, final String kode_referensi,
-                        final Boolean status_referensi, final int signup_type){
+                        final int signup_type){
 
         Call<SignUpPOJO> callSignUp = restServiceInterface.userSignUp(username,no_handphone,
-                email,password,kode_referensi,status_referensi, signup_type);
+                email,password,kode_referensi, signup_type);
         callSignUp.enqueue(new Callback<SignUpPOJO>() {
 
             @Override
             public void onResponse(Call<SignUpPOJO> call, Response<SignUpPOJO> response) {
+                SignUpPOJO signUpPOJO = response.body();
+                Log.d("SIGNUPREQUEST","A: "+signUpPOJO.getRc());
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
 
-                SignUpPOJO signUpPOJO = response.body();
+
                 if (signUpPOJO != null){
-                    if (signUpPOJO.getRc().toString().equals("0000")){
+                    if (signUpPOJO.getRc().equals("0000")){
                         finish();
                         Intent intent = new Intent(SignUpActivity.this, IntroActivity.class);
                         startActivity(intent);
