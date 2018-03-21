@@ -149,7 +149,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
+                Intent intent = new Intent(v.getContext(), MaterialDetailActivity.class);
                 v.getContext().startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
