@@ -125,7 +125,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Query pencarian materi berdasarkan teks
-                Toast.makeText(getContext(), "KEYWORD: "+query, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "LEARNING: "+query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
