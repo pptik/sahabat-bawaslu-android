@@ -48,11 +48,17 @@ public interface RestServiceInterface {
     Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip, @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("material/search/title")
+    Call<MaterialsListPOJO> materialsSearchTitle(@Field("Skip") int skip,
+                                                 @Field("SearchString") String search_string, @Header("access_token") String access_token);
+
+    @FormUrlEncoded
     @POST("dashboard")
     Call<DashboardPOJO> dashboard(@Field("Skip") int skip, @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("dashboard/search/title")
-    Call<DashboardPOJO> dashboardSearchTitle(@Field("Skip") int skip,@Field("SearchString") String search_string, @Header("access_token") String access_token);
+    Call<DashboardPOJO> dashboardSearchTitle(@Field("Skip") int skip,
+                                             @Field("SearchString") String search_string, @Header("access_token") String access_token);
 
 }

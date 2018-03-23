@@ -162,11 +162,6 @@ public class NewsFragment extends Fragment {
                         numberDownvote.clear();
                         numberComments.clear();
 
-                        /*mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                                userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                                numberUpvote,numberDownvote,numberComments
-                        );*/
-
                         DashboardPOJO dashboardPOJO = response.body();
 
                         for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){

@@ -125,7 +125,49 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Query pencarian materi berdasarkan teks
-                Toast.makeText(getContext(), "LEARNING: "+query, Toast.LENGTH_SHORT).show();
+
+                restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+                Call<MaterialsListPOJO> callMaterialsSearchTitle = restServiceInterface.materialsSearchTitle(0,query,access_token);
+                callMaterialsSearchTitle.enqueue(new Callback<MaterialsListPOJO>() {
+                    @Override
+                    public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+
+                        //Mengosongkan recycle material yang sudah diisi
+                        authors.clear();
+                        datePosts.clear();
+                        descs.clear();
+                        titles.clear();
+                        favorites.clear();
+                        upVotes.clear();
+                        downVotes.clear();
+                        comments.clear();
+
+                        MaterialsListPOJO materialsListPOJO = response.body();
+                        for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                            authors.add(materialsListPOJO.getResults().get(materi).getType());
+                            datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                            descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                            titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                            upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                            downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                            comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                            favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                        }
+                        mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                                favorites,upVotes,downVotes,comments,getActivity());
+                        mAdapter.notifyDataSetChanged();
+                        mRecyclerView.setAdapter(mAdapter);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+
+                    }
+                });
                 return false;
             }
 
