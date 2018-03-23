@@ -26,8 +26,10 @@ import java.util.List;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -185,13 +187,16 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         View view = getActivity().findViewById(R.id.action_more);
         switch (item.getItemId()){
             case R.id.action_more:
-                popUpMenu(view);
+                popUpMoreMenu(view);
+                return true;
+            case R.id.sort:
+                popUpSortMenu(view);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void popUpMenu(View view){
+    public void popUpMoreMenu(View view){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
@@ -225,5 +230,72 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         popupMenu.show();
     }
 
+    public void popUpSortMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupsortmaterialcontent,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.pop_up_sort_kasus:
+                        sortByCategoryREST(1);
+                        return true;
+                    case R.id.pop_up_sort_suplemen:
+                        sortByCategoryREST(0);
+                        return true;
+                    case R.id.pop_up_sort_video:
+                        sortByCategoryREST(2);
+                        return true;
+                    default:return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void sortByCategoryREST(int code) {
+        //Ambil Data dari Networking REST
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        Call<MaterialsListPOJO> materialsListPOJOCall = restServiceInterface.materialsSortBy(0,code,access_token);
+        materialsListPOJOCall.enqueue(new Callback<MaterialsListPOJO>() {
+            @Override
+            public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                //Mengosongkan recycle material yang sudah diisi
+                authors.clear();
+                datePosts.clear();
+                descs.clear();
+                titles.clear();
+                favorites.clear();
+                upVotes.clear();
+                downVotes.clear();
+                comments.clear();
+
+                MaterialsListPOJO materialsListPOJO = response.body();
+                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                    authors.add(materialsListPOJO.getResults().get(materi).getType());
+                    datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                    descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                    titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                    upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                    downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                    comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                    favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                }
+                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                        favorites,upVotes,downVotes,comments,getActivity());
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

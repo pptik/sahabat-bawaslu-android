@@ -63,5 +63,8 @@
     <string name="sort_downvote">Urutkan berdasarkan jumlah downvote</string>
     <string name="sort_favorite">Urutkan berdasarkan jumlah favorite</string>
     <string name="sort_comment">Urutkan berdasarkan jumlah komen</string>
+    <string name="sort_suplemen">Urutkan berdasarkan materi suplemen</string>
+    <string name="sort_kasus">Urutkan berdasarkan materi kasus</string>
+    <string name="sort_video">Urutkan berdasarkan materi video</string>
     <string name="angka_dummy">1</string>
 </resources>

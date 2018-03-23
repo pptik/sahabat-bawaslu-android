@@ -53,6 +53,11 @@ public interface RestServiceInterface {
                                                  @Field("SearchString") String search_string, @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("material/filter/content")
+    Call<MaterialsListPOJO> materialsSortBy(@Field("Skip") int skip,
+                                                 @Field("Type") int sort_type, @Header("access_token") String access_token);
+
+    @FormUrlEncoded
     @POST("dashboard")
     Call<DashboardPOJO> dashboard(@Field("Skip") int skip, @Header("access_token") String access_token);
 
