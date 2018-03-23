@@ -28,7 +28,8 @@
         <activity android:name=".features.notification.NotificationActivity" />
         <activity android:name=".features.forum.AddForumActivity" />
         <activity android:name=".features.learning.SuplemenMaterialDetailActivity" />
-        <activity android:name=".features.news.AddNewsActivity"></activity>
+        <activity android:name=".features.news.AddNewsActivity" />
+        <activity android:name=".features.gamification.LeaderboardActivity"></activity>
     </application>
 
 </manifest>
