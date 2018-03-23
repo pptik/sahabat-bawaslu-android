@@ -1,24 +1,34 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -26,6 +36,8 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.SEARCH_SERVICE;
 
 /**
  * Created by Ilham on 12/03/18.
@@ -51,11 +63,13 @@ public class NewsFragment extends Fragment {
     private List<Integer> numberUpvote = new ArrayList<Integer>();
     private List<Integer> numberDownvote = new ArrayList<Integer>();
     private List<Integer> numberComments = new ArrayList<Integer>();
+    SharedPreferences sharedPreferences;
 
     ProgressDialog progressDialog;
 
     public NewsFragment() {
         // Required empty public constructor
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -118,5 +132,73 @@ public class NewsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.newssearchmenu,menu);
 
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getContext().getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Query pencarian materi berdasarkan teks
+                Toast.makeText(getContext(), "KEYWORD: "+query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        View view = getActivity().findViewById(R.id.action_more);
+        switch (item.getItemId()){
+            case R.id.action_more:
+                popUpMenu(view);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void popUpMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.pop_up_notifikasi:
+                        Intent intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_edit_profile_slidingtab:
+                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.pop_up_log_out_slidingtab:
+                        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent2 = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent2);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        return true;
+                    default:return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
 }
