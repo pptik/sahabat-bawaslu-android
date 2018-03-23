@@ -30,6 +30,7 @@ import java.util.List;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
+import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -74,6 +75,7 @@ public class NewsFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +85,10 @@ public class NewsFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Tambah berita!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Tambah berita!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), AddNewsActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
