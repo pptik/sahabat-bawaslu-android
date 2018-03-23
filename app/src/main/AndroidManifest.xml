@@ -26,8 +26,9 @@
         <activity android:name=".features.dashboard.DashboardActivity" />
         <activity android:name=".intro.IntroActivity" />
         <activity android:name=".features.notification.NotificationActivity" />
-        <activity android:name=".features.forum.AddForumActivity"></activity>
-        <activity android:name=".features.learning.SuplemenMaterialDetailActivity"></activity>
+        <activity android:name=".features.forum.AddForumActivity" />
+        <activity android:name=".features.learning.SuplemenMaterialDetailActivity" />
+        <activity android:name=".features.news.AddNewsActivity"></activity>
     </application>
 
 </manifest>
