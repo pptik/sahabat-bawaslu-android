@@ -61,4 +61,10 @@ public interface RestServiceInterface {
     Call<DashboardPOJO> dashboardSearchTitle(@Field("Skip") int skip,
                                              @Field("SearchString") String search_string, @Header("access_token") String access_token);
 
+    @FormUrlEncoded
+    @POST("dashboard/sort/by")
+    Call<DashboardPOJO> dashboardSortBy(@Field("Skip") int skip,
+                                             @Field("SortType") int sort_type,
+                                        @Header("access_token") String access_token);
+
 }
