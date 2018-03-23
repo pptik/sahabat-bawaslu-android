@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private FloatingActionButton floatingActionButton;
     /*List<String> dataSetJudulMateri = new ArrayList<>();
     List<String> dataSetCoverMateri = new ArrayList<>();
     List<Integer> dataSetSubJudulMateri = new ArrayList<>();*/
@@ -77,6 +79,14 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_berita);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Tambah berita!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
