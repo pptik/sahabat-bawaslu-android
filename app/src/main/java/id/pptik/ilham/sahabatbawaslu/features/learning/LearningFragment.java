@@ -1,20 +1,24 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
-import android.app.Fragment;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -24,6 +28,8 @@ import retrofit2.Call;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.SEARCH_SERVICE;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -44,6 +50,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> comments = new ArrayList<Integer>();
 
     public LearningFragment() {
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -98,6 +105,35 @@ public class LearningFragment extends android.support.v4.app.Fragment {
 
 
         return view;
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.learningsearchmenu,menu);
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getContext().getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getContext(), "KEYWORD: "+query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
     }
 }

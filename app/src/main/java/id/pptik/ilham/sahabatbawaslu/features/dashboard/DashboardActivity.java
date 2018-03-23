@@ -107,42 +107,12 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
 
     }
 
-
-    public void popUpMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(this,view);
-        MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(this);
-        popupMenu.show();
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        View view = findViewById(R.id.action_more);
-        switch (item.getItemId()){
-            /*case R.id.action_notification:
-                //Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
-                //popUpMenu(view);
-                Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-                return true;*/
-            case R.id.action_more:
-                //Toast.makeText(this, "Whoaaaa", Toast.LENGTH_SHORT).show();
-                popUpMenu(view);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.slidingtab, menu);
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
+        /*final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
@@ -157,8 +127,35 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
+        });*/
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        /*View view = findViewById(R.id.action_more);
+        switch (item.getItemId()){
+            case R.id.action_notification:
+                //Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
+                //popUpMenu(view);
+                Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                return true;
+            case R.id.action_more:
+                popUpMenu(view);
+                return true;
+        }*/
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void popUpMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.show();
     }
 
     @Override
@@ -186,4 +183,6 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
             default:return false;
         }
     }
+
+
 }

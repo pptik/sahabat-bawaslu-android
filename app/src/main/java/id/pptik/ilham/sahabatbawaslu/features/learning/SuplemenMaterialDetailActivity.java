@@ -12,13 +12,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 
-public class MaterialDetailActivity extends AppCompatActivity {
+public class SuplemenMaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_material_detail);
+        setContentView(R.layout.activity_suplemen_material_detail);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

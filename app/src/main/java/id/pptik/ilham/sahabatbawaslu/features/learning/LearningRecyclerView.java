@@ -1,25 +1,18 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
-import id.pptik.ilham.sahabatbawaslu.features.forum.AddForumActivity;
-import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
-import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -149,7 +142,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MaterialDetailActivity.class);
+                Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                 v.getContext().startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

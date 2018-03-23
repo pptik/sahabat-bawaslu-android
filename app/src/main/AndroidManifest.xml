@@ -27,7 +27,7 @@
         <activity android:name=".intro.IntroActivity" />
         <activity android:name=".features.notification.NotificationActivity" />
         <activity android:name=".features.forum.AddForumActivity"></activity>
-        <activity android:name=".features.learning.MaterialDetailActivity"></activity>
+        <activity android:name=".features.learning.SuplemenMaterialDetailActivity"></activity>
     </application>
 
 </manifest>
