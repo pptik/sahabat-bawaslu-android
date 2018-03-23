@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.features.learning;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,12 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
+import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
@@ -48,6 +53,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
+    SharedPreferences sharedPreferences;
 
     public LearningFragment() {
         setHasOptionsMenu(true);
@@ -118,6 +124,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                //Query pencarian materi berdasarkan teks
                 Toast.makeText(getContext(), "KEYWORD: "+query, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -133,7 +140,48 @@ public class LearningFragment extends android.support.v4.app.Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        View view = getActivity().findViewById(R.id.action_more);
+        switch (item.getItemId()){
+            case R.id.action_more:
+                popUpMenu(view);
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+    public void popUpMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.pop_up_notifikasi:
+                        Intent intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_edit_profile_slidingtab:
+                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.pop_up_log_out_slidingtab:
+                        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent2 = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent2);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        return true;
+                    default:return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+
 }

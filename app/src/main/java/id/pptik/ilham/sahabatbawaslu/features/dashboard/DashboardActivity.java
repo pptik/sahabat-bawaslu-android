@@ -112,50 +112,13 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.slidingtab, menu);
 
-        /*final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(DashboardActivity.this, "KEYWORD: "+query, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });*/
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*View view = findViewById(R.id.action_more);
-        switch (item.getItemId()){
-            case R.id.action_notification:
-                //Toast.makeText(this, "Notifikasi menu dipilih!", Toast.LENGTH_SHORT).show();
-                //popUpMenu(view);
-                Intent intent = new Intent(DashboardActivity.this, NotificationActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                return true;
-            case R.id.action_more:
-                popUpMenu(view);
-                return true;
-        }*/
         return super.onOptionsItemSelected(item);
-    }
-
-    public void popUpMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(this,view);
-        MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(this);
-        popupMenu.show();
     }
 
     @Override
