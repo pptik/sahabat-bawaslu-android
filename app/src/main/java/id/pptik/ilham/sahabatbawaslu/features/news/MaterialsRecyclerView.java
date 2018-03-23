@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -39,13 +40,18 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> contentTextList;
     private List<String> activityTextList;
 
+    private List<Boolean> statusUpvoteList;
+    private List<Boolean> statusDownvoteList;
+    private List<Boolean> statusFavoriteList;
+
     private String[] username, datePost, titlePost,
             contentPost, userPictureProfile, contentType,
             contentText, activityText;
     private Integer[] textNumberFavorite,
             textNumberDownvote, textNumberUpvote,
             textNumberComment;
-
+    private Boolean[] statusUpvote, statusDownvote,
+            statusFavorite;
 
 
     /*private String[] username = {"Asep","Jajang"};
@@ -59,11 +65,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
                 tvNumberFavorite, tvNumberDownvote, tvNumberUpvote,
                 tvNumberComment, tvActivityUsername;
-        public ImageView ivUserpicture;
+        public ImageView ivUserpicture,buttonUpvote,
+                buttonDownvote, buttonFavorite, buttonComment,
+                infoButton;
         public View viewLabelColorNews,viewLabelColorMaterial;
-        public ImageView infoButton;
         public static Snackbar snackbar;
-        public Button buttonUpvote, buttonDownvote, buttonFavorite, buttonComment;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tvUsername = (TextView)itemView.findViewById(R.id.username);
@@ -85,10 +92,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
             infoButton = (ImageView) itemView.findViewById(R.id.info_button_content_activity);
 
-            buttonUpvote = (Button) itemView.findViewById(R.id.button_upvote);
-            buttonDownvote = (Button) itemView.findViewById(R.id.button_downvote);
-            buttonFavorite = (Button) itemView.findViewById(R.id.button_favorite);
-            buttonComment = (Button) itemView.findViewById(R.id.button_comment);
+            buttonUpvote = (ImageView) itemView.findViewById(R.id.button_upvote);
+            buttonDownvote = (ImageView) itemView.findViewById(R.id.button_downvote);
+            buttonFavorite = (ImageView) itemView.findViewById(R.id.button_favorite);
+            buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
 
         }
     }
@@ -99,8 +106,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<String> contentLabelListParam,List<String> activityLabelListParam,
                                  List<Integer> textNumberFavoriteListParam,List<Integer> textNumberUpvoteListParam,
                                  List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam,
-                                 List<Boolean> statusUpvotes, List<Boolean> statusDownvotes,
-                                 List<Boolean> statusFavorites) {
+                                 List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
+                                 List<Boolean> statusFavoritesParam) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -114,6 +121,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.textNumberUpvoteList = textNumberUpvoteListParam;
         this.textNumberFavoriteList = textNumberFavoriteListParam;
         this.textNumberCommentList = textNumberCommentListParam;
+        this.statusUpvoteList =  statusUpvotesParam;
+        this.statusDownvoteList =  statusDownvotesParam;
+        this.statusFavoriteList=  statusFavoritesParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -127,6 +137,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberUpvote = new Integer[textNumberUpvoteList.size()];
         textNumberDownvote = new Integer[textNumberDownvoteList.size()];
         textNumberComment = new Integer[textNumberCommentList.size()];
+        statusUpvote = new Boolean[statusUpvoteList.size()];
+        statusDownvote = new Boolean[statusDownvoteList.size()];
+        statusFavorite = new Boolean[statusFavoriteList.size()];
 
         username = usernameList.toArray(username);
         datePost = datePostList.toArray(datePost);
@@ -140,6 +153,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberUpvote = textNumberUpvoteList.toArray(textNumberUpvote);
         textNumberDownvote = textNumberDownvoteList.toArray(textNumberDownvote);
         textNumberComment = textNumberDownvoteList.toArray(textNumberComment);
+        statusUpvote = statusUpvoteList.toArray(statusUpvote);
+        statusDownvote = statusDownvoteList.toArray(statusDownvote);
+        statusFavorite = statusFavoriteList.toArray(statusFavorite);
     }
 
     @Override
@@ -188,8 +204,34 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 //Toast.makeText(v.getContext(), activityText[position]+" "+contentText[position], Toast.LENGTH_SHORT).show();
                 ViewHolder.snackbar = Snackbar.make(v.getRootView(),activityText[position]+" "+contentText[position],Snackbar.LENGTH_SHORT);
                 ViewHolder.snackbar.show();
-            }
+                }
         });
+
+        if (statusUpvote[position]){
+            holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+        }else{
+            holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+        }
+
+        if (statusDownvote[position]){
+            holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+        }else{
+            holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+        }
+
+        if (statusFavorite[position]){
+            holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+        }else{
+            holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+        }
+        /*switch (statusUpvote[position]){
+            case true:
+                //holder.viewLabelColorMaterial.setVisibility(View.VISIBLE);
+                ;break;
+            case "2":
+                //holder.viewLabelColorNews.setVisibility(View.VISIBLE);
+                ;break;
+        }*/
 
     }
 
