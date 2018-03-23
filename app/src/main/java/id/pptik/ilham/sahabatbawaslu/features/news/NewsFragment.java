@@ -226,24 +226,20 @@ public class NewsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.pop_up_notifikasi:
-                        Intent intent = new Intent(getContext(), NotificationActivity.class);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    case R.id.pop_up_sort_date:
+                        sortByCategoryREST(0);
                         return true;
-                    case R.id.pop_up_edit_profile_slidingtab:
-                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                    case R.id.pop_up_sort_upvote:
+                        sortByCategoryREST(1);
                         return true;
-                    case R.id.pop_up_log_out_slidingtab:
-                        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear();
-                        editor.commit();
-
-                        Intent intent2 = new Intent(getContext(), LoginActivity.class);
-                        startActivity(intent2);
-                        getActivity().finish();
-                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    case R.id.pop_up_sort_downvote:
+                        sortByCategoryREST(2);
+                        return true;
+                    case R.id.pop_up_sort_favorite:
+                        sortByCategoryREST(3);
+                        return true;
+                    case R.id.pop_up_sort_comment:
+                        sortByCategoryREST(4);
                         return true;
                     default:return false;
                 }
@@ -284,5 +280,59 @@ public class NewsFragment extends Fragment {
             }
         });
         popupMenu.show();
+    }
+
+    private void sortByCategoryREST(int code){
+        //Ambil Data dari Networking REST
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardSortBy(0,code,access_token);
+        dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+            @Override
+            public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                //Mengosongkan recycle material yang sudah diisi
+                username.clear();
+                datePost.clear();
+                contentPost.clear();
+                userPicturePost.clear();
+                contentType.clear();
+                titlePost.clear();
+                contentLabel.clear();
+                activityLabel.clear();
+                numberFavorite.clear();
+                numberUpvote.clear();
+                numberDownvote.clear();
+                numberComments.clear();
+
+                DashboardPOJO dashboardPOJO = response.body();
+                for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                    datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                    titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                    contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                    userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                    contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                    activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                    contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                    numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                    numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                    numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                }
+                mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
+                        userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                        numberUpvote,numberDownvote,numberComments
+                );
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+
+            }
+        });
     }
 }
