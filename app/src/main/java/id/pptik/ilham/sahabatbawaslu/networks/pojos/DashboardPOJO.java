@@ -90,6 +90,18 @@ public class DashboardPOJO {
             @Expose
             private int favorite;
 
+            @SerializedName("upvoted")
+            @Expose
+            private boolean upvoted;
+
+            @SerializedName("downvoted")
+            @Expose
+            private boolean downvoted;
+
+            @SerializedName("favorited")
+            @Expose
+            private boolean favorited;
+
             @SerializedName("comment")
             @Expose
             private int comment;
@@ -132,6 +144,19 @@ public class DashboardPOJO {
 
             public int getFavorite() {
                 return favorite;
+            }
+
+            //
+            public boolean getUpvoted() {
+                return upvoted;
+            }
+
+            public boolean getDownvoted() {
+                return downvoted;
+            }
+
+            public boolean getFavorited() {
+                return favorited;
             }
 
             public int getComment() {

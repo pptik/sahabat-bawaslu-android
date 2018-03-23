@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.gamification.LeaderboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
@@ -66,6 +67,11 @@ public class NewsFragment extends Fragment {
     private List<Integer> numberUpvote = new ArrayList<Integer>();
     private List<Integer> numberDownvote = new ArrayList<Integer>();
     private List<Integer> numberComments = new ArrayList<Integer>();
+
+    private List<Boolean> upvoteStatus = new ArrayList<Boolean>();
+    private List<Boolean> downvoteStatus = new ArrayList<Boolean>();
+    private List<Boolean> favoriteStatus = new ArrayList<Boolean>();
+
     SharedPreferences sharedPreferences;
 
     ProgressDialog progressDialog;
@@ -122,10 +128,13 @@ public class NewsFragment extends Fragment {
                     numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                     numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
                     numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                    upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                    downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                    favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
                         );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
@@ -176,6 +185,12 @@ public class NewsFragment extends Fragment {
                         numberUpvote.clear();
                         numberDownvote.clear();
                         numberComments.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
 
                         DashboardPOJO dashboardPOJO = response.body();
 
@@ -192,10 +207,13 @@ public class NewsFragment extends Fragment {
                             numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                             numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
                             numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                            upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                            downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                            favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                         }
                         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                                 userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                                numberUpvote,numberDownvote,numberComments
+                                numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
                         );
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
@@ -276,6 +294,11 @@ public class NewsFragment extends Fragment {
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
+                    case R.id.pop_up_leaderboard:
+                        Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
+                        startActivity(intentLeaderboard);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
                     case R.id.pop_up_edit_profile_slidingtab:
                         Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                         return true;
@@ -320,6 +343,10 @@ public class NewsFragment extends Fragment {
                 numberUpvote.clear();
                 numberDownvote.clear();
                 numberComments.clear();
+                upvoteStatus.clear();
+                downvoteStatus.clear();
+                favoriteStatus.clear();
+
 
                 DashboardPOJO dashboardPOJO = response.body();
                 for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
@@ -335,10 +362,13 @@ public class NewsFragment extends Fragment {
                     numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                     numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
                     numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                    upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                    downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                    favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

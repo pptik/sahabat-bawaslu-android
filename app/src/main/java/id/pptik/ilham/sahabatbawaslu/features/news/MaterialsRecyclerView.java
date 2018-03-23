@@ -63,7 +63,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         public View viewLabelColorNews,viewLabelColorMaterial;
         public ImageView infoButton;
         public static Snackbar snackbar;
-
+        public Button buttonUpvote, buttonDownvote, buttonFavorite, buttonComment;
         public ViewHolder(View itemView) {
             super(itemView);
             tvUsername = (TextView)itemView.findViewById(R.id.username);
@@ -83,14 +83,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
 
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-
             infoButton = (ImageView) itemView.findViewById(R.id.info_button_content_activity);
-            /*infoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Infonya", Toast.LENGTH_SHORT).show();
-                }
-            });*/
+
+            buttonUpvote = (Button) itemView.findViewById(R.id.button_upvote);
+            buttonDownvote = (Button) itemView.findViewById(R.id.button_downvote);
+            buttonFavorite = (Button) itemView.findViewById(R.id.button_favorite);
+            buttonComment = (Button) itemView.findViewById(R.id.button_comment);
 
         }
     }
@@ -100,7 +98,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<String> contentTypeListParam,List<String> titlePostListParam,
                                  List<String> contentLabelListParam,List<String> activityLabelListParam,
                                  List<Integer> textNumberFavoriteListParam,List<Integer> textNumberUpvoteListParam,
-                                 List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam) {
+                                 List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam,
+                                 List<Boolean> statusUpvotes, List<Boolean> statusDownvotes,
+                                 List<Boolean> statusFavorites) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;

@@ -25,6 +25,7 @@ import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
+import id.pptik.ilham.sahabatbawaslu.features.gamification.LeaderboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
@@ -207,6 +208,11 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     case R.id.pop_up_notifikasi:
                         Intent intent = new Intent(getContext(), NotificationActivity.class);
                         startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_leaderboard:
+                        Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
+                        startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
                     case R.id.pop_up_edit_profile_slidingtab:
