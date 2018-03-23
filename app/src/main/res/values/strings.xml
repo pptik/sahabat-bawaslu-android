@@ -58,6 +58,10 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_log_out">Log Out</string>
+    <string name="sort_date">Urutkan berdasarkan waktu upload</string>
+    <string name="sort_upvote">Urutkan berdasarkan jumlah upvote</string>
+    <string name="sort_downvote">Urutkan berdasarkan jumlah downvote</string>
+    <string name="sort_favorite">Urutkan berdasarkan jumlah favorite</string>
+    <string name="sort_comment">Urutkan berdasarkan jumlah komen</string>
     <string name="angka_dummy">1</string>
-
 </resources>

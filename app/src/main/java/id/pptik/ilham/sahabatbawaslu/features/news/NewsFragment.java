@@ -208,14 +208,51 @@ public class NewsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         View view = getActivity().findViewById(R.id.action_more);
         switch (item.getItemId()){
+            case R.id.sort:
+                popUpSortMenu(view);
+                return true;
             case R.id.action_more:
-                popUpMenu(view);
+                popUpMoreMenu(view);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void popUpMenu(View view){
+    public void popUpSortMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.popupsortcontent,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.pop_up_notifikasi:
+                        Intent intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_edit_profile_slidingtab:
+                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.pop_up_log_out_slidingtab:
+                        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent2 = new Intent(getContext(), LoginActivity.class);
+                        startActivity(intent2);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        return true;
+                    default:return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+    public void popUpMoreMenu(View view){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
