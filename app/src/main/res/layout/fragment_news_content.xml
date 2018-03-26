@@ -96,7 +96,7 @@
                     android:foregroundGravity="center_horizontal"
                     android:layout_below="@+id/user_picture"
                     android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/not_news_content"
+                    android:layout_alignTop="@+id/relativelayout_not_news_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/material_author_label"
                     android:visibility="invisible"
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:layout_alignTop="@+id/not_news_content"
+                    android:layout_alignTop="@+id/relativelayout_not_news_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/date_label"
                     android:textStyle="bold"
@@ -124,10 +124,11 @@
                     android:textStyle="bold"
                     />
                 <RelativeLayout
-                    android:id="@+id/not_news_content"
+                    android:id="@+id/relativelayout_not_news_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_picture">
+                    android:layout_below="@+id/user_picture"
+                    android:visibility="invisible">
                 <TextView
                     android:id="@+id/title_post"
                     android:layout_marginTop="10dp"
@@ -148,6 +149,87 @@
                     android:textColor="@color/abu"
                     android:layout_height="wrap_content"
                     />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativelayout_news_admin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture"
+                    android:visibility="invisible">
+                    <TextView
+                        android:id="@+id/title_post_news_admin"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="@string/post_title_label"
+
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/oranyeTerang"/>
+                    <TextView
+                        android:id="@+id/content_post_news_admin"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:text="@string/post_content_label"
+                        android:layout_below="@+id/title_post_news_admin"
+                        android:textColor="@color/abu"
+                        android:layout_height="wrap_content"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativelayout_news_nonadmin_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture"
+                    android:visibility="invisible">
+                    <TextView
+                        android:id="@+id/title_post_news_nonadmin_text"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="@string/post_title_label"
+
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/oranyeTerang"/>
+                    <TextView
+                        android:id="@+id/content_post_nonadmin_text"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:text="@string/post_content_label"
+                        android:layout_below="@+id/title_post_news_nonadmin_text"
+                        android:textColor="@color/abu"
+                        android:layout_height="wrap_content"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativelayout_news_nonadmin_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture"
+                    android:visibility="invisible">
+                    <TextView
+                        android:id="@+id/title_post_news_nonadmin_media"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="@string/post_title_label"
+
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/oranyeTerang"/>
+                    <TextView
+                        android:id="@+id/content_post_nonadmin_media"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:text="@string/post_content_label"
+                        android:layout_below="@+id/title_post_news_nonadmin_media"
+                        android:textColor="@color/abu"
+                        android:layout_height="wrap_content"
+                        />
                 </RelativeLayout>
             </RelativeLayout>
             <LinearLayout

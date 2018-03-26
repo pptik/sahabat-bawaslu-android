@@ -67,6 +67,7 @@ public class NewsFragment extends Fragment {
     private List<Integer> numberUpvote = new ArrayList<Integer>();
     private List<Integer> numberDownvote = new ArrayList<Integer>();
     private List<Integer> numberComments = new ArrayList<Integer>();
+    private List<Integer> newsType = new ArrayList<Integer>();
 
     private List<Boolean> upvoteStatus = new ArrayList<Boolean>();
     private List<Boolean> downvoteStatus = new ArrayList<Boolean>();
@@ -131,10 +132,12 @@ public class NewsFragment extends Fragment {
                     upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
                     downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                    newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity()
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                        newsType
                         );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
@@ -210,11 +213,12 @@ public class NewsFragment extends Fragment {
                             upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
                             downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                             favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                            newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                         }
                         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                                 userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                                 numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,
-                                getActivity()
+                                getActivity(),newsType
                         );
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
@@ -366,10 +370,12 @@ public class NewsFragment extends Fragment {
                     upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
                     downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                    newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity()
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                        newsType
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<Integer> textNumberDownvoteList;
     private List<Integer> textNumberUpvoteList;
     private List<Integer> textNumberCommentList;
+    private List<Integer> newsTypeList;
     //Buat menentukan warna marker
     private List<String> contentTypeList;
 
@@ -51,7 +53,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             contentText, activityText;
     private Integer[] textNumberFavorite,
             textNumberDownvote, textNumberUpvote,
-            textNumberComment;
+            textNumberComment, newsType;
     private Boolean[] statusUpvote, statusDownvote,
             statusFavorite;
 
@@ -70,6 +72,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         public ImageView ivUserpicture,buttonUpvote,
                 buttonDownvote, buttonFavorite, buttonComment,
                 infoButton;
+        public RelativeLayout relativeLayoutNotNewsContent,relativeLayoutNewsContentNotAdminMedia,
+                relativeLayoutNewsContentNotAdminText,relativeLayoutNewsAdmin;
         public View viewLabelColorNews,viewLabelColorMaterial;
         public static Snackbar snackbar;
 
@@ -99,6 +103,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             buttonFavorite = (ImageView) itemView.findViewById(R.id.button_favorite);
             buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
 
+            relativeLayoutNotNewsContent = (RelativeLayout) itemView.findViewById(R.id.relativelayout_not_news_content);
+            relativeLayoutNewsAdmin= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_admin);
+            relativeLayoutNewsContentNotAdminText= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_text);
+            relativeLayoutNewsContentNotAdminMedia= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_media);
+
         }
     }
 
@@ -109,7 +118,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<Integer> textNumberFavoriteListParam, List<Integer> textNumberUpvoteListParam,
                                  List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
                                  List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
-                                 List<Boolean> statusFavoritesParam, Activity activity) {
+                                 List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam) {
         this.activity = activity;
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -126,6 +135,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.statusUpvoteList =  statusUpvotesParam;
         this.statusDownvoteList =  statusDownvotesParam;
         this.statusFavoriteList=  statusFavoritesParam;
+        this.newsTypeList=  newsTypeListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -142,6 +152,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusUpvote = new Boolean[statusUpvoteList.size()];
         statusDownvote = new Boolean[statusDownvoteList.size()];
         statusFavorite = new Boolean[statusFavoriteList.size()];
+        newsType = new Integer[newsTypeList.size()];
 
         username = usernameList.toArray(username);
         datePost = datePostList.toArray(datePost);
@@ -158,6 +169,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusUpvote = statusUpvoteList.toArray(statusUpvote);
         statusDownvote = statusDownvoteList.toArray(statusDownvote);
         statusFavorite = statusFavoriteList.toArray(statusFavorite);
+        newsType = newsTypeList.toArray(newsType);
+
     }
 
     @Override
@@ -172,7 +185,16 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-
+        switch (newsType[position]){
+            case 0://berita dari admin
+                holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);break;
+            case 1://berita dari relawan media
+                holder.relativeLayoutNewsContentNotAdminMedia.setVisibility(View.VISIBLE);break;
+            case 2://berita dari relawan text
+                holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);break;
+            default://bukan berita
+                holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);break;
+        }
         holder.tvUsername.setText(username[position]);
         holder.tvContentPost.setText(contentPost[position]);
         holder.tvTitlePost.setText(titlePost[position]);
