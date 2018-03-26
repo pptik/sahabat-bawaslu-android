@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private Boolean[] statusUpvote, statusDownvote,
             statusFavorite;
 
-
+    private  Activity activity;
     /*private String[] username = {"Asep","Jajang"};
     private String[] datePost = {"11 Maret 2018","12 Maret 2018"};
     private String[] titlePost = {"Berita Terbaru Peraturan","Berita Terbaru Peraturan"};
@@ -102,13 +104,13 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     public MaterialsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
-                                 List<String> contentTypeListParam,List<String> titlePostListParam,
-                                 List<String> contentLabelListParam,List<String> activityLabelListParam,
-                                 List<Integer> textNumberFavoriteListParam,List<Integer> textNumberUpvoteListParam,
-                                 List<Integer> textNumberDownvoteListParam,List<Integer> textNumberCommentListParam,
+                                 List<String> contentTypeListParam, List<String> titlePostListParam,
+                                 List<String> contentLabelListParam, List<String> activityLabelListParam,
+                                 List<Integer> textNumberFavoriteListParam, List<Integer> textNumberUpvoteListParam,
+                                 List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
                                  List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
-                                 List<Boolean> statusFavoritesParam) {
-
+                                 List<Boolean> statusFavoritesParam, Activity activity) {
+        this.activity = activity;
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
         this.contentPostList = contentPostListParam;
@@ -233,6 +235,16 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 //holder.viewLabelColorNews.setVisibility(View.VISIBLE);
                 ;break;
         }*/
+        if(contentType[position]=="2"){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                    v.getContext().startActivity(intent);
+                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            });
+        }
 
     }
 

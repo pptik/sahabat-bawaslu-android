@@ -134,7 +134,7 @@ public class NewsFragment extends Fragment {
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity()
                         );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
@@ -213,7 +213,8 @@ public class NewsFragment extends Fragment {
                         }
                         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                                 userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                                numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
+                                numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,
+                                getActivity()
                         );
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
@@ -368,7 +369,7 @@ public class NewsFragment extends Fragment {
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity()
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

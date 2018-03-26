@@ -72,4 +72,9 @@ public interface RestServiceInterface {
                                              @Field("SortType") int sort_type,
                                         @Header("access_token") String access_token);
 
+    @FormUrlEncoded
+    @POST("news/detail")
+    Call<DashboardPOJO> newsDetail(@Field("NewsID") String newsID,
+                                        @Header("access_token") String access_token);
+
 }

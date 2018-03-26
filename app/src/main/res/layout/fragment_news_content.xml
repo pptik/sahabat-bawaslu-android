@@ -96,7 +96,7 @@
                     android:foregroundGravity="center_horizontal"
                     android:layout_below="@+id/user_picture"
                     android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/title_post"
+                    android:layout_alignTop="@+id/not_news_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/material_author_label"
                     android:visibility="invisible"
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:layout_alignTop="@+id/title_post"
+                    android:layout_alignTop="@+id/not_news_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/date_label"
                     android:textStyle="bold"
@@ -123,11 +123,15 @@
                     android:text="@string/material_author_label"
                     android:textStyle="bold"
                     />
+                <RelativeLayout
+                    android:id="@+id/not_news_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture">
                 <TextView
                     android:id="@+id/title_post"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/user_picture"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:text="@string/post_title_label"
@@ -144,6 +148,7 @@
                     android:textColor="@color/abu"
                     android:layout_height="wrap_content"
                     />
+                </RelativeLayout>
             </RelativeLayout>
             <LinearLayout
                 android:layout_height="wrap_content"

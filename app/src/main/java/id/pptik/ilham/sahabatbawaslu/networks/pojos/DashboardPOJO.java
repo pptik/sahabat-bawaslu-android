@@ -78,6 +78,10 @@ public class DashboardPOJO {
             @Expose
             private String contentText;
 
+            @SerializedName("news_type")
+            @Expose
+            private int newsType;
+
             @SerializedName("upvote")
             @Expose
             private int upvote;
@@ -132,6 +136,10 @@ public class DashboardPOJO {
 
             public String getContentText() {
                 return contentText;
+            }
+
+            public int getNewsType() {
+                return newsType;
             }
 
             public int getUpvote() {
