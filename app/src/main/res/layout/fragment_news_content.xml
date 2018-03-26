@@ -209,27 +209,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:visibility="invisible">
-                    <TextView
-                        android:id="@+id/title_post_news_nonadmin_media"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/media_post_news_nonadmin_media"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:text="@string/post_title_label"
-
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/oranyeTerang"/>
+                        android:layout_height="400dp"
+                        android:textColor="@color/abu"
+                        />
                     <TextView
-                        android:id="@+id/content_post_nonadmin_media"
+                        android:id="@+id/caption_post_news_nonadmin_media"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:textSize="15sp"
-                        android:text="@string/post_content_label"
-                        android:layout_below="@+id/title_post_news_nonadmin_media"
-                        android:textColor="@color/abu"
+                        android:text="@string/post_title_label"
+                        android:layout_below="@+id/media_post_news_nonadmin_media"
                         android:layout_height="wrap_content"
-                        />
+                        android:textColor="@color/abu"/>
                 </RelativeLayout>
             </RelativeLayout>
             <LinearLayout

@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.networks.pojos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -69,6 +70,10 @@ public class DashboardPOJO {
             @SerializedName("user_detail")
             @Expose
             private UserDetail userDetail;
+
+            @SerializedName("files")
+            @Expose
+            private List<DashboardPOJO.Results.Dashboard.Files> files = null;
 
             @SerializedName("activity_text")
             @Expose
@@ -185,6 +190,44 @@ public class DashboardPOJO {
 
             public void setPostBy(PostBy postBy) {
                 this.postBy = postBy;
+            }
+
+            /*@SerializedName("results")
+            @Expose
+            private List<DashboardPOJO.Results> results = null;
+
+            public List<DashboardPOJO.Results> getResults() {
+                return results;
+            }*/
+
+            public List<DashboardPOJO.Results.Dashboard.Files> getFiles() {
+                return files;
+            }
+
+            public class Files {
+                @SerializedName("originalname")
+                @Expose
+                private String originalName;
+
+                @SerializedName("filename")
+                @Expose
+                private String filename;
+
+                @SerializedName("http_path")
+                @Expose
+                private String httpPath;
+
+                public String getHttpPath() {
+                    return httpPath;
+                }
+
+                public String getOriginalName() {
+                    return originalName;
+                }
+
+                public String getFilename() {
+                    return filename;
+                }
             }
 
             public class UserDetail {

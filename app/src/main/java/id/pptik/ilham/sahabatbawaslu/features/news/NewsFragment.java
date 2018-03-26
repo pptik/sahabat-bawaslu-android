@@ -63,6 +63,7 @@ public class NewsFragment extends Fragment {
     private List<String> contentType = new ArrayList<String>();
     private List<String> contentLabel = new ArrayList<String>();
     private List<String> activityLabel = new ArrayList<String>();
+    private List<String> newsMedia = new ArrayList<String>();
     private List<Integer> numberFavorite = new ArrayList<Integer>();
     private List<Integer> numberUpvote = new ArrayList<Integer>();
     private List<Integer> numberDownvote = new ArrayList<Integer>();
@@ -133,11 +134,13 @@ public class NewsFragment extends Fragment {
                     downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                     newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                    //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                    newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                         numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                        newsType
+                        newsType,newsMedia
                         );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
@@ -214,11 +217,13 @@ public class NewsFragment extends Fragment {
                             downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                             favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                             newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                            //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                         }
                         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                                 userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                                 numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,
-                                getActivity(),newsType
+                                getActivity(),newsType,newsMedia
                         );
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
@@ -371,11 +376,13 @@ public class NewsFragment extends Fragment {
                     downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                     newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                    newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
+                    //newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                         numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                        newsType
+                        newsType,newsMedia
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

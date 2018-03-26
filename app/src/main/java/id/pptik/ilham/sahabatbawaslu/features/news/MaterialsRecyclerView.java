@@ -32,6 +32,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> titlePostList;
     private List<String> contentPostList;
     private List<String> userPictureProfileList;
+    private List<String> newsMediaList;
     private List<Integer> textNumberFavoriteList;
     private List<Integer> textNumberDownvoteList;
     private List<Integer> textNumberUpvoteList;
@@ -50,7 +51,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     private String[] username, datePost, titlePost,
             contentPost, userPictureProfile, contentType,
-            contentText, activityText;
+            contentText, activityText, newsMedia;
     private Integer[] textNumberFavorite,
             textNumberDownvote, textNumberUpvote,
             textNumberComment, newsType;
@@ -68,10 +69,13 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         public TextView tvUsername, tvDatePost, tvTitlePost,
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
                 tvNumberFavorite, tvNumberDownvote, tvNumberUpvote,
-                tvNumberComment, tvActivityUsername;
+                tvNumberComment, tvActivityUsername,tvTitlePostNewsAdmin,
+                tvContentPostNewsAdmin,tvTitlePostNewsNonAdminText,tvContentPostNewsNonAdminText,
+                tvContentPostNewsNonAdminMedia;
+
         public ImageView ivUserpicture,buttonUpvote,
                 buttonDownvote, buttonFavorite, buttonComment,
-                infoButton;
+                infoButton, newsMedia;
         public RelativeLayout relativeLayoutNotNewsContent,relativeLayoutNewsContentNotAdminMedia,
                 relativeLayoutNewsContentNotAdminText,relativeLayoutNewsAdmin;
         public View viewLabelColorNews,viewLabelColorMaterial;
@@ -91,6 +95,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             tvNumberUpvote = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
             tvNumberComment = (TextView)itemView.findViewById(R.id.text_comments);
             tvActivityUsername = (TextView)itemView.findViewById(R.id.activity_username);
+            tvTitlePostNewsAdmin = (TextView)itemView.findViewById(R.id.title_post_news_admin);
+            tvContentPostNewsAdmin = (TextView)itemView.findViewById(R.id.content_post_news_admin);
+            tvTitlePostNewsNonAdminText = (TextView)itemView.findViewById(R.id.title_post_news_nonadmin_text);
+            tvContentPostNewsNonAdminText = (TextView)itemView.findViewById(R.id.content_post_nonadmin_text);
+            newsMedia = (ImageView) itemView.findViewById(R.id.media_post_news_nonadmin_media);
+            tvContentPostNewsNonAdminMedia = (TextView)itemView.findViewById(R.id.caption_post_news_nonadmin_media);
 
             viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
@@ -118,7 +128,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<Integer> textNumberFavoriteListParam, List<Integer> textNumberUpvoteListParam,
                                  List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
                                  List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
-                                 List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam) {
+                                 List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam,
+                                 List<String> newsMediaListParam) {
         this.activity = activity;
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -136,6 +147,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.statusDownvoteList =  statusDownvotesParam;
         this.statusFavoriteList=  statusFavoritesParam;
         this.newsTypeList=  newsTypeListParam;
+        this.newsMediaList=  newsMediaListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -153,6 +165,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusDownvote = new Boolean[statusDownvoteList.size()];
         statusFavorite = new Boolean[statusFavoriteList.size()];
         newsType = new Integer[newsTypeList.size()];
+        newsMedia = new String[newsMediaList.size()];
 
         username = usernameList.toArray(username);
         datePost = datePostList.toArray(datePost);
@@ -170,6 +183,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusDownvote = statusDownvoteList.toArray(statusDownvote);
         statusFavorite = statusFavoriteList.toArray(statusFavorite);
         newsType = newsTypeList.toArray(newsType);
+        newsMedia = newsMediaList.toArray(newsMedia);
 
     }
 
@@ -187,50 +201,67 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
         switch (newsType[position]){
             case 0://berita dari admin
-                holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);break;
+                holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
+                holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
+                holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        v.getContext().startActivity(intent);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
+                });
+                break;
             case 1://berita dari relawan media
-                holder.relativeLayoutNewsContentNotAdminMedia.setVisibility(View.VISIBLE);break;
+                holder.relativeLayoutNewsContentNotAdminMedia.setVisibility(View.VISIBLE);
+                //holder.newsMedia.setText(titlePost[position]);
+                Glide.with(holder.newsMedia.getContext()).load(newsMedia[position]).into(holder.newsMedia);
+                holder.tvContentPostNewsNonAdminMedia.setText(contentPost[position]);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        v.getContext().startActivity(intent);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
+                });
+                break;
             case 2://berita dari relawan text
-                holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);break;
+                holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);
+                holder.tvTitlePostNewsNonAdminText.setText(titlePost[position]);
+                holder.tvContentPostNewsNonAdminText.setText(contentPost[position]);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        v.getContext().startActivity(intent);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
+                });
+                break;
             default://bukan berita
-                holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);break;
+                holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
+                holder.tvContentPost.setText(contentPost[position]);
+                holder.tvTitlePost.setText(titlePost[position]);
+                break;
         }
+
+        //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
-        holder.tvContentPost.setText(contentPost[position]);
-        holder.tvTitlePost.setText(titlePost[position]);
         holder.tvDatePost.setText(datePost[position]);
         holder.tvContentCode.setText(contentType[position]);
         holder.tvContentLabel.setText(contentText[position]);
         holder.tvActivityLabel.setText(activityText[position]);
+        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() +" "+contentText[position].toString().toLowerCase());
+        holder.ivUserpicture.setImageDrawable(null);
+        Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
+
+        //Gamifikasi respon
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
         holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
-        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() +" "+contentText[position].toString().toLowerCase());
-
-        //Menggunakan library Glide untuk menampilkan foto pengguna
-        holder.ivUserpicture.setImageDrawable(null);
-        Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
-
-        //Menentukan tanda pada card Dashboard -> 1 Materi 2 Berita
-        //holder.viewLabelColor.setBackgroundColor(R.drawable.gradient_color);
-        switch (contentType[position]){
-            case "1":
-                //holder.viewLabelColorMaterial.setVisibility(View.VISIBLE);
-                ;break;
-            case "2":
-                //holder.viewLabelColorNews.setVisibility(View.VISIBLE);
-                ;break;
-        }
-
-        holder.infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(v.getContext(), activityText[position]+" "+contentText[position], Toast.LENGTH_SHORT).show();
-                ViewHolder.snackbar = Snackbar.make(v.getRootView(),activityText[position]+" "+contentText[position],Snackbar.LENGTH_SHORT);
-                ViewHolder.snackbar.show();
-                }
-        });
 
         if (statusUpvote[position]){
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
@@ -248,24 +279,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
         }else{
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-        }
-        /*switch (statusUpvote[position]){
-            case true:
-                //holder.viewLabelColorMaterial.setVisibility(View.VISIBLE);
-                ;break;
-            case "2":
-                //holder.viewLabelColorNews.setVisibility(View.VISIBLE);
-                ;break;
-        }*/
-        if(contentType[position]=="2"){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
-                    v.getContext().startActivity(intent);
-                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                }
-            });
         }
 
     }
