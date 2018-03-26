@@ -182,6 +182,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
         holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
+        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() +" "+contentText[position].toString().toLowerCase());
 
         //Menggunakan library Glide untuk menampilkan foto pengguna
         holder.ivUserpicture.setImageDrawable(null);

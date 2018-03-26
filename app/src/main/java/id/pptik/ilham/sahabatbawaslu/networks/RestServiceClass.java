@@ -5,6 +5,10 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,10 +21,14 @@ public class RestServiceClass {
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
+        /*java.net.Proxy proxy = new Proxy(Proxy.Type.HTTP,  new InetSocketAddress("cache.itb.ac.id", 8080));
+        OkHttpClient client = new OkHttpClient.Builder().proxy(proxy).build();*/
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    //.client(client)
                     .build();
         }
         return retrofit;
