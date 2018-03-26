@@ -128,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:visibility="invisible">
+                    android:visibility="gone">
                 <TextView
                     android:id="@+id/title_post"
                     android:layout_marginTop="10dp"
@@ -155,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:visibility="invisible">
+                    android:visibility="gone">
                     <TextView
                         android:id="@+id/title_post_news_admin"
                         android:layout_marginTop="10dp"
@@ -182,22 +182,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_picture"
-                    android:visibility="invisible">
+                    android:visibility="gone">
                     <TextView
                         android:id="@+id/title_post_news_nonadmin_text"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:textStyle="bold"
-                        android:textSize="20sp"
+                        android:textSize="30sp"
                         android:text="@string/post_title_label"
-
                         android:layout_height="wrap_content"
-                        android:textColor="@color/oranyeTerang"/>
+                        android:textColor="@color/oranyeTerang"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/content_post_nonadmin_text"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:text="@string/post_content_label"
                         android:layout_below="@+id/title_post_news_nonadmin_text"
                         android:textColor="@color/abu"

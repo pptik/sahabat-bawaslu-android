@@ -230,7 +230,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             case 2://berita dari relawan text
                 holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);
                 holder.tvTitlePostNewsNonAdminText.setText(titlePost[position]);
-                holder.tvContentPostNewsNonAdminText.setText(contentPost[position]);
+                holder.tvContentPostNewsNonAdminText.setText("\""+contentPost[position]+"\"");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
