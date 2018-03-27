@@ -197,21 +197,35 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         switch (newsType[position]){
-            case 0://berita dari admin
-                holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
-                holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
-                holder.tvContentPostNewsAdmin.setText(contentPost[position]);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
-                        v.getContext().startActivity(intent);
-                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                });
+            case 0://berita dari admin atau bukan berita
+                if(contentType[position] == "1"){//Materi
+                    holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
+                    holder.tvContentPost.setText(contentPost[position]);
+                    holder.tvTitlePost.setText(titlePost[position]);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else if(contentType[position] == "2"){//Berita
+                    holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
+                    holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
+                    holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                            v.getContext().startActivity(intent);
+                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                            Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 break;
             case 1://berita dari relawan media
                 holder.relativeLayoutNewsContentNotAdminMedia.setVisibility(View.VISIBLE);
@@ -221,9 +235,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                         v.getContext().startActivity(intent);
-                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                        Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -234,9 +249,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                         v.getContext().startActivity(intent);
-                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                        Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -244,6 +260,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                 holder.tvContentPost.setText(contentPost[position]);
                 holder.tvTitlePost.setText(titlePost[position]);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
         }
 
@@ -257,16 +279,29 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 
-        //Gamifikasi respon
+        //Gamifikasi hasil respon
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
         holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
 
+        //Gamifikasi aksi respon
         if (statusUpvote[position]){
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                }
+            });
         }else{
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                }
+            });
         }
 
         if (statusDownvote[position]){
@@ -283,6 +318,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     }
 
+    public void gamifikasiAksiRespon(){
+
+    }
 
     @Override
     public int getItemCount() {
