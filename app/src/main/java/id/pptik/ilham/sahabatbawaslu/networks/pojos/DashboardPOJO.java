@@ -43,7 +43,7 @@ public class DashboardPOJO {
         private Dashboard dashboard;
 
         public class Dashboard {
-            @SerializedName("_id")
+            @SerializedName("content_id")
             @Expose
             private String id;
 
@@ -62,6 +62,10 @@ public class DashboardPOJO {
             @SerializedName("content_code")
             @Expose
             private Integer content_code;
+
+            @SerializedName("activity_code")
+            @Expose
+            private Integer activityCode;
 
             @SerializedName("post_by")
             @Expose
@@ -119,6 +123,9 @@ public class DashboardPOJO {
             @Expose
             private String createdAt;
 
+            public String getId(){
+                return id;
+            }
             public String getTitle() {
                 return title;
             }
@@ -133,6 +140,10 @@ public class DashboardPOJO {
 
             public Integer getContent_code() {
                 return content_code;
+            }
+
+            public Integer getActivityCode() {
+                return activityCode;
             }
 
             public String getActivityText() {

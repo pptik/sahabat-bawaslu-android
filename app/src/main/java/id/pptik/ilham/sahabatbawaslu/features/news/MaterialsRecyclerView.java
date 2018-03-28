@@ -1,11 +1,15 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Shader;
 import android.media.Image;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +23,17 @@ import com.bumptech.glide.Glide;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
+import static android.R.id.content;
 import static android.R.id.list;
 import static android.R.id.redo;
 
@@ -38,7 +50,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<Integer> textNumberUpvoteList;
     private List<Integer> textNumberCommentList;
     private List<Integer> newsTypeList;
+    private List<Integer> activityCodeList;
     //Buat menentukan warna marker
+    private List<String> contentIdList;
     private List<String> contentTypeList;
 
     //Buar menentukan label marker card
@@ -51,19 +65,18 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     private String[] username, datePost, titlePost,
             contentPost, userPictureProfile, contentType,
-            contentText, activityText, newsMedia;
+            contentText, activityText, newsMedia,
+            contentId;
+
     private Integer[] textNumberFavorite,
             textNumberDownvote, textNumberUpvote,
-            textNumberComment, newsType;
+            textNumberComment, newsType, activityCode;
     private Boolean[] statusUpvote, statusDownvote,
             statusFavorite;
 
     private  Activity activity;
-    /*private String[] username = {"Asep","Jajang"};
-    private String[] datePost = {"11 Maret 2018","12 Maret 2018"};
-    private String[] titlePost = {"Berita Terbaru Peraturan","Berita Terbaru Peraturan"};
-    private String[] contentPost = {"Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
-            "Lorem Ipsum dolor sit amet, consetrur adispicing elit, sed do eiusmod tempor incididunt. is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. "};*/
+    private RestServiceInterface restServiceInterface;
+    private SharedPreferences sharedPreferences;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView tvUsername, tvDatePost, tvTitlePost,
@@ -129,7 +142,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
                                  List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
                                  List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam,
-                                 List<String> newsMediaListParam) {
+                                 List<String> newsMediaListParam,List<String> contentIdListParam,
+                                 List<Integer> activityCodeListParam) {
+
         this.activity = activity;
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
@@ -148,6 +163,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.statusFavoriteList=  statusFavoritesParam;
         this.newsTypeList=  newsTypeListParam;
         this.newsMediaList=  newsMediaListParam;
+        this.newsMediaList=  newsMediaListParam;
+        this.contentIdList=  contentIdListParam;
+        this.activityCodeList=  activityCodeListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -166,6 +184,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusFavorite = new Boolean[statusFavoriteList.size()];
         newsType = new Integer[newsTypeList.size()];
         newsMedia = new String[newsMediaList.size()];
+        contentId = new String[contentIdList.size()];
+        activityCode = new Integer[activityCodeList.size()];
 
         username = usernameList.toArray(username);
         datePost = datePostList.toArray(datePost);
@@ -184,6 +204,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusFavorite = statusFavoriteList.toArray(statusFavorite);
         newsType = newsTypeList.toArray(newsType);
         newsMedia = newsMediaList.toArray(newsMedia);
+        contentId = contentIdList.toArray(contentId);
+        activityCode = activityCodeList.toArray(activityCode);
 
     }
 
@@ -193,11 +215,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_news_content, parent, false);
 
+        sharedPreferences = parent.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
 
         switch (newsType[position]){
             case 0://berita dari admin atau bukan berita
@@ -208,7 +234,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -222,7 +248,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                             v.getContext().startActivity(intent);
                             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                            Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -238,7 +264,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                         v.getContext().startActivity(intent);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                        Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -252,7 +278,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
                         v.getContext().startActivity(intent);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                        Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -263,7 +289,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -285,21 +311,18 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
         holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
 
-        //Gamifikasi aksi respon
+
+        //Gamifikasi respon
         if (statusUpvote[position]){
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                }
-            });
         }else{
+
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
             holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    gamifikasiAksiRespon(contentId[position],2,
+                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
                 }
             });
         }
@@ -308,18 +331,70 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
         }else{
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            holder.buttonDownvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gamifikasiAksiRespon(contentId[position],3,
+                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
+                }
+            });
         }
 
         if (statusFavorite[position]){
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
         }else{
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+            holder.buttonFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("URAI","content id:"+contentId[position]);
+                    Log.d("URAI","activity code:"+activityCode[position]);
+                    Log.d("URAI","content type:"+contentType[position]);
+                    Log.d("URAI","title post:"+titlePost[position]);
+                    Log.d("URAI","akses token:"+access_token);
+                    gamifikasiAksiRespon(contentId[position],4,
+                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
+                }
+            });
         }
 
     }
 
-    public void gamifikasiAksiRespon(){
+    public void gamifikasiAksiRespon(String contentID,
+                                     int activityCode, int contentCode,
+                                     String title, String accessToken,
+                                     ViewHolder viewHolder){
 
+        //Ganti status Front End response
+        switch (activityCode){
+            case 2://upvote
+                viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                break;
+            case 3://downvote
+                viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                break;
+            case 4://favorite
+                viewHolder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                break;
+        }
+
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID,activityCode,
+                contentCode,title,accessToken);
+        voteAction.enqueue(new Callback<VotePOJO>() {
+            @Override
+            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                //VotePOJO votePOJO = response.body();
+                //Toast.makeText(activity, votePOJO.getRc(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<VotePOJO> call, Throwable t) {
+                //Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

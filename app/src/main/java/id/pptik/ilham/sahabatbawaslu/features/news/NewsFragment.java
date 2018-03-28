@@ -60,7 +60,9 @@ public class NewsFragment extends Fragment {
     private List<String> titlePost = new ArrayList<String>();
     private List<String> contentPost = new ArrayList<String>();
     private List<String> userPicturePost = new ArrayList<String>();
+    private List<String> contentId = new ArrayList<String>();
     private List<String> contentType = new ArrayList<String>();
+    private List<Integer> activityType = new ArrayList<Integer>();
     private List<String> contentLabel = new ArrayList<String>();
     private List<String> activityLabel = new ArrayList<String>();
     private List<String> newsMedia = new ArrayList<String>();
@@ -116,6 +118,29 @@ public class NewsFragment extends Fragment {
         dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
             @Override
             public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                username.clear();
+                datePost.clear();
+                contentPost.clear();
+                userPicturePost.clear();
+                contentType.clear();
+                titlePost.clear();
+                contentLabel.clear();
+                activityLabel.clear();
+                numberFavorite.clear();
+                numberUpvote.clear();
+                numberDownvote.clear();
+                numberComments.clear();
+                upvoteStatus.clear();
+                downvoteStatus.clear();
+                favoriteStatus.clear();
+                upvoteStatus.clear();
+                downvoteStatus.clear();
+                favoriteStatus.clear();
+                newsType.clear();
+                newsMedia.clear();
+                contentId.clear();
+                activityType.clear();
+
                 DashboardPOJO dashboardPOJO = response.body();
                 for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
                     username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
@@ -126,6 +151,7 @@ public class NewsFragment extends Fragment {
                     contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
                     activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
                     contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                    activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
                     numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
                     numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                     numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
@@ -135,13 +161,14 @@ public class NewsFragment extends Fragment {
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                     newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                     //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                    contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                     newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                         numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                        newsType,newsMedia
-                        );
+                        newsType,newsMedia,contentId,activityType
+                );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -197,6 +224,10 @@ public class NewsFragment extends Fragment {
                         upvoteStatus.clear();
                         downvoteStatus.clear();
                         favoriteStatus.clear();
+                        newsType.clear();
+                        newsMedia.clear();
+                        contentId.clear();
+                        activityType.clear();
 
                         DashboardPOJO dashboardPOJO = response.body();
 
@@ -209,6 +240,7 @@ public class NewsFragment extends Fragment {
                             contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
                             activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
                             contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                            activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
                             numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
                             numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                             numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
@@ -219,11 +251,12 @@ public class NewsFragment extends Fragment {
                             newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                             //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
                             newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                            contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         }
                         mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                                 userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                                 numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,
-                                getActivity(),newsType,newsMedia
+                                getActivity(),newsType,newsMedia,contentId,activityType
                         );
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
@@ -356,7 +389,10 @@ public class NewsFragment extends Fragment {
                 upvoteStatus.clear();
                 downvoteStatus.clear();
                 favoriteStatus.clear();
-
+                newsType.clear();
+                newsMedia.clear();
+                contentId.clear();
+                activityType.clear();
 
                 DashboardPOJO dashboardPOJO = response.body();
                 for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
@@ -368,6 +404,7 @@ public class NewsFragment extends Fragment {
                     contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
                     activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
                     contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                    activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
                     numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
                     numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
                     numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
@@ -376,13 +413,14 @@ public class NewsFragment extends Fragment {
                     downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                     favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                     newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                    newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
-                    //newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                    //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
+                    contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                    newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                 }
                 mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                         userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                         numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                        newsType,newsMedia
+                        newsType,newsMedia,contentId,activityType
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);

@@ -7,6 +7,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -76,5 +77,13 @@ public interface RestServiceInterface {
     @POST("news/detail")
     Call<DashboardPOJO> newsDetail(@Field("NewsID") String newsID,
                                         @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("dashboard/vote")
+    Call<VotePOJO> voteAction(@Field("ContentID") String contentID,
+                                @Field("ActivityCode") int activityCode,
+                                @Field("ContentCode") int contentCode,
+                                @Field("Title") String title,
+                                @Header("access_token") String access_token);
 
 }
