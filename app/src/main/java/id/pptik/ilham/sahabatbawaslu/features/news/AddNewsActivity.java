@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toolbar;
 
 import butterknife.BindView;
@@ -14,6 +16,9 @@ import id.pptik.ilham.sahabatbawaslu.R;
 
 public class AddNewsActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
+    Button buttonSubmit;
+    EditText editTextCaption;
+
     android.support.v7.widget.Toolbar toolbar;
 
     @Override
@@ -21,6 +26,8 @@ public class AddNewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
 
+        editTextCaption = (EditText)findViewById(R.id.edit_text_caption);
+        buttonSubmit = (Button)findViewById()
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

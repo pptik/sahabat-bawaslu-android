@@ -74,6 +74,11 @@ public interface RestServiceInterface {
                                         @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("news/create/text")
+    Call<DashboardPOJO> newsCreateText(@Field("Content") String content,
+                                        @Header("access_token") String access_token);
+
+    @FormUrlEncoded
     @POST("news/detail")
     Call<DashboardPOJO> newsDetail(@Field("NewsID") String newsID,
                                         @Header("access_token") String access_token);
