@@ -27,7 +27,8 @@ public class AddNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_news);
 
         editTextCaption = (EditText)findViewById(R.id.edit_text_caption);
-        buttonSubmit = (Button)findViewById()
+        buttonSubmit = (Button)findViewById(R.id.button_masuk);
+
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

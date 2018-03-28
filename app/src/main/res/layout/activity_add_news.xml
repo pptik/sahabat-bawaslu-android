@@ -6,7 +6,7 @@
     <data>
         <variable
             name="user"
-            type="id.pptik.ilham.sahabatbawaslu.view_models.UserViewModel"/>
+            type="id.pptik.ilham.sahabatbawaslu.view_models.NewsViewModel"/>
         <variable
             name="loginevent"
             type="id.pptik.ilham.sahabatbawaslu.commands.LoginInterface"/>
