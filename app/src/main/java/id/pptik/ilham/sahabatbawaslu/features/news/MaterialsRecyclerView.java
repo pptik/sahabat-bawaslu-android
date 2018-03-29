@@ -322,7 +322,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 @Override
                 public void onClick(View v) {
                     gamifikasiAksiRespon(contentId[position],2,
-                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
+                            Integer.parseInt(contentType[position]),titlePost[position],
+                            access_token,holder,textNumberFavorite[position],
+                            textNumberUpvote[position],textNumberDownvote[position]);
                 }
             });
         }
@@ -335,7 +337,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 @Override
                 public void onClick(View v) {
                     gamifikasiAksiRespon(contentId[position],3,
-                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
+                            Integer.parseInt(contentType[position]),titlePost[position],
+                            access_token,holder,textNumberFavorite[position],
+                            textNumberUpvote[position],textNumberDownvote[position]);
                 }
             });
         }
@@ -353,7 +357,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     Log.d("URAI","title post:"+titlePost[position]);
                     Log.d("URAI","akses token:"+access_token);
                     gamifikasiAksiRespon(contentId[position],4,
-                            Integer.parseInt(contentType[position]),titlePost[position],access_token,holder);
+                            Integer.parseInt(contentType[position]),titlePost[position],
+                            access_token,holder,textNumberFavorite[position],
+                            textNumberUpvote[position],textNumberDownvote[position]);
                 }
             });
         }
@@ -361,22 +367,32 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     }
 
     public void gamifikasiAksiRespon(String contentID,
-                                     int activityCode, int contentCode,
+                                     final int activityCode, int contentCode,
                                      String title, String accessToken,
-                                     ViewHolder viewHolder){
+                                     ViewHolder viewHolder,int textNumberFavorite,
+                                     int textNumberUpvote, int textNumberDownvote){
 
         //Ganti status Front End response
         switch (activityCode){
             case 2://upvote
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                textNumberUpvote++;
+                viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvote));
+
+
                 break;
             case 3://downvote
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+
+                textNumberDownvote++;
+                viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvote));
                 break;
             case 4://favorite
                 viewHolder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                textNumberFavorite++;
+                viewHolder.tvNumberFavorite.setText(Integer.toString(textNumberFavorite));
                 break;
         }
 
@@ -388,6 +404,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 //VotePOJO votePOJO = response.body();
                 //Toast.makeText(activity, votePOJO.getRc(), Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override

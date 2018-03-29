@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.networks;
 
 import java.util.List;
 
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
@@ -75,8 +76,8 @@ public interface RestServiceInterface {
 
     @FormUrlEncoded
     @POST("news/create/text")
-    Call<DashboardPOJO> newsCreateText(@Field("Content") String content,
-                                        @Header("access_token") String access_token);
+    Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
+                                     @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("news/detail")
