@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -51,6 +52,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton floatingActionButton;
+    private SwipeRefreshLayout swipeRefreshRecycler;
     /*List<String> dataSetJudulMateri = new ArrayList<>();
     List<String> dataSetCoverMateri = new ArrayList<>();
     List<Integer> dataSetSubJudulMateri = new ArrayList<>();*/
@@ -90,7 +92,7 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        final View view = inflater.inflate(R.layout.fragment_news, container, false);
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_berita);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +100,7 @@ public class NewsFragment extends Fragment {
                 //Toast.makeText(v.getContext(), "Tambah berita!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), AddNewsActivity.class);
                 startActivity(intent);
+                //startActivityForResult(intent,);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
@@ -179,6 +182,78 @@ public class NewsFragment extends Fragment {
             }
         });
 
+        swipeRefreshRecycler = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(0,access_token);
+                dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+                    @Override
+                    public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                        username.clear();
+                        datePost.clear();
+                        contentPost.clear();
+                        userPicturePost.clear();
+                        contentType.clear();
+                        titlePost.clear();
+                        contentLabel.clear();
+                        activityLabel.clear();
+                        numberFavorite.clear();
+                        numberUpvote.clear();
+                        numberDownvote.clear();
+                        numberComments.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
+                        newsType.clear();
+                        newsMedia.clear();
+                        contentId.clear();
+                        activityType.clear();
+
+                        DashboardPOJO dashboardPOJO = response.body();
+                        for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                            username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                            datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                            titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                            contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                            userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                            contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                            activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                            contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                            activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
+                            numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                            numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                            numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                            numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                            upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                            downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                            favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                            newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                            //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                            contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        }
+                        mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
+                                userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                                numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                                newsType,newsMedia,contentId,activityType
+                        );
+                        mAdapter.notifyDataSetChanged();
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        swipeRefreshRecycler.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
         return view;
 
     }

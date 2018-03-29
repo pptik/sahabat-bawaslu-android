@@ -325,6 +325,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             Integer.parseInt(contentType[position]),titlePost[position],
                             access_token,holder,textNumberFavorite[position],
                             textNumberUpvote[position],textNumberDownvote[position]);
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -379,13 +380,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 textNumberUpvote++;
                 viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvote));
-
-
                 break;
             case 3://downvote
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-
                 textNumberDownvote++;
                 viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvote));
                 break;
