@@ -74,46 +74,48 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private Boolean[] statusUpvote, statusDownvote,
             statusFavorite;
 
-    private  Activity activity;
+
+
+    private Activity activity;
     private RestServiceInterface restServiceInterface;
     private SharedPreferences sharedPreferences;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
                 tvNumberFavorite, tvNumberDownvote, tvNumberUpvote,
-                tvNumberComment, tvActivityUsername,tvTitlePostNewsAdmin,
-                tvContentPostNewsAdmin,tvTitlePostNewsNonAdminText,tvContentPostNewsNonAdminText,
+                tvNumberComment, tvActivityUsername, tvTitlePostNewsAdmin,
+                tvContentPostNewsAdmin, tvTitlePostNewsNonAdminText, tvContentPostNewsNonAdminText,
                 tvContentPostNewsNonAdminMedia;
 
-        public ImageView ivUserpicture,buttonUpvote,
+        public ImageView ivUserpicture, buttonUpvote,
                 buttonDownvote, buttonFavorite, buttonComment,
                 infoButton, newsMedia;
-        public RelativeLayout relativeLayoutNotNewsContent,relativeLayoutNewsContentNotAdminMedia,
-                relativeLayoutNewsContentNotAdminText,relativeLayoutNewsAdmin;
-        public View viewLabelColorNews,viewLabelColorMaterial;
+        public RelativeLayout relativeLayoutNotNewsContent, relativeLayoutNewsContentNotAdminMedia,
+                relativeLayoutNewsContentNotAdminText, relativeLayoutNewsAdmin;
+        public View viewLabelColorNews, viewLabelColorMaterial;
         public static Snackbar snackbar;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvUsername = (TextView)itemView.findViewById(R.id.username);
-            tvDatePost = (TextView)itemView.findViewById(R.id.date_post);
-            tvTitlePost = (TextView)itemView.findViewById(R.id.title_post);
-            tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
-            tvContentCode = (TextView)itemView.findViewById(R.id.post_label);
-            tvContentLabel = (TextView)itemView.findViewById(R.id.post_content_desc);
-            tvActivityLabel = (TextView)itemView.findViewById(R.id.post_activity_desc);
-            tvNumberFavorite = (TextView)itemView.findViewById(R.id.text_number_favorite);
-            tvNumberDownvote = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
-            tvNumberUpvote = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
-            tvNumberComment = (TextView)itemView.findViewById(R.id.text_comments);
-            tvActivityUsername = (TextView)itemView.findViewById(R.id.activity_username);
-            tvTitlePostNewsAdmin = (TextView)itemView.findViewById(R.id.title_post_news_admin);
-            tvContentPostNewsAdmin = (TextView)itemView.findViewById(R.id.content_post_news_admin);
-            tvTitlePostNewsNonAdminText = (TextView)itemView.findViewById(R.id.title_post_news_nonadmin_text);
-            tvContentPostNewsNonAdminText = (TextView)itemView.findViewById(R.id.content_post_nonadmin_text);
+            tvUsername = (TextView) itemView.findViewById(R.id.username);
+            tvDatePost = (TextView) itemView.findViewById(R.id.date_post);
+            tvTitlePost = (TextView) itemView.findViewById(R.id.title_post);
+            tvContentPost = (TextView) itemView.findViewById(R.id.content_post);
+            tvContentCode = (TextView) itemView.findViewById(R.id.post_label);
+            tvContentLabel = (TextView) itemView.findViewById(R.id.post_content_desc);
+            tvActivityLabel = (TextView) itemView.findViewById(R.id.post_activity_desc);
+            tvNumberFavorite = (TextView) itemView.findViewById(R.id.text_number_favorite);
+            tvNumberDownvote = (TextView) itemView.findViewById(R.id.text_numbers_downvote);
+            tvNumberUpvote = (TextView) itemView.findViewById(R.id.text_numbers_upvote);
+            tvNumberComment = (TextView) itemView.findViewById(R.id.text_comments);
+            tvActivityUsername = (TextView) itemView.findViewById(R.id.activity_username);
+            tvTitlePostNewsAdmin = (TextView) itemView.findViewById(R.id.title_post_news_admin);
+            tvContentPostNewsAdmin = (TextView) itemView.findViewById(R.id.content_post_news_admin);
+            tvTitlePostNewsNonAdminText = (TextView) itemView.findViewById(R.id.title_post_news_nonadmin_text);
+            tvContentPostNewsNonAdminText = (TextView) itemView.findViewById(R.id.content_post_nonadmin_text);
             newsMedia = (ImageView) itemView.findViewById(R.id.media_post_news_nonadmin_media);
-            tvContentPostNewsNonAdminMedia = (TextView)itemView.findViewById(R.id.caption_post_news_nonadmin_media);
+            tvContentPostNewsNonAdminMedia = (TextView) itemView.findViewById(R.id.caption_post_news_nonadmin_media);
 
             viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
             viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
@@ -127,9 +129,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
 
             relativeLayoutNotNewsContent = (RelativeLayout) itemView.findViewById(R.id.relativelayout_not_news_content);
-            relativeLayoutNewsAdmin= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_admin);
-            relativeLayoutNewsContentNotAdminText= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_text);
-            relativeLayoutNewsContentNotAdminMedia= (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_media);
+            relativeLayoutNewsAdmin = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_admin);
+            relativeLayoutNewsContentNotAdminText = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_text);
+            relativeLayoutNewsContentNotAdminMedia = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_media);
 
         }
     }
@@ -142,7 +144,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
                                  List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
                                  List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam,
-                                 List<String> newsMediaListParam,List<String> contentIdListParam,
+                                 List<String> newsMediaListParam, List<String> contentIdListParam,
                                  List<Integer> activityCodeListParam) {
 
         this.activity = activity;
@@ -158,14 +160,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         this.textNumberUpvoteList = textNumberUpvoteListParam;
         this.textNumberFavoriteList = textNumberFavoriteListParam;
         this.textNumberCommentList = textNumberCommentListParam;
-        this.statusUpvoteList =  statusUpvotesParam;
-        this.statusDownvoteList =  statusDownvotesParam;
-        this.statusFavoriteList=  statusFavoritesParam;
-        this.newsTypeList=  newsTypeListParam;
-        this.newsMediaList=  newsMediaListParam;
-        this.newsMediaList=  newsMediaListParam;
-        this.contentIdList=  contentIdListParam;
-        this.activityCodeList=  activityCodeListParam;
+        this.statusUpvoteList = statusUpvotesParam;
+        this.statusDownvoteList = statusDownvotesParam;
+        this.statusFavoriteList = statusFavoritesParam;
+        this.newsTypeList = newsTypeListParam;
+        this.newsMediaList = newsMediaListParam;
+        this.newsMediaList = newsMediaListParam;
+        this.contentIdList = contentIdListParam;
+        this.activityCodeList = activityCodeListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -223,11 +225,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
-        switch (newsType[position]){
+        switch (newsType[position]) {
             case 0://berita dari admin atau bukan berita
-                if(contentType[position] == "1"){//Materi
+                if (contentType[position] == "1") {//Materi
                     holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                     holder.tvContentPost.setText(contentPost[position]);
                     holder.tvTitlePost.setText(titlePost[position]);
@@ -237,8 +239,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else if(contentType[position] == "2"){//Berita
+                } else if (contentType[position] == "2") {//Berita
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
                     holder.tvContentPostNewsAdmin.setText(contentPost[position]);
@@ -271,7 +272,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             case 2://berita dari relawan text
                 holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);
                 holder.tvTitlePostNewsNonAdminText.setText(titlePost[position]);
-                holder.tvContentPostNewsNonAdminText.setText("\""+contentPost[position]+"\"");
+                holder.tvContentPostNewsNonAdminText.setText("\"" + contentPost[position] + "\"");
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -301,7 +302,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvContentCode.setText(contentType[position]);
         holder.tvContentLabel.setText(contentText[position]);
         holder.tvActivityLabel.setText(activityText[position]);
-        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() +" "+contentText[position].toString().toLowerCase());
+        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() + " " + contentText[position].toString().toLowerCase());
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 
@@ -309,58 +310,67 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
-        holder.tvNumberComment.setText(textNumberComment[position].toString() +" Komentar");
+        holder.tvNumberComment.setText(textNumberComment[position].toString() + " Komentar");
 
 
         //Gamifikasi respon
-        if (statusUpvote[position]){
+        if (statusUpvote[position]) {
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-        }else{
+
+        } else {
 
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
             holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    gamifikasiAksiRespon(contentId[position],2,
-                            Integer.parseInt(contentType[position]),titlePost[position],
-                            access_token,holder,textNumberFavorite[position],
-                            textNumberUpvote[position],textNumberDownvote[position]);
-                    notifyDataSetChanged();
+                    gamifikasiAksiRespon(contentId[position], 2,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
                 }
             });
         }
 
-        if (statusDownvote[position]){
+        if (statusDownvote[position]) {
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
-        }else{
+
+        } else {
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             holder.buttonDownvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    gamifikasiAksiRespon(contentId[position],3,
-                            Integer.parseInt(contentType[position]),titlePost[position],
-                            access_token,holder,textNumberFavorite[position],
-                            textNumberUpvote[position],textNumberDownvote[position]);
+                    gamifikasiAksiRespon(contentId[position], 3,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
                 }
             });
         }
 
-        if (statusFavorite[position]){
+        if (statusFavorite[position]) {
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-        }else{
+            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gamifikasiAksiRespon(contentId[position], 4,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
+                }
+            });
+        } else {
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
             holder.buttonFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("URAI","content id:"+contentId[position]);
-                    Log.d("URAI","activity code:"+activityCode[position]);
-                    Log.d("URAI","content type:"+contentType[position]);
-                    Log.d("URAI","title post:"+titlePost[position]);
-                    Log.d("URAI","akses token:"+access_token);
-                    gamifikasiAksiRespon(contentId[position],4,
-                            Integer.parseInt(contentType[position]),titlePost[position],
-                            access_token,holder,textNumberFavorite[position],
-                            textNumberUpvote[position],textNumberDownvote[position]);
+                    gamifikasiAksiRespon(contentId[position], 4,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
                 }
             });
         }
@@ -370,48 +380,47 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public void gamifikasiAksiRespon(String contentID,
                                      final int activityCode, int contentCode,
                                      String title, String accessToken,
-                                     ViewHolder viewHolder,int textNumberFavorite,
-                                     int textNumberUpvote, int textNumberDownvote){
+                                     final ViewHolder viewHolder, int textNumberFavoriteParam,
+                                     int textNumberUpvoteParam, int textNumberDownvoteParam,
+                                     final int position) {
 
         //Ganti status Front End response
-        switch (activityCode){
+        switch (activityCode) {
             case 2://upvote
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                textNumberUpvote++;
-                viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvote));
+                viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvoteParam));
+
                 break;
             case 3://downvote
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                textNumberDownvote++;
-                viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvote));
+                viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvoteParam));
+
                 break;
             case 4://favorite
                 viewHolder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-                textNumberFavorite++;
-                viewHolder.tvNumberFavorite.setText(Integer.toString(textNumberFavorite));
+                viewHolder.tvNumberFavorite.setText(Integer.toString(textNumberFavoriteParam));
                 break;
         }
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID,activityCode,
-                contentCode,title,accessToken);
+        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
+                contentCode, title, accessToken);
         voteAction.enqueue(new Callback<VotePOJO>() {
             @Override
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
-                //VotePOJO votePOJO = response.body();
-                //Toast.makeText(activity, votePOJO.getRc(), Toast.LENGTH_SHORT).show();
-
-
+                VotePOJO votePOJO = response.body();
+                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<VotePOJO> call, Throwable t) {
-                //Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

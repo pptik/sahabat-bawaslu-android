@@ -31,6 +31,10 @@ public class AddNewsPOJO {
         return rm;
     }
 
+    public String getRc() {
+        return rc;
+    }
+
     /*public class Results{
         @SerializedName("content_code")
         @Expose

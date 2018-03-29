@@ -98,6 +98,12 @@ public class VotePOJO {
             return id;
         }
 
+        public int getActivityCode() {
+            return activityCode;
+        }
+
     }
+
+
 }
 

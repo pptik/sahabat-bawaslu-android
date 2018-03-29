@@ -64,7 +64,14 @@ public class AddNewsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<AddNewsPOJO> call, Response<AddNewsPOJO> response) {
                         AddNewsPOJO addNewsPOJO = response.body();
-                        Toast.makeText(AddNewsActivity.this, addNewsPOJO.getRm().toString(), Toast.LENGTH_SHORT).show();
+
+                        if(addNewsPOJO.getRc().equals("0000")){
+                            finish();
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            Toast.makeText(AddNewsActivity.this, addNewsPOJO.getRm().toString(), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(AddNewsActivity.this, addNewsPOJO.getRm().toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
