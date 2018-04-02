@@ -70,5 +70,7 @@
     <string name="sort_suplemen">Urutkan berdasarkan materi suplemen</string>
     <string name="sort_kasus">Urutkan berdasarkan materi kasus</string>
     <string name="sort_video">Urutkan berdasarkan materi video</string>
+    <string name="filter_materi">Urutkan berdasarkan konten materi</string>
+    <string name="filter_berita">Urutkan berdasarkan konten berita</string>
     <string name="angka_dummy">1</string>
 </resources>

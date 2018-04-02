@@ -389,8 +389,11 @@ public class NewsFragment extends Fragment {
                     case R.id.pop_up_sort_favorite:
                         sortByCategoryREST(3);
                         return true;
-                    case R.id.pop_up_sort_comment:
-                        sortByCategoryREST(4);
+                    case R.id.pop_up_filter_materi:
+                        filterByContentREST(1);
+                        return true;
+                    case R.id.pop_up_filter_berita:
+                        filterByContentREST(2);
                         return true;
                     default:return false;
                 }
@@ -445,6 +448,76 @@ public class NewsFragment extends Fragment {
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
         Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardSortBy(0,code,access_token);
+        dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+            @Override
+            public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                //Mengosongkan recycle material yang sudah diisi
+                username.clear();
+                datePost.clear();
+                contentPost.clear();
+                userPicturePost.clear();
+                contentType.clear();
+                titlePost.clear();
+                contentLabel.clear();
+                activityLabel.clear();
+                numberFavorite.clear();
+                numberUpvote.clear();
+                numberDownvote.clear();
+                numberComments.clear();
+                upvoteStatus.clear();
+                downvoteStatus.clear();
+                favoriteStatus.clear();
+                newsType.clear();
+                newsMedia.clear();
+                contentId.clear();
+                activityType.clear();
+
+                DashboardPOJO dashboardPOJO = response.body();
+                for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                    datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                    titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                    contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                    userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                    contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                    activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                    contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                    activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
+                    numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                    numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                    numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                    upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                    downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                    favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                    newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                    //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
+                    contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                    newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                }
+                mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
+                        userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                        newsType,newsMedia,contentId,activityType
+                );
+                mAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void filterByContentREST(int code){
+        //Ambil Data dari Networking REST
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardFilterByContent(0,code,access_token);
         dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
             @Override
             public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {

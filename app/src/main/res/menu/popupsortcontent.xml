@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:id="@+id/pop_up_filter_materi"
+    android:title="@string/filter_materi"/>
+    <item android:id="@+id/pop_up_filter_berita"
+    android:title="@string/filter_berita"/>
 <item android:id="@+id/pop_up_sort_date"
     android:title="@string/sort_date"/>
 <item android:id="@+id/pop_up_sort_upvote"
