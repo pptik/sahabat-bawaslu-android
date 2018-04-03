@@ -25,6 +25,10 @@ public class NewsPOJO {
     @SerializedName("success")
     public Boolean success;
 
+    @SerializedName("results")
+    @Expose
+    public Results results;
+
 
     public NewsPOJO(String contentId, String access_token) {
         this.access_token = access_token;
@@ -40,9 +44,33 @@ public class NewsPOJO {
         @Expose
         private String content;
 
+        @SerializedName("created_at_from_now")
+        @Expose
+        private String createdAtFromNow;
+
         @SerializedName("post_by")
         @Expose
         private PostBy postBy;
+
+        @SerializedName("user_detail")
+        @Expose
+        private UserDetail userDetail;
+
+        @SerializedName("upvote")
+        @Expose
+        private int upvote;
+
+        @SerializedName("downvote")
+        @Expose
+        private int downvote;
+
+        @SerializedName("favorite")
+        @Expose
+        private int favorite;
+
+        @SerializedName("comment")
+        @Expose
+        private int comment;
 
         public class PostBy {
 
@@ -63,14 +91,50 @@ public class NewsPOJO {
 
         }
 
+        public class UserDetail {
+            @SerializedName("display_picture")
+            @Expose
+            private String displayPicture;
+
+            public String getDisplayPicture() {
+                return displayPicture;
+            }
+        }
+
         public String getContent() {
             return content;
+        }
+
+        public String getCreatedAtFromNow() {
+            return createdAtFromNow;
         }
 
         public PostBy getPostBy() {
             return postBy;
         }
+
+        public UserDetail getUserDetail() {
+            return userDetail;
+        }
+
+        public int getUpvote() {
+            return upvote;
+        }
+
+        public int getDownvote() {
+            return downvote;
+        }
+
+        public int getFavorite() {
+            return favorite;
+        }
+
+        public int getComment() {
+            return comment;
+        }
     }
+
+
 
     public String getRc() {
         return rc;
@@ -83,4 +147,9 @@ public class NewsPOJO {
     public Boolean getSuccess() {
         return success;
     }
+
+    public Results getResults() {
+        return results;
+    }
+
 }

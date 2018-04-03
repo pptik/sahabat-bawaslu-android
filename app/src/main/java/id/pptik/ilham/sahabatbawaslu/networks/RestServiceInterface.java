@@ -6,6 +6,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
@@ -87,8 +88,8 @@ public interface RestServiceInterface {
 
     @FormUrlEncoded
     @POST("news/detail")
-    Call<DashboardPOJO> newsDetail(@Field("NewsID") String newsID,
-                                        @Header("access_token") String access_token);
+    Call<NewsPOJO> newsDetail(@Field("NewsID") String newsID,
+                              @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("dashboard/vote")

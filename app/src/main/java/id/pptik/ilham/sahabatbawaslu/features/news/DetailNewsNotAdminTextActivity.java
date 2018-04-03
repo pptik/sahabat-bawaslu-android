@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.features.news;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +24,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,12 +35,12 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.username)TextView textViewUsername;
     @BindView(R.id.activity_username)TextView textViewUsernameActivity;
     @BindView(R.id.date_post)TextView textViewDatePost;
-    @BindView(R.id.icon_numbers_favorite)TextView textViewNumberFavorite;
-    @BindView(R.id.icon_numbers_upvote)TextView textViewNumberUpvote;
-    @BindView(R.id.icon_numbers_downvote)TextView textViewNumberDownVote;
+    @BindView(R.id.text_number_favorite)TextView textViewNumberFavorite;
+    @BindView(R.id.text_numbers_upvote)TextView textViewNumberUpvote;
+    @BindView(R.id.text_numbers_downvote)TextView textViewNumberDownVote;
     @BindView(R.id.text_comments)TextView textViewNumberKomentar;
-    String contentId, contentPost, username, activityUsername,
-    datePost, numberFavorite, numberUpVote, numberDownVote, numberComment;
+    @BindView(R.id.user_picture)ImageView imageViewUserPicture;
+    String contentId;
     Intent intent;
     RestServiceInterface restServiceInterface;
 
@@ -69,20 +75,31 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-        Call<DashboardPOJO> newsDetailCall = restServiceInterface.newsDetail(contentId,access_token);
-        newsDetailCall.enqueue(new Callback<DashboardPOJO>() {
+        Call<NewsPOJO> newsDetailCall = restServiceInterface.newsDetail(contentId,access_token);
+        newsDetailCall.enqueue(new Callback<NewsPOJO>() {
             @Override
-            public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                DashboardPOJO newsDetailPOJO = response.body();
+            public void onResponse(Call<NewsPOJO> call, Response<NewsPOJO> response) {
+                NewsPOJO newsPOJO = response.body();
+                if (newsPOJO.getSuccess() != true){
+                    Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                }
 
-                textViewUsername.setText(newsDetailPOJO.getResults().get(0).getDashboard());
-                textViewUsernameActivity.setText("membuat");
-                textViewContentPostNonAdminText.setText("KONTEN nnya");
-                textViewDatePost.setText("1 hari yll");
+                textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
+                textViewContentPostNonAdminText.setText(newsPOJO.getResults().getContent());
+                textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
+                textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
+                textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
+                textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
+                textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
+                textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment())+" Komentar");
+                textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
+                //imageViewUserPicture.
+                imageViewUserPicture.setImageDrawable(null);
+                Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
             }
 
             @Override
-            public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+            public void onFailure(Call<NewsPOJO> call, Throwable t) {
 
             }
         });

@@ -73,7 +73,8 @@
                 android:layout_toRightOf="@id/username"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:textColor="@color/abu"/>
+                android:textColor="@color/abu"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/info_button_content_activity"
                 android:layout_width="wrap_content"
