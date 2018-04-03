@@ -59,6 +59,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private List<String> contentTextList;
     private List<String> activityTextList;
 
+
     private List<Boolean> statusUpvoteList;
     private List<Boolean> statusDownvoteList;
     private List<Boolean> statusFavoriteList;
@@ -79,6 +80,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private Activity activity;
     private RestServiceInterface restServiceInterface;
     private SharedPreferences sharedPreferences;
+
+    public static final String CONTENT_ID = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
@@ -246,7 +249,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                            /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
                             v.getContext().startActivity(intent);
                             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
                             //Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
@@ -276,9 +279,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                        intent.putExtra(CONTENT_ID,contentId[position]);
                         v.getContext().startActivity(intent);
-                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         //Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
                     }
                 });

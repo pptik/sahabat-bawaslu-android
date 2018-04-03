@@ -12,6 +12,7 @@
     <string name="add_forum_label">Tambah Forum</string>
     <string name="materi_label">Detail Materi</string>
     <string name="notifikasi_label">Notifikasi</string>
+    <string name="detail_berita_label">Detail Berita</string>
     <string name="dashboard_label">Dashboard</string>
     <string name="pastikan_internet_label">Mohon pastikan anda terhubung dengan Internet</string>
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
