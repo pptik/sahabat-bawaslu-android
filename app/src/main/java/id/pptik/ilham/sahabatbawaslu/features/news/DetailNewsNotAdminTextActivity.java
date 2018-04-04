@@ -7,8 +7,11 @@ import android.media.Image;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,9 +44,16 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.text_numbers_downvote)TextView textViewNumberDownVote;
     @BindView(R.id.text_comments)TextView textViewNumberKomentar;
     @BindView(R.id.user_picture)ImageView imageViewUserPicture;
+    @BindView(R.id.button_favorite)ImageView imageButtonFavorite;
+    @BindView(R.id.button_upvote)ImageView imageButtonUpvote;
+    @BindView(R.id.button_downvote)ImageView imageButtonDownvote;
+    @BindView(R.id.button_comment)ImageView imageButtonComment;
+    @BindView(R.id.recycler_view_komentar)RecyclerView recyclerViewComments;
     String contentId;
     Intent intent;
     RestServiceInterface restServiceInterface;
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +78,14 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         contentRequest(contentId);
+
+        recyclerViewComments.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerViewComments.setLayoutManager(mLayoutManager);
+
+        mAdapter = new NewsCommentsRecyclerView();
+        mAdapter.notifyDataSetChanged();
+        recyclerViewComments.setAdapter(mAdapter);
     }
 
     private void contentRequest(String contentId){
@@ -96,6 +115,13 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 //imageViewUserPicture.
                 imageViewUserPicture.setImageDrawable(null);
                 Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //gamifikasiAksiRespon();
+                        Toast.makeText(DetailNewsNotAdminTextActivity.this, "tesss", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -103,67 +129,48 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
 
             }
         });
-        /*dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
-            @Override
-            public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                //Mengosongkan recycle material yang sudah diisi
-                username.clear();
-                datePost.clear();
-                contentPost.clear();
-                userPicturePost.clear();
-                contentType.clear();
-                titlePost.clear();
-                contentLabel.clear();
-                activityLabel.clear();
-                numberFavorite.clear();
-                numberUpvote.clear();
-                numberDownvote.clear();
-                numberComments.clear();
-                upvoteStatus.clear();
-                downvoteStatus.clear();
-                favoriteStatus.clear();
-                newsType.clear();
-                newsMedia.clear();
-                contentId.clear();
-                activityType.clear();
+    }
 
-                DashboardPOJO dashboardPOJO = response.body();
-                for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
-                    username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
-                    datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
-                    titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
-                    contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
-                    userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
-                    contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
-                    activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
-                    contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
-                    activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
-                    numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
-                    numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
-                    numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
-                    numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
-                    upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
-                    downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
-                    favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
-                    newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                    //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
-                    contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                    newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
-                }
-                mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                        userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                        numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                        newsType,newsMedia,contentId,activityType
-                );
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(mAdapter);
+    public void gamifikasiAksiRespon(String contentID,
+                                     final int activityCode, int contentCode,
+                                     String title, String accessToken,
+                                     int textNumberFavoriteParam,
+                                     int textNumberUpvoteParam, int textNumberDownvoteParam,
+                                     final int position) {
+
+        //Ganti status Front End response
+        switch (activityCode) {
+            /*case 2://upvote
+                viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvoteParam));
+                break;
+            case 3://downvote
+                viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvoteParam));
+                break;*/
+            case 4://favorite
+                imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                //tvNumberFavorite.setText(Integer.toString(textNumberFavoriteParam));
+                break;
+        }
+
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
+                contentCode, title, accessToken);
+        voteAction.enqueue(new Callback<VotePOJO>() {
+            @Override
+            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                VotePOJO votePOJO = response.body();
+                Toast.makeText(DetailNewsNotAdminTextActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<DashboardPOJO> call, Throwable t) {
-
+            public void onFailure(Call<VotePOJO> call, Throwable t) {
+                Toast.makeText(DetailNewsNotAdminTextActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
     }
 
     @Override
