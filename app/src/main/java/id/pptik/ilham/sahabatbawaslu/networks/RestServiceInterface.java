@@ -2,6 +2,7 @@ package id.pptik.ilham.sahabatbawaslu.networks;
 
 import java.util.List;
 
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -86,6 +87,12 @@ public interface RestServiceInterface {
     @POST("news/create/text")
     Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
                                      @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("comments/create")
+    Call<AddCommentPOJO> commentCreate(@Field("Comment") String comment,
+                                       @Field("ContentID") String contentId,
+                                        @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("news/detail")

@@ -69,6 +69,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     private List<String> userProfilePicture = new ArrayList<String>();
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
+    public static final String CONTENT_ID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,9 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
+                intent.putExtra(CONTENT_ID,contentId);
                 startActivity(intent);
                 //startActivityForResult(intent,);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -237,5 +240,12 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
