@@ -5,5 +5,5 @@ package id.pptik.ilham.sahabatbawaslu.commands;
  */
 
 public interface NewsInterface {
-    public void onClickAddComment();
+    public void onClickAddNews();
 }
