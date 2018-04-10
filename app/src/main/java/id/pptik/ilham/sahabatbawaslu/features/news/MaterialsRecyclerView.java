@@ -203,7 +203,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         textNumberFavorite = textNumberFavoriteList.toArray(textNumberFavorite);
         textNumberUpvote = textNumberUpvoteList.toArray(textNumberUpvote);
         textNumberDownvote = textNumberDownvoteList.toArray(textNumberDownvote);
-        textNumberComment = textNumberDownvoteList.toArray(textNumberComment);
+        textNumberComment = textNumberCommentList.toArray(textNumberComment);
         statusUpvote = statusUpvoteList.toArray(statusUpvote);
         statusDownvote = statusDownvoteList.toArray(statusDownvote);
         statusFavorite = statusFavoriteList.toArray(statusFavorite);

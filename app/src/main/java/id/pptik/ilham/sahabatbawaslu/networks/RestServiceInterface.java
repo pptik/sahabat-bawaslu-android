@@ -92,6 +92,7 @@ public interface RestServiceInterface {
     @POST("comments/create")
     Call<AddCommentPOJO> commentCreate(@Field("Comment") String comment,
                                        @Field("ContentID") String contentId,
+                                       @Field("Type") int type,
                                         @Header("access_token") String access_token);
 
     @FormUrlEncoded

@@ -70,6 +70,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
     public static final String CONTENT_ID = "";
+    private int counterRefreshDataOnResume = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,5 +248,28 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(counterRefreshDataOnResume > 0){
+            datePost.clear();
+            username.clear();
+            contentPost.clear();
+            userProfilePicture.clear();
+            commentId.clear();
+            commentNumber.clear();
+
+            intent = getIntent();
+            contentId = intent.getStringExtra(MaterialsRecyclerView.CONTENT_ID);
+
+            sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+            final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+            commentList(contentId,access_token);
+        }
+        counterRefreshDataOnResume++;
     }
 }

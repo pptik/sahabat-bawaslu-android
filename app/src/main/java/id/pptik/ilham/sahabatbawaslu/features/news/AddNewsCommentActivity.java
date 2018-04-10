@@ -74,11 +74,12 @@ public class AddNewsCommentActivity extends AppCompatActivity {
             @Override
             public void onClickAddComment() {
                 Call<AddCommentPOJO> addCommentPOJOCall = restServiceInterface.
-                        commentCreate(editTextComment.getText().toString(),contentId,access_token);
+                        commentCreate(editTextComment.getText().toString(),contentId,2,access_token);
                 addCommentPOJOCall.enqueue(new Callback<AddCommentPOJO>() {
                     @Override
                     public void onResponse(Call<AddCommentPOJO> call, Response<AddCommentPOJO> response) {
                         Toast.makeText(AddNewsCommentActivity.this, response.body().getRm(), Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override
