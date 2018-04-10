@@ -94,6 +94,18 @@ public class VotePOJO {
         @SerializedName("_id")
         public String id;
 
+        @SerializedName("upvote")
+        public int upvote;
+
+        @SerializedName("downvote")
+        public int downvote;
+
+        @SerializedName("favorite")
+        public int favorite;
+
+        @SerializedName("comment")
+        public int comment;
+
         public String getId() {
             return id;
         }
@@ -102,6 +114,21 @@ public class VotePOJO {
             return activityCode;
         }
 
+        public int getUpvote() {
+            return upvote;
+        }
+
+        public int getDownvote() {
+            return downvote;
+        }
+
+        public int getFavorite() {
+            return favorite;
+        }
+
+        public int getComment() {
+            return comment;
+        }
     }
 
 

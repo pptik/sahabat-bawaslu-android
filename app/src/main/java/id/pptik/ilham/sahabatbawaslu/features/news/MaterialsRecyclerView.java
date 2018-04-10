@@ -75,7 +75,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private Boolean[] statusUpvote, statusDownvote,
             statusFavorite;
 
-
+    //private String favoriteNumberAfterRequest, upvoteNumberAfterRequest, downvoteNumberAfterRequest;
 
     private Activity activity;
     private RestServiceInterface restServiceInterface;
@@ -332,6 +332,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             access_token, holder, textNumberFavorite[position],
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
+
+                    /*holder.tvNumberFavorite.setText(favoriteNumberAfterRequest);
+                    holder.tvNumberUpvote.setText(upvoteNumberAfterRequest);
+                    holder.tvNumberDownvote.setText(downvoteNumberAfterRequest);*/
+
                 }
             });
         }
@@ -349,13 +354,18 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             access_token, holder, textNumberFavorite[position],
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
+
+                    /*holder.tvNumberFavorite.setText(favoriteNumberAfterRequest);
+                    holder.tvNumberUpvote.setText(upvoteNumberAfterRequest);
+                    holder.tvNumberDownvote.setText(downvoteNumberAfterRequest);*/
                 }
             });
         }
 
         if (statusFavorite[position]) {
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
+            holder.buttonFavorite.setClickable(false);
+            /*holder.buttonFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     gamifikasiAksiRespon(contentId[position], 4,
@@ -363,8 +373,31 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             access_token, holder, textNumberFavorite[position],
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
+
+                            restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                            final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 4,
+                                    Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            voteAction.enqueue(new Callback<VotePOJO>() {
+                                @Override
+                                public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                                    VotePOJO votePOJO = response.body();
+                                    Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                                    Log.d("FAV",Integer.toString(votePOJO.getResults().getFavorite()));
+                                    holder.tvNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                                    holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                                    holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                                    holder.tvNumberComment.setText(Integer.toString(votePOJO.getResults().getComment())+" Komentar");
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<VotePOJO> call, Throwable t) {
+                                    Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
-            });
+            });*/
         } else {
             holder.buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
             holder.buttonFavorite.setOnClickListener(new View.OnClickListener() {
@@ -375,9 +408,33 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             access_token, holder, textNumberFavorite[position],
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
+
+                    restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                    final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 4,
+                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                    voteAction.enqueue(new Callback<VotePOJO>() {
+                        @Override
+                        public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                            VotePOJO votePOJO = response.body();
+                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            Log.d("FAV",Integer.toString(votePOJO.getResults().getFavorite()));
+                            holder.tvNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            holder.tvNumberComment.setText(Integer.toString(votePOJO.getResults().getComment())+" Komentar");
+                            holder.buttonFavorite.setClickable(false);
+                        }
+
+                        @Override
+                        public void onFailure(Call<VotePOJO> call, Throwable t) {
+                            Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
+
+
 
     }
 
@@ -408,21 +465,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 break;
         }
 
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
-                contentCode, title, accessToken);
-        voteAction.enqueue(new Callback<VotePOJO>() {
-            @Override
-            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
-                VotePOJO votePOJO = response.body();
-                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<VotePOJO> call, Throwable t) {
-                Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
