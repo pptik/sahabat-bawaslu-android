@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.button_downvote)ImageView imageButtonDownvote;
     @BindView(R.id.button_comment)ImageView imageButtonComment;
     @BindView(R.id.recycler_view_komentar)RecyclerView recyclerViewComments;
+    @BindView(R.id.fab_tambah_komentar)FloatingActionButton floatingActionButtonTambahKomentar;
     String contentId;
     Intent intent;
     RestServiceInterface restServiceInterface;
@@ -98,6 +100,16 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
+                startActivity(intent);
+                //startActivityForResult(intent,);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
 
         commentList(contentId,access_token);
 
