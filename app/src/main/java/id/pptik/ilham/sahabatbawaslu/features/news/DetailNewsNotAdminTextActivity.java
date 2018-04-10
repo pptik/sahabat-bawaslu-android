@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -20,11 +21,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
@@ -54,6 +59,14 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     RestServiceInterface restServiceInterface;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+    SharedPreferences sharedPreferences;
+
+    private List<String> datePost = new ArrayList<String>();
+    private List<String> username = new ArrayList<String>();
+    private List<String> contentPost = new ArrayList<String>();
+    private List<String> userProfilePicture = new ArrayList<String>();
+    private List<String> commentId = new ArrayList<String>();
+    private List<Integer> commentNumber = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +96,11 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         recyclerViewComments.setLayoutManager(mLayoutManager);
 
-        mAdapter = new NewsCommentsRecyclerView();
-        mAdapter.notifyDataSetChanged();
-        recyclerViewComments.setAdapter(mAdapter);
+        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        commentList(contentId,access_token);
+
     }
 
     private void contentRequest(String contentId){
@@ -126,6 +141,35 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<NewsPOJO> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void commentList(final String contentId, String accessToken){
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        final Call<CommentsPOJO> commentsList = restServiceInterface.commentsList(contentId,accessToken);
+        commentsList.enqueue(new Callback<CommentsPOJO>() {
+            @Override
+            public void onResponse(Call<CommentsPOJO> call, Response<CommentsPOJO> response) {
+                CommentsPOJO commentsPOJO = response.body();
+                for (int item = 0 ; item < commentsPOJO.getResults().size(); item++){
+                   username.add(commentsPOJO.getResults().get(item).getPostBy().getUsername());
+                   datePost.add(commentsPOJO.getResults().get(item).getCreatedAtFromNow());
+                   contentPost.add(commentsPOJO.getResults().get(item).getComment());
+                   userProfilePicture.add(commentsPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
+                   commentId.add(commentsPOJO.getResults().get(item).getId());
+                   commentNumber.add(commentsPOJO.getResults().get(item).getLevel());
+                }
+                mAdapter = new NewsCommentsRecyclerView(username,datePost,contentPost,
+                        userProfilePicture,commentId,commentNumber);
+
+                mAdapter.notifyDataSetChanged();
+                recyclerViewComments.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<CommentsPOJO> call, Throwable t) {
 
             }
         });

@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.networks;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
@@ -90,6 +91,11 @@ public interface RestServiceInterface {
     @POST("news/detail")
     Call<NewsPOJO> newsDetail(@Field("NewsID") String newsID,
                               @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("comments/list")
+    Call<CommentsPOJO> commentsList(@Field("ContentID") String newsID,
+                                    @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("dashboard/vote")
