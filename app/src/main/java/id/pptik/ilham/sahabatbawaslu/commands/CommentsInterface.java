@@ -4,6 +4,6 @@ package id.pptik.ilham.sahabatbawaslu.commands;
  * Created by Ilham on 28/02/18.
  */
 
-public interface NewsInterface {
-    public void onClickAddComment();
+public interface CommentsInterface {
+    public void onClickAddNews();
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BRA App(Bawaslu Relawan Activity)</string>
     <string name="caption_label">Caption berita</string>
+    <string name="comment_caption_label">Tulis komentar disini</string>
     <string name="field_label">E-mail/Username/No Handphone</string>
     <string name="email_label">E-mail</string>
     <string name="password_label">Password</string>
@@ -9,6 +10,7 @@
     <string name="belum_punya_akun_label">Belum punya akun?</string>
     <string name="daftar_label">Daftar</string>
     <string name="add_news_label">Tambah Berita</string>
+    <string name="add_comment_label">Tambah Komentar</string>
     <string name="add_forum_label">Tambah Forum</string>
     <string name="materi_label">Detail Materi</string>
     <string name="notifikasi_label">Notifikasi</string>
