@@ -320,7 +320,37 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         //Gamifikasi respon
         if (statusUpvote[position]) {
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+            holder.buttonUpvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gamifikasiAksiRespon(contentId[position], 2,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
 
+                    restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                    final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 2,
+                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                    voteAction.enqueue(new Callback<VotePOJO>() {
+                        @Override
+                        public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                            VotePOJO votePOJO = response.body();
+                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            Log.d("UP",Integer.toString(votePOJO.getResults().getFavorite()));
+                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            holder.buttonDownvote.setClickable(true);
+                            holder.buttonUpvote.setClickable(false);
+                        }
+
+                        @Override
+                        public void onFailure(Call<VotePOJO> call, Throwable t) {
+                            Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
         } else {
 
             holder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
@@ -333,9 +363,26 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
 
-                    /*holder.tvNumberFavorite.setText(favoriteNumberAfterRequest);
-                    holder.tvNumberUpvote.setText(upvoteNumberAfterRequest);
-                    holder.tvNumberDownvote.setText(downvoteNumberAfterRequest);*/
+                    restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                    final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 2,
+                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                    voteAction.enqueue(new Callback<VotePOJO>() {
+                        @Override
+                        public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                            VotePOJO votePOJO = response.body();
+                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            Log.d("UP",Integer.toString(votePOJO.getResults().getUpvote()));
+                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            holder.buttonDownvote.setClickable(true);
+                            holder.buttonUpvote.setClickable(false);
+                        }
+
+                        @Override
+                        public void onFailure(Call<VotePOJO> call, Throwable t) {
+                            Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
             });
@@ -343,7 +390,37 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
         if (statusDownvote[position]) {
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+            holder.buttonDownvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gamifikasiAksiRespon(contentId[position], 3,
+                            Integer.parseInt(contentType[position]), titlePost[position],
+                            access_token, holder, textNumberFavorite[position],
+                            textNumberUpvote[position], textNumberDownvote[position],
+                            position);
 
+                    restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                    final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 3,
+                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                    voteAction.enqueue(new Callback<VotePOJO>() {
+                        @Override
+                        public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                            VotePOJO votePOJO = response.body();
+                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            Log.d("DOWN",Integer.toString(votePOJO.getResults().getDownvote()));
+                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            holder.buttonDownvote.setClickable(false);
+                            holder.buttonUpvote.setClickable(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<VotePOJO> call, Throwable t) {
+                            Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
         } else {
             holder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             holder.buttonDownvote.setOnClickListener(new View.OnClickListener() {
@@ -355,9 +432,25 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             textNumberUpvote[position], textNumberDownvote[position],
                             position);
 
-                    /*holder.tvNumberFavorite.setText(favoriteNumberAfterRequest);
-                    holder.tvNumberUpvote.setText(upvoteNumberAfterRequest);
-                    holder.tvNumberDownvote.setText(downvoteNumberAfterRequest);*/
+                    restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                    final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 3,
+                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                    voteAction.enqueue(new Callback<VotePOJO>() {
+                        @Override
+                        public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                            VotePOJO votePOJO = response.body();
+                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            Log.d("DOWN",Integer.toString(votePOJO.getResults().getFavorite()));
+                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            holder.buttonDownvote.setClickable(false);
+                            holder.buttonUpvote.setClickable(true);
+                        }
+
+                        @Override
+                        public void onFailure(Call<VotePOJO> call, Throwable t) {
+                            Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
         }
@@ -419,10 +512,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                             Log.d("FAV",Integer.toString(votePOJO.getResults().getFavorite()));
                             holder.tvNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
-                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
-                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            holder.tvNumberComment.setText(Integer.toString(votePOJO.getResults().getComment())+" Komentar");
-                            holder.buttonFavorite.setClickable(false);
                         }
 
                         @Override

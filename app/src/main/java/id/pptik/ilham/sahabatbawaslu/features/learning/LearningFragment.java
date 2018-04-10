@@ -200,7 +200,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     public void popUpMoreMenu(View view){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        menuInflater.inflate(R.menu.popupslidinglearning,popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -210,8 +210,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    case R.id.pop_up_leaderboard:
-                        Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
+                    case R.id.pop_up_quiz:
+                        Intent intentLeaderboard = new Intent(getContext(), QuizListActivity.class);
                         startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
