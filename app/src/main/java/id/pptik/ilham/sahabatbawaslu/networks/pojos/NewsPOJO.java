@@ -68,6 +68,18 @@ public class NewsPOJO {
         @Expose
         private int favorite;
 
+        @SerializedName("upvoted")
+        @Expose
+        private Boolean upvoted;
+
+        @SerializedName("downvoted")
+        @Expose
+        private Boolean downvoted;
+
+        @SerializedName("favorited")
+        @Expose
+        private Boolean favorited;
+
         @SerializedName("comment")
         @Expose
         private int comment;
@@ -127,6 +139,18 @@ public class NewsPOJO {
 
         public int getFavorite() {
             return favorite;
+        }
+
+        public Boolean getUpvoted() {
+            return upvoted;
+        }
+
+        public Boolean getDownvoted() {
+            return downvoted;
+        }
+
+        public Boolean getFavorited() {
+            return favorited;
         }
 
         public int getComment() {

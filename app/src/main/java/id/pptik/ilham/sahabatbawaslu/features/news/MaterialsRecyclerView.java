@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Shader;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,7 +82,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     private RestServiceInterface restServiceInterface;
     private SharedPreferences sharedPreferences;
 
-    public static final String CONTENT_ID = "";
+    public static final String CONTENT_ID = "CONTENT_ID";
+    public static final String TITLE = "TITLE";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
@@ -280,7 +282,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
-                        intent.putExtra(CONTENT_ID,contentId[position]);
+                        Bundle bundle = new Bundle();
+                        //intent.putExtra(CONTENT_ID,contentId[position]);
+                        bundle.putString(CONTENT_ID,contentId[position]);
+                        bundle.putString(TITLE,titlePost[position]);
+                        intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         //Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();

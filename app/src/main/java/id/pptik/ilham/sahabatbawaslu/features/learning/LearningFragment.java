@@ -211,7 +211,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
                     case R.id.pop_up_quiz:
-                        Intent intentLeaderboard = new Intent(getContext(), QuizListActivity.class);
+                        Intent intentLeaderboard = new Intent(getContext(), QuizDetailActivity.class);
                         startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;

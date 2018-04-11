@@ -53,10 +53,10 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.button_favorite)ImageView imageButtonFavorite;
     @BindView(R.id.button_upvote)ImageView imageButtonUpvote;
     @BindView(R.id.button_downvote)ImageView imageButtonDownvote;
-    @BindView(R.id.button_comment)ImageView imageButtonComment;
+    //@BindView(R.id.button_comment)ImageView imageButtonComment;
     @BindView(R.id.recycler_view_komentar)RecyclerView recyclerViewComments;
     @BindView(R.id.fab_tambah_komentar)FloatingActionButton floatingActionButtonTambahKomentar;
-    String contentId;
+    String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
     RecyclerView.LayoutManager mLayoutManager;
@@ -70,7 +70,9 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
     public static final String CONTENT_ID = "";
+    //public static final String TITLE = "";
     private int counterRefreshDataOnResume = 0;
+    //private String access_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,9 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
         intent = getIntent();
-        contentId = intent.getStringExtra(MaterialsRecyclerView.CONTENT_ID);
+        Bundle bundle = intent.getExtras();
+        contentId = bundle.getString(MaterialsRecyclerView.CONTENT_ID);
+        title = bundle.getString(MaterialsRecyclerView.TITLE);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -94,6 +98,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Log.d("PRE CONTENT ID",contentId);
         contentRequest(contentId);
 
         recyclerViewComments.setHasFixedSize(true);
@@ -103,6 +108,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
+        //Tambah Komentar
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,16 +121,17 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
             }
         });
 
+        //Menampilkan daftar komentar
         commentList(contentId,access_token);
 
     }
 
-    private void contentRequest(String contentId){
+    private void contentRequest(final String contentId){
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
-
+        Log.d("POST CONTENT ID",contentId);
         Call<NewsPOJO> newsDetailCall = restServiceInterface.newsDetail(contentId,access_token);
         newsDetailCall.enqueue(new Callback<NewsPOJO>() {
             @Override
@@ -134,6 +141,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                     Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
                 }
 
+                //Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
                 textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
                 textViewContentPostNonAdminText.setText(newsPOJO.getResults().getContent());
                 textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
@@ -143,14 +151,56 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
                 textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment())+" Komentar");
                 textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
-                //imageViewUserPicture.
                 imageViewUserPicture.setImageDrawable(null);
                 Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+
+                //Gamifikasi status awal
+                if(newsPOJO.getResults().getFavorited()){
+                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                }else{
+                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                }
+
+                if(newsPOJO.getResults().getUpvoted()){
+                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                }else{
+                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                }
+
+                if(newsPOJO.getResults().getDownvoted()){
+                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                }else{
+                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                }
+
+                //Gamifikasi event handler
                 imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //gamifikasiAksiRespon();
-                        Toast.makeText(DetailNewsNotAdminTextActivity.this, "tesss", Toast.LENGTH_SHORT).show();
+                        /*String contentID,
+                        final int activityCode, int contentCode,
+                        String title, String accessToken,
+                        int textNumberFavoriteParam,
+                        int textNumberUpvoteParam, int textNumberDownvoteParam,
+                        final int position*/
+
+                        gamifikasiAksiRespon(contentId,4,2,title,access_token);
+                    }
+                });
+
+                imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
+                        gamifikasiAksiRespon(contentId,2,2,title,access_token);
+                    }
+                });
+
+                imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
+                        gamifikasiAksiRespon(contentId,3,2,title,access_token);
                     }
                 });
             }
@@ -193,14 +243,11 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
 
     public void gamifikasiAksiRespon(String contentID,
                                      final int activityCode, int contentCode,
-                                     String title, String accessToken,
-                                     int textNumberFavoriteParam,
-                                     int textNumberUpvoteParam, int textNumberDownvoteParam,
-                                     final int position) {
+                                     String title, String accessToken) {
 
         //Ganti status Front End response
-        switch (activityCode) {
-            /*case 2://upvote
+        /*switch (activityCode) {
+            case 2://upvote
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 viewHolder.tvNumberUpvote.setText(Integer.toString(textNumberUpvoteParam));
@@ -209,12 +256,12 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 viewHolder.buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 viewHolder.buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 viewHolder.tvNumberDownvote.setText(Integer.toString(textNumberDownvoteParam));
-                break;*/
+                break;
             case 4://favorite
                 imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
                 //tvNumberFavorite.setText(Integer.toString(textNumberFavoriteParam));
                 break;
-        }
+        }*/
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
@@ -224,6 +271,27 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 VotePOJO votePOJO = response.body();
                 Toast.makeText(DetailNewsNotAdminTextActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                if (!votePOJO.getRc().equals("0050")){
+                    switch(activityCode){
+                        case 2:
+                            textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            textViewNumberDownVote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                            ;break;
+                        case 3:
+                            textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            textViewNumberDownVote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                            ;break;
+                        case 4:
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                            imageButtonFavorite.setClickable(false);
+                            textViewNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                            ;break;
+                    }
+                }
             }
 
             @Override
