@@ -65,6 +65,8 @@
     <string name="menu_leaderboard">Leaderboard</string>
     <string name="menu_list_quiz">Daftar Kuis</string>
     <string name="quiz_title">tes kuis 12</string>
+    <string name="peringkat">#1</string>
+    <string name="poin">100</string>
     <string name="menu_quiz">Kuis</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
