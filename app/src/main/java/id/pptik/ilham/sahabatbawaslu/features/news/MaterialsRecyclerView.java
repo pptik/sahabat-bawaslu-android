@@ -231,9 +231,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
+
+
         //Khusus berita
         switch (newsType[position]) {
-            case 0://berita dari admin
+            case 0://konten admin
                 if (contentType[position] == "1") {//Materi
                     holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                     holder.tvContentPost.setText(contentPost[position]);
@@ -245,6 +247,19 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         }
                     });
                 } else if (contentType[position] == "2") {//Berita
+                    holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
+                    holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
+                    holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                            v.getContext().startActivity(intent);
+                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                            //Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else if (contentType[position] == "3") {//Forum
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
                     holder.tvContentPostNewsAdmin.setText(contentPost[position]);
@@ -295,16 +310,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 break;
         }
 
-        //Forum dan Materi
-        holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
-                holder.tvContentPost.setText(contentPost[position]);
-                holder.tvTitlePost.setText(titlePost[position]);
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        //Toast.makeText(activity, "xq "+newsTypeposition, Toast.LENGTH_SHORT).show();
 
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
