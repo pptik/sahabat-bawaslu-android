@@ -39,7 +39,7 @@ public interface RestServiceInterface {
 
     @FormUrlEncoded
     @POST("users/leaderboards")
-    Call<LeaderboardPOJO> leaderboard(@Field("Dummy") String dummy, @Header("access_token") String access_token);
+    Call<LeaderboardPOJO> leaderboard(@Field("Skip") int skip, @Header("access_token") String access_token);
 
 
     /*@Headers({

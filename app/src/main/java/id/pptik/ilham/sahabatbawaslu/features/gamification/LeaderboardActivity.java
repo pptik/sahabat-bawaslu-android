@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LeaderboardActivity extends AppCompatActivity {
+    String access_token;
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.recycler_view_leaderboard)RecyclerView recyclerViewLeaderboard;
     RestServiceInterface restServiceInterface;
@@ -44,7 +46,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        //restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -62,19 +64,20 @@ public class LeaderboardActivity extends AppCompatActivity {
         recyclerViewLeaderboard.setLayoutManager(mLayoutManager);
 
         sharedPreferences = this.getSharedPreferences("User",Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
-        Toast.makeText(LeaderboardActivity.this, access_token, Toast.LENGTH_SHORT).show();
+        access_token = sharedPreferences.getString("accessToken","abcde");
 
+        contentLoad(access_token);
+    }
+
+    private void contentLoad(String access_token){
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-
-        final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard("a",access_token);
+        final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard(0,access_token);
+        Log.d("zzz","asd");
         leaderboardPOJOCall.enqueue(new Callback<LeaderboardPOJO>() {
             @Override
             public void onResponse(Call<LeaderboardPOJO> call, Response<LeaderboardPOJO> response) {
 
-                username.clear();
-                poin.clear();
-                thumbnail.clear();
+
 
                 LeaderboardPOJO leaderboardPOJO = response.body();
                 for (int item = 0 ; item < leaderboardPOJO.getResults().size(); item++){
@@ -82,6 +85,7 @@ public class LeaderboardActivity extends AppCompatActivity {
                     poin.add(leaderboardPOJO.getResults().get(item).getLeader_poin());
                     thumbnail.add(leaderboardPOJO.getResults().get(item).getDisplay_picture());
                 }
+
                 mAdapter = new LeaderboardRecyclerView(username,thumbnail,poin);
                 mAdapter.notifyDataSetChanged();
                 recyclerViewLeaderboard.setAdapter(mAdapter);
@@ -89,11 +93,10 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LeaderboardPOJO> call, Throwable t) {
-
+                Log.e("ax",t.getLocalizedMessage());
             }
         });
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){

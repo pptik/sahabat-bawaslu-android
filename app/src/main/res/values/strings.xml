@@ -67,6 +67,7 @@
     <string name="quiz_title">tes kuis 12</string>
     <string name="peringkat">#1</string>
     <string name="poin">100</string>
+    <string name="poin_label">poin</string>
     <string name="menu_quiz">Kuis</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>

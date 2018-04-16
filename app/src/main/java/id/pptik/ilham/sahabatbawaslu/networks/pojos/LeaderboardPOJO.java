@@ -17,7 +17,11 @@ public class LeaderboardPOJO {
     public String rm;
 
     @SerializedName("success")
-    public int skip;
+    public boolean success;
+
+    public boolean isSuccess() {
+        return success;
+    }
 
     @SerializedName("access_token")
     public String access_token;
@@ -37,9 +41,57 @@ public class LeaderboardPOJO {
 
     public class Results{
 
+            @SerializedName("_id")
+            @Expose
+            private String id;
+
+            @SerializedName("identification_number")
+            @Expose
+            private String identification_number;
+
+            @SerializedName("email")
+            @Expose
+            private String email;
+
+            @SerializedName("phone_number")
+            @Expose
+            private String phoneNumber;
+
+            @SerializedName("ttl")
+            @Expose
+            private String ttl;
+
+            @SerializedName("religion")
+            @Expose
+            private String religion;
+
+            @SerializedName("degree")
+            @Expose
+            private String degree;
+
+            @SerializedName("marital_status")
+            @Expose
+            private String marital_status;
+
+            @SerializedName("job")
+            @Expose
+            private String job;
+
             @SerializedName("username")
             @Expose
             private String username;
+
+            @SerializedName("name")
+            @Expose
+            private String name;
+
+            @SerializedName("password")
+            @Expose
+            private String password;
+
+            @SerializedName("address")
+            @Expose
+            private String address;
 
             @SerializedName("display_picture")
             @Expose
@@ -57,8 +109,56 @@ public class LeaderboardPOJO {
                 return display_picture;
             }
 
-            public Integer getLeader_poin() {
+            public int getLeader_poin() {
                 return leader_poin;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public String getIdentification_number() {
+                return identification_number;
+            }
+
+            public String getEmail() {
+                return email;
+            }
+
+            public String getPhoneNumber() {
+                return phoneNumber;
+            }
+
+            public String getTtl() {
+                return ttl;
+            }
+
+            public String getReligion() {
+                return religion;
+            }
+
+            public String getDegree() {
+                return degree;
+            }
+
+            public String getMarital_status() {
+                return marital_status;
+            }
+
+            public String getJob() {
+                return job;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public String getPassword() {
+                return password;
+            }
+
+            public String getAddress() {
+                return address;
             }
     }
 
