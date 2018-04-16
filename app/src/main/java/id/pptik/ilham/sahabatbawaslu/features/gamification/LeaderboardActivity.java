@@ -11,6 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +22,11 @@ import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsCommentsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LeaderboardActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
@@ -26,6 +35,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     SharedPreferences sharedPreferences;
+    private List<String> username = new ArrayList<String>();
+    private List<Integer> poin = new ArrayList<Integer>();
+    private List<String> thumbnail = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +61,37 @@ public class LeaderboardActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         recyclerViewLeaderboard.setLayoutManager(mLayoutManager);
 
-        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("User",Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
+        Toast.makeText(LeaderboardActivity.this, access_token, Toast.LENGTH_SHORT).show();
 
-        mAdapter = new NewsCommentsRecyclerView(username,datePost,contentPost,
-                userProfilePicture,commentId,commentNumber);
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
-        mAdapter.notifyDataSetChanged();
-        recyclerViewLeaderboard.setAdapter(mAdapter);
+        final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard("a",access_token);
+        leaderboardPOJOCall.enqueue(new Callback<LeaderboardPOJO>() {
+            @Override
+            public void onResponse(Call<LeaderboardPOJO> call, Response<LeaderboardPOJO> response) {
+
+                username.clear();
+                poin.clear();
+                thumbnail.clear();
+
+                LeaderboardPOJO leaderboardPOJO = response.body();
+                for (int item = 0 ; item < leaderboardPOJO.getResults().size(); item++){
+                    username.add(leaderboardPOJO.getResults().get(item).getUsername());
+                    poin.add(leaderboardPOJO.getResults().get(item).getLeader_poin());
+                    thumbnail.add(leaderboardPOJO.getResults().get(item).getDisplay_picture());
+                }
+                mAdapter = new LeaderboardRecyclerView(username,thumbnail,poin);
+                mAdapter.notifyDataSetChanged();
+                recyclerViewLeaderboard.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<LeaderboardPOJO> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

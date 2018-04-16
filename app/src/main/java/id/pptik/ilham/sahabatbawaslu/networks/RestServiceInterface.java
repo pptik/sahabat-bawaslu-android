@@ -6,6 +6,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
@@ -35,6 +36,10 @@ public interface RestServiceInterface {
     @POST("users/signin")
     Call<LoginPOJO> userLogin(@Field("field") String field, @Field("force") Boolean force,
                                @Field("password") String password, @Field("app_id") Integer app_id);
+
+    @FormUrlEncoded
+    @POST("users/leaderboards")
+    Call<LeaderboardPOJO> leaderboard(@Field("Dummy") String dummy, @Header("access_token") String access_token);
 
 
     /*@Headers({

@@ -231,9 +231,9 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
-
+        //Khusus berita
         switch (newsType[position]) {
-            case 0://berita dari admin atau bukan berita
+            case 0://berita dari admin
                 if (contentType[position] == "1") {//Materi
                     holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                     holder.tvContentPost.setText(contentPost[position]);
@@ -293,8 +293,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     }
                 });
                 break;
-            default://bukan berita
-                holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
+        }
+
+        //Forum dan Materi
+        holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                 holder.tvContentPost.setText(contentPost[position]);
                 holder.tvTitlePost.setText(titlePost[position]);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -303,8 +305,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
                     }
                 });
-                break;
-        }
 
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
@@ -312,6 +312,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvContentCode.setText(contentType[position]);
         holder.tvContentLabel.setText(contentText[position]);
         holder.tvActivityLabel.setText(activityText[position]);
+        //holder.tvActivityUsername.setText("Dummy");
         holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() + " " + contentText[position].toString().toLowerCase());
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);

@@ -33,25 +33,15 @@ public class LeaderboardRecyclerView extends RecyclerView.Adapter<LeaderboardRec
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvUsername, tvUsername2, tvCommentContent, tvCommentContent2,
-                tvDatePost, tvDatePost2;
+        public TextView tvUsername, tvPoin;
 
-        public ImageView ivUserpicture,ivUserpicture2;
-        public CardView cardViewCommentLevel0,cardViewCommentLevel1;
-        public static Snackbar snackbar;
+        public ImageView ivThumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvUsername = (TextView) itemView.findViewById(R.id.username);
-            tvUsername2 = (TextView) itemView.findViewById(R.id.username_2);
-            tvDatePost = (TextView) itemView.findViewById(R.id.date_post);
-            tvDatePost2 = (TextView) itemView.findViewById(R.id.date_post_2);
-            tvCommentContent = (TextView) itemView.findViewById(R.id.comment_content);
-            tvCommentContent2 = (TextView) itemView.findViewById(R.id.comment_content_2);
-            cardViewCommentLevel0 = (CardView) itemView.findViewById(R.id.card_view_comment_level_0);
-            cardViewCommentLevel1 = (CardView) itemView.findViewById(R.id.card_view_comment_level_1);
-            ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-            ivUserpicture2 = (ImageView) itemView.findViewById(R.id.user_picture_2);
+            tvUsername = (TextView) itemView.findViewById(R.id.text_view_username);
+            tvPoin = (TextView) itemView.findViewById(R.id.text_view_poin);
+            ivThumbnail = (ImageView) itemView.findViewById(R.id.image_view_thubmnail);
         }
     }
 
@@ -89,40 +79,11 @@ public class LeaderboardRecyclerView extends RecyclerView.Adapter<LeaderboardRec
 
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
-        holder.tvDatePost.setText(datePost[position]);
-        holder.tvCommentContent.setText(contentPost[position]);
-        holder.tvDatePost.setText(datePost[position]);
-
-        holder.ivUserpicture.setImageDrawable(null);
-        Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
+        holder.tvPoin.setText(Integer.toString(poin[position]));
+        holder.ivThumbnail.setImageDrawable(null);
+        Glide.with(holder.ivThumbnail.getContext()).load(thumbnail[position]).into(holder.ivThumbnail);
 
     }
-
-
-
-    /*public void gamifikasiAksiRespon(String contentID,
-                                     final int activityCode, int contentCode,
-                                     String title, String accessToken,
-                                     final ViewHolder viewHolder, int textNumberFavoriteParam,
-                                     int textNumberUpvoteParam, int textNumberDownvoteParam,
-                                     final int position) {
-
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
-                contentCode, title, accessToken);
-        voteAction.enqueue(new Callback<VotePOJO>() {
-            @Override
-            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
-                VotePOJO votePOJO = response.body();
-                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<VotePOJO> call, Throwable t) {
-                Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
 
     @Override
     public int getItemCount() {

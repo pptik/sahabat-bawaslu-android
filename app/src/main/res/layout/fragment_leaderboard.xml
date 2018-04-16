@@ -63,6 +63,7 @@
                             android:layout_width="match_parent"
                             android:text="@string/poin"
                             android:textSize="40sp"
+                            android:textStyle="normal"
                             android:layout_below="@id/text_view_username"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@id/image_view_thubmnail"
