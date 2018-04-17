@@ -50,6 +50,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     public RestServiceInterface restServiceInterface;
     private List<Integer> authors = new ArrayList<Integer>();
     private List<String> datePosts = new ArrayList<String>();
+    private List<String> materialIds = new ArrayList<String>();
     private List<String> descs = new ArrayList<String>();
     private List<String> titles = new ArrayList<String>();
     private List<Integer> favorites = new ArrayList<Integer>();
@@ -99,9 +100,10 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                   downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
                   comments.add(materialsListPOJO.getResults().get(materi).getComment());
                   favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                  materialIds.add(materialsListPOJO.getResults().get(materi).getId());
                 }
                 mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                        favorites,upVotes,downVotes,comments,getActivity());
+                        favorites,upVotes,downVotes,comments,materialIds,getActivity());
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -160,7 +162,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                             favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                         }
                         mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                                favorites,upVotes,downVotes,comments,getActivity());
+                                favorites,upVotes,downVotes,comments,materialIds,getActivity());
                         mAdapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(mAdapter);
 
@@ -292,7 +294,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                 }
                 mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                        favorites,upVotes,downVotes,comments,getActivity());
+                        favorites,upVotes,downVotes,comments,materialIds,getActivity());
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

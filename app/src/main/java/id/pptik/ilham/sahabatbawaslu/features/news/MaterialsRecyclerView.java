@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -244,6 +245,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         @Override
                         public void onClick(View v) {
                             //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(v.getContext(), MaterialAdapter.class);
+                            intent.putExtra("materialId",contentId[position]);
+                            v.getContext().startActivity(intent);
+
+                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
                 } else if (contentType[position] == "2") {//Berita
