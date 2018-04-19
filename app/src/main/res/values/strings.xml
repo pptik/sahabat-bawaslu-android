@@ -83,4 +83,8 @@
     <string name="filter_materi">Urutkan berdasarkan konten materi</string>
     <string name="filter_berita">Urutkan berdasarkan konten berita</string>
     <string name="angka_dummy">1</string>
+    <string name="download_mulai">Berkas mulai diunduh</string>
+    <string name="download_dimulai">Berkas mulai diunduh</string>
+    <string name="download_sedang_diunduh">Berkas sedang diunduh</string>
+    <string name="download_selesai_diunduh">Selesai mengunduh silahkan buka file manager untuk membuka berkas.</string>
 </resources>

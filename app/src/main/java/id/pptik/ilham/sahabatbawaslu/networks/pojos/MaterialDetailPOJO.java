@@ -50,10 +50,80 @@ public class MaterialDetailPOJO {
         @Expose
         private int type;
 
-        public Integer getType() {
+        @SerializedName("upvote")
+        @Expose
+        private int upvote;
+
+        @SerializedName("downvote")
+        @Expose
+        private int downvote;
+
+        @SerializedName("favorite")
+        @Expose
+        private int favorite;
+
+        @SerializedName("title")
+        @Expose
+        private String title;
+
+        @SerializedName("desc")
+        @Expose
+        private String desc;
+
+        @SerializedName("post_by")
+        @Expose
+        private PostBy postBy;
+
+        public class PostBy{
+            @SerializedName("username")
+            @Expose
+            private String username;
+        }
+        @SerializedName("files")
+        @Expose
+        private List<Files> files = null;
+
+        public List<Files> getFiles() {
+            return files;
+        }
+
+        public class Files{
+            @SerializedName("http_path")
+            @Expose
+            private String http_path;
+
+            public String getHttp_path() {
+                return http_path;
+            }
+        }
+
+        public int getType() {
             return type;
         }
 
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public PostBy getPostBy() {
+            return postBy;
+        }
+
+        public int getUpvote() {
+            return upvote;
+        }
+
+        public int getDownvote() {
+            return downvote;
+        }
+
+        public int getFavorite() {
+            return favorite;
+        }
     }
 }
 

@@ -27,6 +27,7 @@ import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
@@ -85,6 +86,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     public static final String CONTENT_ID = "CONTENT_ID";
     public static final String TITLE = "TITLE";
+    public static final String MATERIAL_ID = "MATERIAL_ID";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
@@ -244,14 +246,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(activity, "bukan 0,1,2", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(v.getContext(), MaterialAdapter.class);
-                            intent.putExtra("materialId",contentId[position]);
-                            v.getContext().startActivity(intent);
-
-                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            materialAdapter(contentId[position], access_token, activity);
                         }
                     });
+                    holder.tvNumberComment.setVisibility(View.GONE);
                 } else if (contentType[position] == "2") {//Berita
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
@@ -315,8 +313,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 });
                 break;
         }
-
-        //Toast.makeText(activity, "xq "+newsTypeposition, Toast.LENGTH_SHORT).show();
 
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
@@ -575,6 +571,34 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     }
 
+    private void materialAdapter(final String content_id, String access_token, final Activity activity){
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(content_id,access_token);
+        materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
+            @Override
+            public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
+                MaterialDetailPOJO materialDetailPOJO = response.body();
+                switch (materialDetailPOJO.getResults().getType()){
+                    case 0://video
+
+                        break;
+                    case 1://suplemen
+                        Intent intent = new Intent(activity , SuplemenMaterialDetailActivity.class);
+                        intent.putExtra(MATERIAL_ID,content_id);
+                        activity.startActivity(intent);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        break;
+                    case 2://kasus
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<MaterialDetailPOJO> call, Throwable t) {
+                Log.e("ERROR",t.getLocalizedMessage());
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {

@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
 
+import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
@@ -37,14 +39,34 @@ public class MaterialAdapter extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
                 MaterialDetailPOJO materialDetailPOJO = response.body();
-                //Log.d("MATERIAL",Integer.toString(materialDetailPOJO.getResults().getType()));
-                Log.d("MATERIAL",materialDetailPOJO.getRm());
+                switch (materialDetailPOJO.getResults().getType()){
+                    case 0://video
+
+                        break;
+                    case 1://suplemen
+                        Intent intent = new Intent(getApplicationContext(), SuplemenMaterialDetailActivity.class);
+                        intent.putExtra("materialId",contentId);
+                        startActivity(intent);
+
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                        break;
+                    case 2://kasus
+                        break;
+                }
             }
 
             @Override
             public void onFailure(retrofit2.Call<MaterialDetailPOJO> call, Throwable t) {
-                Log.e("MATERIAL",t.getLocalizedMessage());
+                Log.e("ERROR",t.getLocalizedMessage());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
