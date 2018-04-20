@@ -27,6 +27,7 @@ import retrofit2.http.POST;
  */
 
 public interface RestServiceInterface {
+    //Esensial
     @Headers({
         "Content-Type: application/x-www-form-urlencoded",
         "current_device: test1",
@@ -42,10 +43,6 @@ public interface RestServiceInterface {
     @POST("users/leaderboards")
     Call<LeaderboardPOJO> leaderboard(@Field("Skip") int skip, @Header("access_token") String access_token);
 
-
-    /*@Headers({
-            "Content-Type: application/x-www-form-urlencoded",
-    })*/
     @FormUrlEncoded
     @POST("users/simple/signup")
     Call<SignUpPOJO> userSignUp(@Field("Username") String username, @Field("PhoneNumber") String phone_number,
@@ -53,7 +50,7 @@ public interface RestServiceInterface {
                                 @Field("ReferenceCode") String reference_code,
                                 @Field("SignupType") int signup_type);
 
-
+    //Materi
     @FormUrlEncoded
     @POST("material/list")
     Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip, @Header("access_token") String access_token);
@@ -71,7 +68,7 @@ public interface RestServiceInterface {
     @POST("material/filter/content")
     Call<MaterialsListPOJO> materialsSortBy(@Field("Skip") int skip,
                                                  @Field("Type") int sort_type, @Header("access_token") String access_token);
-
+    //Berita
     @FormUrlEncoded
     @POST("dashboard")
     Call<DashboardPOJO> dashboard(@Field("Skip") int skip, @Header("access_token") String access_token);
@@ -94,17 +91,17 @@ public interface RestServiceInterface {
                                         @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("dashboard/vote")
+    Call<VotePOJO> voteAction(@Field("ContentID") String contentID,
+                              @Field("ActivityCode") int activityCode,
+                              @Field("ContentCode") int contentCode,
+                              @Field("Title") String title,
+                              @Header("access_token") String access_token);
+
+    @FormUrlEncoded
     @POST("news/create/text")
     Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
                                      @Header("access_token") String access_token);
-
-    @FormUrlEncoded
-    @POST("comments/create")
-    Call<AddCommentPOJO> commentCreate(@Field("Comment") String comment,
-                                       @Field("ContentID") String contentId,
-                                       @Field("Type") int type,
-                                        @Header("access_token") String access_token);
-
     @FormUrlEncoded
     @POST("news/detail")
     Call<NewsPOJO> newsDetail(@Field("NewsID") String newsID,
@@ -116,11 +113,14 @@ public interface RestServiceInterface {
                                     @Header("access_token") String access_token);
 
     @FormUrlEncoded
-    @POST("dashboard/vote")
-    Call<VotePOJO> voteAction(@Field("ContentID") String contentID,
-                                @Field("ActivityCode") int activityCode,
-                                @Field("ContentCode") int contentCode,
-                                @Field("Title") String title,
-                                @Header("access_token") String access_token);
-
+    @POST("comments/create")
+    Call<AddCommentPOJO> commentCreate(@Field("Comment") String comment,
+                                       @Field("ContentID") String contentId,
+                                       @Field("Type") int type,
+                                       @Header("access_token") String access_token);
+    //Forum
+    @FormUrlEncoded
+    @POST("forums/list")
+    Call<AddCommentPOJO> forumsList(@Field("Skip") int skip,
+                                       @Header("access_token") String access_token);
 }

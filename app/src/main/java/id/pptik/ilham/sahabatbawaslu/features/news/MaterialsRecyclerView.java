@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
+import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
@@ -580,12 +581,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 MaterialDetailPOJO materialDetailPOJO = response.body();
                 switch (materialDetailPOJO.getResults().getType()){
                     case 0://video
-
+                        Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
+                        intentVideo.putExtra(MATERIAL_ID,content_id);
+                        activity.startActivity(intentVideo);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 1://suplemen
-                        Intent intent = new Intent(activity , SuplemenMaterialDetailActivity.class);
-                        intent.putExtra(MATERIAL_ID,content_id);
-                        activity.startActivity(intent);
+                        Intent intentSuplemen = new Intent(activity , SuplemenMaterialDetailActivity.class);
+                        intentSuplemen.putExtra(MATERIAL_ID,content_id);
+                        activity.startActivity(intentSuplemen);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 2://kasus

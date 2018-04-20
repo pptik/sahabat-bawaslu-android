@@ -16,6 +16,8 @@ import java.util.List;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity;
 
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.MATERIAL_ID;
+
 /**
  * Created by Ilham on 15/03/18.
  */
@@ -117,7 +119,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
 
         switch (materialType[position]) {
             case 0:
-                holder.tvMaterialType.setText("suplemen");
+                holder.tvMaterialType.setText("video");
                 holder.tvCommentNumbers.setVisibility(View.INVISIBLE);
                 holder.secondaryContent.setVisibility(View.INVISIBLE);
                 holder.secondaryContentSuplemen.setVisibility(View.VISIBLE);
@@ -125,11 +127,11 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 ;
                 break;
             case 1:
-                holder.tvMaterialType.setText("kasus");
+                holder.tvMaterialType.setText("suplemen");
                 ;
                 break;
             case 2:
-                holder.tvMaterialType.setText("video");
+                holder.tvMaterialType.setText("kasus");
                 ;
                 break;
         }
@@ -154,12 +156,28 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 bundle.putString(TITLE,titlePost[position]);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);*/
+                switch (materialType[position]) {
+                    case 0://video
+                        Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
+                        intentVideo.putExtra(MATERIAL_ID,materialId[position]);
+                        activity.startActivity(intentVideo);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        break;
+                    case 1://suplemen
+                        Intent intentSuplemen = new Intent(activity , SuplemenMaterialDetailActivity.class);
+                        intentSuplemen.putExtra(MATERIAL_ID,materialId[position]);
+                        activity.startActivity(intentSuplemen);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        break;
+                    case 2://kasus
 
-                Intent intent = new Intent(v.getContext(), MaterialAdapter.class);
+                        break;
+                }
+                /*Intent intent = new Intent(v.getContext(), MaterialAdapter.class);
                 intent.putExtra("materialId",materialId[position]);
                 v.getContext().startActivity(intent);
 
-                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
 
             }
         });

@@ -53,6 +53,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<String> materialIds = new ArrayList<String>();
     private List<String> descs = new ArrayList<String>();
     private List<String> titles = new ArrayList<String>();
+    //private List<String> contentId = new ArrayList<String>();
     private List<Integer> favorites = new ArrayList<Integer>();
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
@@ -101,6 +102,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                   comments.add(materialsListPOJO.getResults().get(materi).getComment());
                   favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
                   materialIds.add(materialsListPOJO.getResults().get(materi).getId());
+                  //contentId.add(materialsListPOJO.getResults().get(materi).getId());
                 }
                 mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
                         favorites,upVotes,downVotes,comments,materialIds,getActivity());
