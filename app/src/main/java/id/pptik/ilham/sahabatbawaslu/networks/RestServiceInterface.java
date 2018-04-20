@@ -6,6 +6,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
@@ -121,6 +122,6 @@ public interface RestServiceInterface {
     //Forum
     @FormUrlEncoded
     @POST("forums/list")
-    Call<AddCommentPOJO> forumsList(@Field("Skip") int skip,
-                                       @Header("access_token") String access_token);
+    Call<ForumsListPOJO> forumsList(@Field("Skip") int skip,
+                                    @Header("access_token") String access_token);
 }
