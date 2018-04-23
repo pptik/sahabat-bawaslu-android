@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/oranyeTerang"/>
         <TextView
-            android:id="@+id/content_post"
+            android:id="@+id/hashtag"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:textSize="15sp"
@@ -42,16 +42,6 @@
             android:layout_height="75dp"
             android:layout_marginBottom="20dp"
             />
-        <TextView
-            android:id="@+id/material_type"
-            android:layout_width="wrap_content"
-            android:text="@string/material_type"
-            android:layout_below="@+id/content_post"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="12sp"
-            android:textColor="@color/abu"/>
 
         <TextView
             android:id="@+id/material_author"

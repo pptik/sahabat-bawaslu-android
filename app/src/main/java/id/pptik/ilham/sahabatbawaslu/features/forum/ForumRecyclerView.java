@@ -18,25 +18,19 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
 
     private List<Integer> materialTypeList;
     private List<String> datePostList;
-    private List<String> descList;
+    private List<String> hashtagList;
     private List<String> titleList;
     private List<Integer> upVoteNumbersList;
     private List<Integer> downVoteNumbersList;
     private List<Integer> commentNumbersList;
     private List<Integer> favoriteNumbersList;
 
-    private String[]  datePost, desc, title;
+    private String[]  datePost, hashtag, title;
     private Integer[] favoriteNumbers, upVoteNumbers, downVoteNumbers,
-                     commentNumbers,materialType;
-
-    /*private String[] author = {"Tono","Budi","Jaka"};
-    private String[] datePost = {"11 Maret 2018","12 Maret 2018","12 Maret 2018"};
-    private String[] desc = {"Materi ini A","Materi ini B","Materi ini C"};
-    private String[] title = {"Materi 1","Materi 2","Materi 3"};*/
-
+                     commentNumbers;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView tvMaterialType, tvDatePost, tvTitlePost, tvContentPost,
+        public TextView tvDatePost, tvTitlePost, tvHashtag,
                 tvUpVoteNumbers, tvDownVoteNumbers, tvCommentNumbers,
                 tvFavoriteNumbers;
         public View view;
@@ -44,10 +38,10 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvMaterialType = (TextView)itemView.findViewById(R.id.material_type);
+
             tvDatePost = (TextView)itemView.findViewById(R.id.date_post);
             tvTitlePost = (TextView)itemView.findViewById(R.id.title_post);
-            tvContentPost = (TextView)itemView.findViewById(R.id.content_post);
+            tvHashtag = (TextView)itemView.findViewById(R.id.hashtag);
             tvUpVoteNumbers = (TextView)itemView.findViewById(R.id.text_numbers_upvote);
             tvDownVoteNumbers = (TextView)itemView.findViewById(R.id.text_numbers_downvote);
             tvCommentNumbers = (TextView)itemView.findViewById(R.id.text_comments);
@@ -55,32 +49,29 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         }
     }
 
-    public ForumRecyclerView(List<Integer> materialTypeListParam, List<String> datePostListParam,
-                             List<String> descriptionListParam, List<String> titleListParam,
+    public ForumRecyclerView(List<String> datePostListParam,
+                             List<String> hashtagListParam, List<String> titleListParam,
                              List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
                              List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
 
-        this.materialTypeList = materialTypeListParam;
         this.datePostList = datePostListParam;
-        this.descList = descriptionListParam;
+        this.hashtagList = hashtagListParam;
         this.titleList = titleListParam;
         this.favoriteNumbersList = favoriteNumberListParam;
         this.upVoteNumbersList = upVoteNumberListParam;
         this.downVoteNumbersList = downVoteNumberListParam;
         this.commentNumbersList= commentNumberListParam;
 
-        materialType = new Integer[materialTypeList.size()];
         datePost = new String[datePostList.size()];
-        desc = new String[descList.size()];
+        hashtag = new String[hashtagList.size()];
         title = new String[titleList.size()];
         favoriteNumbers = new Integer[favoriteNumbersList.size()];
         upVoteNumbers = new Integer[upVoteNumbersList.size()];
         downVoteNumbers = new Integer[downVoteNumbersList.size()];
         commentNumbers = new Integer[commentNumbersList.size()];
 
-        materialType = materialTypeList.toArray(materialType);
         datePost = datePostList.toArray(datePost);
-        desc = descList.toArray(desc);
+        hashtag = hashtagList.toArray(hashtag);
         title = titleList.toArray(title);
         favoriteNumbers = favoriteNumbersList.toArray(favoriteNumbers);
         upVoteNumbers= upVoteNumbersList.toArray(upVoteNumbers);
@@ -92,7 +83,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_learning_content, parent, false);
+                .inflate(R.layout.fragment_forum_content, parent, false);
 
         return new ViewHolder(view);
     }
@@ -100,19 +91,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        switch (materialType[position]){
-            case 0:
-                holder.tvMaterialType.setText("suplemen");
-                ;break;
-            case 1:
-                holder.tvMaterialType.setText("kasus");
-                ;break;
-            case 2:
-                holder.tvMaterialType.setText("video");
-                ;break;
-        }
-
-        holder.tvContentPost.setText(desc[position]);
+        holder.tvHashtag.setText(hashtag[position]);
         holder.tvTitlePost.setText(title[position]);
         holder.tvDatePost.setText("dibuat "+datePost[position]);
 
@@ -120,19 +99,6 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         holder.tvUpVoteNumbers.setText(Integer.toString(upVoteNumbers[position]));
         holder.tvDownVoteNumbers.setText(Integer.toString(downVoteNumbers[position]));
         holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Komentar");
-
-        //holder.imageView.setImageDrawable(null);
-
-        /*Glide
-                .with(holder.imageView.getContext())
-                .load(cover[position])
-                .crossFade()
-                .placeholder(R.drawable.loading)
-                .into(holder.imageView);
-
-        if(judul.length == (position+1)){
-            holder.view.setVisibility(View.GONE);
-        }*/
 
     }
 

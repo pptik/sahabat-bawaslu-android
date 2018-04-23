@@ -1,15 +1,11 @@
 package id.pptik.ilham.sahabatbawaslu.features.forum;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +13,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
-import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
-import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
-import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,8 +29,8 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    public RestServiceInterface restServiceInterface;
-    private List<Integer> authors = new ArrayList<Integer>();
+    private RestServiceInterface restServiceInterface;
+    private List<String> hashtag = new ArrayList<String>();
     private List<String> datePosts = new ArrayList<String>();
     private List<String> descs = new ArrayList<String>();
     private List<String> titles = new ArrayList<String>();
@@ -46,7 +38,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
-    //private FloatingActionButton floatingActionButton;
+    private StringBuilder hashtagStringBuilder = new StringBuilder();
 
     public ForumFragment() {
     }
@@ -56,17 +48,6 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
-        /*floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });*/
-
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -74,43 +55,41 @@ public class ForumFragment extends android.support.v4.app.Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        /*mAdapter = new ForumRecyclerView(authors,datePosts,descs,titles);
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView.setAdapter(mAdapter);*/
-
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
-        //Log.d("AKSES TOKEN:","AKSES TOKEN: "+access_token);
 
-
-        Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,access_token);
-
-        callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
+        Call<ForumsListPOJO> callForumsList = restServiceInterface.forumsList(0,access_token);
+        callForumsList.enqueue(new Callback<ForumsListPOJO>() {
             @Override
-            public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
-                MaterialsListPOJO materialsListPOJO = response.body();
-                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
-                  authors.add(materialsListPOJO.getResults().get(materi).getType());
-                  datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
-                  descs.add(materialsListPOJO.getResults().get(materi).getDesc());
-                  titles.add(materialsListPOJO.getResults().get(materi).getTitle());
-                  upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
-                  downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
-                  comments.add(materialsListPOJO.getResults().get(materi).getComment());
-                  favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+            public void onResponse(Call<ForumsListPOJO> call, Response<ForumsListPOJO> response) {
+                ForumsListPOJO forumsListPOJO = response.body();
+                for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
+                    datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
+                    for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getTags().size();hashtag++){
+                        hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getTags()+" ");
+                    }
+                    hashtag.add(hashtagStringBuilder.toString());
+                    titles.add(forumsListPOJO.getResults().get(forum).getTitle());
+                    upVotes.add(forumsListPOJO.getResults().get(forum).getUpvote());
+                    downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
+                    comments.add(forumsListPOJO.getResults().get(forum).getComment());
+                    favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
+
+                    //Clear String hashtag Builder
+                    hashtagStringBuilder = new StringBuilder();
                 }
-                mAdapter = new ForumRecyclerView(authors,datePosts,descs,titles,favorites,upVotes,downVotes,comments);
+
+                mAdapter = new ForumRecyclerView(datePosts,descs,titles,favorites,upVotes,downVotes,comments);
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override
-            public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
-                Log.d("RETROFIT ERROR","ERROR: "+t.toString());
+            public void onFailure(Call<ForumsListPOJO> call, Throwable t) {
+
             }
         });
-
 
         return view;
 
