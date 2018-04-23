@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.ForumsInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddForumBinding;
+import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsActivity;
 import id.pptik.ilham.sahabatbawaslu.models.ForumsModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -98,7 +99,9 @@ public class AddForumActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<AddForumPojo> call, Response<AddForumPojo> response) {
                         AddForumPojo addForumPojo = response.body();
-                        Log.d("DEBUG", addForumPojo.getRm());
+                        finish();
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        Toast.makeText(AddForumActivity.this, addForumPojo.getRm().toString(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

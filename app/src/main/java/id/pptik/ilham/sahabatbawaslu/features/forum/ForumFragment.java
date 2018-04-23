@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private List<Integer> comments = new ArrayList<Integer>();
     private StringBuilder hashtagStringBuilder = new StringBuilder();
     private FloatingActionButton floatingActionButton;
+    private SwipeRefreshLayout swipeRefreshRecycler;
 
     public ForumFragment() {
     }
@@ -76,10 +78,31 @@ public class ForumFragment extends android.support.v4.app.Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-        Call<ForumsListPOJO> callForumsList = restServiceInterface.forumsList(0,access_token);
+        getForumsList(access_token);
+
+        swipeRefreshRecycler = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getForumsList(access_token);
+                swipeRefreshRecycler.setRefreshing(false);
+            }
+        });
+        return view;
+
+    }
+
+    private void getForumsList(String accessToken){
+        Call<ForumsListPOJO> callForumsList = restServiceInterface.forumsList(0,accessToken);
         callForumsList.enqueue(new Callback<ForumsListPOJO>() {
             @Override
             public void onResponse(Call<ForumsListPOJO> call, Response<ForumsListPOJO> response) {
+                datePosts.clear();
+                hashtag.clear();
+                titles.clear();
+                upVotes.clear();
+                downVotes.clear();
+                favorites.clear();
                 ForumsListPOJO forumsListPOJO = response.body();
                 for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
                     datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
@@ -92,7 +115,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                     downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
                     //comments.add(forumsListPOJO.getResults().get(forum).getComment());
                     favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
-                    Log.e("Hashtag: ",hashtagStringBuilder.toString());
+
                     //Clear String hashtag Builder
                     hashtagStringBuilder = new StringBuilder();
                 }
@@ -107,8 +130,5 @@ public class ForumFragment extends android.support.v4.app.Fragment {
 
             }
         });
-
-        return view;
-
     }
 }
