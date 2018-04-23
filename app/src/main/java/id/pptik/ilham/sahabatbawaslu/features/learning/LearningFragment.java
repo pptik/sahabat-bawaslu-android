@@ -1,7 +1,10 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,6 +64,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
     SharedPreferences sharedPreferences;
+    ProgressDialog progressDialog;
 
     public LearningFragment() {
         setHasOptionsMenu(true);
@@ -71,6 +75,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_learning, container, false);
+        progressDialog = new ProgressDialog(view.getContext());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -97,87 +102,134 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void getMaterialsList(String accessToken){
-        Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
 
-        callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
-            @Override
-            public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
-                authors.clear();
-                datePosts.clear();
-                descs.clear();
-                titles.clear();
-                upVotes.clear();
-                downVotes.clear();
-                comments.clear();
-                favorites.clear();
-                materialIds.clear();
+        if(RestServiceClass.isNetworkAvailable(getContext())){
+            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
+            callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
+                @Override
+                public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    authors.clear();
+                    datePosts.clear();
+                    descs.clear();
+                    titles.clear();
+                    upVotes.clear();
+                    downVotes.clear();
+                    comments.clear();
+                    favorites.clear();
+                    materialIds.clear();
 
-                MaterialsListPOJO materialsListPOJO = response.body();
-                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
-                    authors.add(materialsListPOJO.getResults().get(materi).getType());
-                    datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
-                    descs.add(materialsListPOJO.getResults().get(materi).getDesc());
-                    titles.add(materialsListPOJO.getResults().get(materi).getTitle());
-                    upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
-                    downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
-                    comments.add(materialsListPOJO.getResults().get(materi).getComment());
-                    favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
-                    materialIds.add(materialsListPOJO.getResults().get(materi).getId());
-                    //contentId.add(materialsListPOJO.getResults().get(materi).getId());
+                    MaterialsListPOJO materialsListPOJO = response.body();
+                    for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                        authors.add(materialsListPOJO.getResults().get(materi).getType());
+                        datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                        descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                        titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                        upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                        downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                        comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                        favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                        materialIds.add(materialsListPOJO.getResults().get(materi).getId());
+                        //contentId.add(materialsListPOJO.getResults().get(materi).getId());
+                    }
+                    mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                            favorites,upVotes,downVotes,comments,materialIds,getActivity());
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                        favorites,upVotes,downVotes,comments,materialIds,getActivity());
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(mAdapter);
-            }
 
-            @Override
-            public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
-                Log.d("RETROFIT ERROR","ERROR: "+t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+                    Log.d("RETROFIT ERROR","ERROR: "+t.toString());
+                }
+            });
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
 
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
     }
 
     private void searchMaterialsList(String query, String accessToken){
-        Call<MaterialsListPOJO> callMaterialsSearchTitle = restServiceInterface.materialsSearchTitle(0,query,accessToken);
-        callMaterialsSearchTitle.enqueue(new Callback<MaterialsListPOJO>() {
-            @Override
-            public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
 
-                //Mengosongkan recycle material yang sudah diisi
-                authors.clear();
-                datePosts.clear();
-                descs.clear();
-                titles.clear();
-                favorites.clear();
-                upVotes.clear();
-                downVotes.clear();
-                comments.clear();
+        if(RestServiceClass.isNetworkAvailable(getContext())){
+            Call<MaterialsListPOJO> callMaterialsSearchTitle = restServiceInterface.materialsSearchTitle(0,query,accessToken);
+            callMaterialsSearchTitle.enqueue(new Callback<MaterialsListPOJO>() {
+                @Override
+                public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
 
-                MaterialsListPOJO materialsListPOJO = response.body();
-                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
-                    authors.add(materialsListPOJO.getResults().get(materi).getType());
-                    datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
-                    descs.add(materialsListPOJO.getResults().get(materi).getDesc());
-                    titles.add(materialsListPOJO.getResults().get(materi).getTitle());
-                    upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
-                    downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
-                    comments.add(materialsListPOJO.getResults().get(materi).getComment());
-                    favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                    //Mengosongkan recycle material yang sudah diisi
+                    authors.clear();
+                    datePosts.clear();
+                    descs.clear();
+                    titles.clear();
+                    favorites.clear();
+                    upVotes.clear();
+                    downVotes.clear();
+                    comments.clear();
+
+                    MaterialsListPOJO materialsListPOJO = response.body();
+                    for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                        authors.add(materialsListPOJO.getResults().get(materi).getType());
+                        datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                        descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                        titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                        upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                        downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                        comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                        favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                    }
+                    mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                            favorites,upVotes,downVotes,comments,materialIds,getActivity());
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                        favorites,upVotes,downVotes,comments,materialIds,getActivity());
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(mAdapter);
 
-            }
+                @Override
+                public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+                }
+            });
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
 
-            }
-        });
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
     }
 
 
@@ -237,9 +289,14 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    case R.id.pop_up_quiz:
-                        Intent intentLeaderboard = new Intent(getContext(), QuizDetailActivity.class);
+                    case R.id.pop_up_leaderboard:
+                        Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
                         startActivity(intentLeaderboard);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_quiz:
+                        Intent intentQuiz = new Intent(getContext(), QuizDetailActivity.class);
+                        startActivity(intentQuiz);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
                     case R.id.pop_up_edit_profile_slidingtab:
@@ -293,42 +350,67 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-        Call<MaterialsListPOJO> materialsListPOJOCall = restServiceInterface.materialsSortBy(0,code,access_token);
-        materialsListPOJOCall.enqueue(new Callback<MaterialsListPOJO>() {
-            @Override
-            public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
-                //Mengosongkan recycle material yang sudah diisi
-                authors.clear();
-                datePosts.clear();
-                descs.clear();
-                titles.clear();
-                favorites.clear();
-                upVotes.clear();
-                downVotes.clear();
-                comments.clear();
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
 
-                MaterialsListPOJO materialsListPOJO = response.body();
-                for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
-                    authors.add(materialsListPOJO.getResults().get(materi).getType());
-                    datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
-                    descs.add(materialsListPOJO.getResults().get(materi).getDesc());
-                    titles.add(materialsListPOJO.getResults().get(materi).getTitle());
-                    upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
-                    downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
-                    comments.add(materialsListPOJO.getResults().get(materi).getComment());
-                    favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+        if(RestServiceClass.isNetworkAvailable(getContext())){
+            Call<MaterialsListPOJO> materialsListPOJOCall = restServiceInterface.materialsSortBy(0,code,access_token);
+            materialsListPOJOCall.enqueue(new Callback<MaterialsListPOJO>() {
+                @Override
+                public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    //Mengosongkan recycle material yang sudah diisi
+                    authors.clear();
+                    datePosts.clear();
+                    descs.clear();
+                    titles.clear();
+                    favorites.clear();
+                    upVotes.clear();
+                    downVotes.clear();
+                    comments.clear();
+
+                    MaterialsListPOJO materialsListPOJO = response.body();
+                    for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                        authors.add(materialsListPOJO.getResults().get(materi).getType());
+                        datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                        descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                        titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                        upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                        downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                        comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                        favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                    }
+                    mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                            favorites,upVotes,downVotes,comments,materialIds,getActivity());
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
-                mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
-                        favorites,upVotes,downVotes,comments,materialIds,getActivity());
-                mAdapter.notifyDataSetChanged();
-                mRecyclerView.setAdapter(mAdapter);
-            }
 
-            @Override
-            public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+                @Override
+                public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
     }
 
 }
