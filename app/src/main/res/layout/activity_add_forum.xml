@@ -39,13 +39,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/edit_text_caption"
+                android:id="@+id/edit_text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/EditText"
                 android:text="@={forums.title}"
                 android:hint="@string/caption_forum_label"/>
         </android.support.design.widget.TextInputLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/imageButtonAddHashtag"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_add_white_24dp"
+                />
+            <TextView
+                android:layout_toRightOf="@id/imageButtonAddHashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:text="@string/tambah_hashtag_label"/>
+        </RelativeLayout>
         <Button
             android:id="@+id/button_masuk"
             android:layout_width="match_parent"

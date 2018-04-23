@@ -69,6 +69,7 @@
     <string name="peringkat">#1</string>
     <string name="poin">100</string>
     <string name="poin_label">poin</string>
+    <string name="tambah_hashtag_label">Tambah hashtag (opsional)</string>
     <string name="menu_quiz">Kuis</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
