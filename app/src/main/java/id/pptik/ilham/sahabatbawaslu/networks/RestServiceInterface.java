@@ -128,15 +128,14 @@ public interface RestServiceInterface {
     Call<ForumsListPOJO> forumsList(@Field("Skip") int skip,
                                     @Header("access_token") String access_token);
 
-    /*@FormUrlEncoded
-    @POST("forums/create")
-    Call<AddForumPojo> createForum(@Field("Title") String title,
-                                   @Field("Title") String title,
-                                  @Header("access_token") String access_token);*/
-
     @FormUrlEncoded
     @POST("forums/create")
     Call<AddForumPojo> createForum(@Field("Title") String title,
                                    @FieldMap Map<String, String> hashtags,
+                                   @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("forums/list/search")
+    Call<ForumsListPOJO> searchForum(@Field("SearchString") String searchString,
                                    @Header("access_token") String access_token);
 }
