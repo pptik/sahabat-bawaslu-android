@@ -8,6 +8,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
@@ -138,4 +139,9 @@ public interface RestServiceInterface {
     @POST("forums/list/search")
     Call<ForumsListPOJO> searchForum(@Field("SearchString") String searchString,
                                    @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("forums/detail")
+    Call<ForumDetailPOJO> detailForum(@Field("SearchString") String searchString,
+                                      @Header("access_token") String access_token);
 }
