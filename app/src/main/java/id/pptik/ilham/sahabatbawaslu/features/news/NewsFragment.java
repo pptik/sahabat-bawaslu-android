@@ -53,9 +53,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private FloatingActionButton floatingActionButton;
     private SwipeRefreshLayout swipeRefreshRecycler;
-    /*List<String> dataSetJudulMateri = new ArrayList<>();
-    List<String> dataSetCoverMateri = new ArrayList<>();
-    List<Integer> dataSetSubJudulMateri = new ArrayList<>();*/
+    private ProgressDialog progressDialogLoadData;
     public RestServiceInterface restServiceInterface;
     private List<String> username = new ArrayList<String>();
     private List<String> datePost = new ArrayList<String>();
@@ -93,6 +91,10 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+        progressDialog = new ProgressDialog(view.getContext());
+
+
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_berita);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +134,11 @@ public class NewsFragment extends Fragment {
     }
 
     private void getNewsList(String accessToken){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(0,accessToken);
         dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
             @Override
@@ -189,6 +196,9 @@ public class NewsFragment extends Fragment {
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -198,6 +208,11 @@ public class NewsFragment extends Fragment {
         });
     }
     private void searchNewsList(String query,String accessToken){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         Call<DashboardPOJO> dashboardSearchTitlePOJOCall = restServiceInterface.dashboardSearchTitle(0,query,accessToken);
         dashboardSearchTitlePOJOCall.enqueue(new Callback<DashboardPOJO>() {
@@ -258,6 +273,9 @@ public class NewsFragment extends Fragment {
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -389,6 +407,11 @@ public class NewsFragment extends Fragment {
     }
 
     private void sortByCategoryREST(int code){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -449,6 +472,9 @@ public class NewsFragment extends Fragment {
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -459,6 +485,11 @@ public class NewsFragment extends Fragment {
     }
 
     private void filterByContentREST(int code){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -519,6 +550,9 @@ public class NewsFragment extends Fragment {
                 );
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override

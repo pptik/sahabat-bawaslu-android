@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //Toast.makeText(LoginActivity.this, R.string.pastikan_internet_label, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -98,13 +97,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
-                //progressBar.setVisibility(View.GONE);
+
                 LoginPOJO loginPOJO = response.body();
                 if (loginPOJO != null){
                     if (loginPOJO.getRc().toString().equals("0000")){
-                        //Toast.makeText(LoginActivity.this, "Selamat datang "+loginPOJO.getResults().getName(), Toast.LENGTH_SHORT).show();
-                        /*snackbar = Snackbar.make(linearLayout,"Selamat datang "+loginPOJO.getResults().getName(),Snackbar.LENGTH_LONG);
-                        snackbar.show();*/
 
                         //Shared Preference
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -120,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                         snackbar = Snackbar.make(linearLayout,loginPOJO.getRm(),Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
+                }else{
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
+                    snackbar = Snackbar.make(linearLayout,R.string.error_jaringan,Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
 

@@ -90,4 +90,5 @@
     <string name="download_dimulai">Berkas mulai diunduh</string>
     <string name="download_sedang_diunduh">Berkas sedang diunduh</string>
     <string name="download_selesai_diunduh">Selesai mengunduh silahkan buka file manager untuk membuka berkas.</string>
+    <string name="error_jaringan">Telah terjadi kesalahan pada jaringan ke server. Mohon coba beberapa saat lagi.</string>
 </resources>
