@@ -55,6 +55,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RestServiceInterface restServiceInterface;
+    private List<String> forumId = new ArrayList<String>();
     private List<String> hashtag = new ArrayList<String>();
     private List<String> datePosts = new ArrayList<String>();
     private List<String> descs = new ArrayList<String>();
@@ -132,6 +133,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                     upVotes.clear();
                     downVotes.clear();
                     favorites.clear();
+                    forumId.clear();
                     ForumsListPOJO forumsListPOJO = response.body();
                     for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
                         datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
@@ -144,12 +146,12 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                         downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
                         comments.add(forumsListPOJO.getResults().get(forum).getComment());
                         favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
-
+                        forumId.add(forumsListPOJO.getResults().get(forum).getId());
                         //Clear String hashtag Builder
                         hashtagStringBuilder = new StringBuilder();
                     }
 
-                    mAdapter = new ForumRecyclerView(datePosts,hashtag,titles,favorites,upVotes,downVotes,comments);
+                    mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,favorites,upVotes,downVotes,comments,getActivity());
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(mAdapter);
 
@@ -210,12 +212,13 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                         downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
                         comments.add(forumsListPOJO.getResults().get(forum).getComment());
                         favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
-
+                        forumId.add(forumsListPOJO.getResults().get(forum).getId());
                         //Clear String hashtag Builder
                         hashtagStringBuilder = new StringBuilder();
                     }
 
-                    mAdapter = new ForumRecyclerView(datePosts,hashtag,titles,favorites,upVotes,downVotes,comments);
+                    mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,
+                            favorites,upVotes,downVotes,comments,getActivity());
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(mAdapter);
 

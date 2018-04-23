@@ -1,5 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.forum;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.FORUM_ID;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -20,12 +24,14 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
     private List<String> datePostList;
     private List<String> hashtagList;
     private List<String> titleList;
+    private List<String> forumIdList;
     private List<Integer> upVoteNumbersList;
     private List<Integer> downVoteNumbersList;
     private List<Integer> commentNumbersList;
     private List<Integer> favoriteNumbersList;
+    private Activity activity;
 
-    private String[]  datePost, hashtag, title;
+    private String[]  datePost, hashtag, title, forumId;
     private Integer[] favoriteNumbers, upVoteNumbers, downVoteNumbers,
                      commentNumbers;
 
@@ -49,11 +55,12 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         }
     }
 
-    public ForumRecyclerView(List<String> datePostListParam,
+    public ForumRecyclerView(List<String> datePostListParam, List<String> forumIdParam,
                              List<String> hashtagListParam, List<String> titleListParam,
                              List<Integer> favoriteNumberListParam, List<Integer> upVoteNumberListParam,
-                             List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam) {
-
+                             List<Integer> downVoteNumberListParam, List<Integer> commentNumberListParam,
+                             Activity activity) {
+        this.activity = activity;
         this.datePostList = datePostListParam;
         this.hashtagList = hashtagListParam;
         this.titleList = titleListParam;
@@ -61,6 +68,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         this.upVoteNumbersList = upVoteNumberListParam;
         this.downVoteNumbersList = downVoteNumberListParam;
         this.commentNumbersList= commentNumberListParam;
+        this.forumIdList= forumIdParam;
 
         datePost = new String[datePostList.size()];
         hashtag = new String[hashtagList.size()];
@@ -69,6 +77,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         upVoteNumbers = new Integer[upVoteNumbersList.size()];
         downVoteNumbers = new Integer[downVoteNumbersList.size()];
         commentNumbers = new Integer[commentNumbersList.size()];
+        forumId = new String[forumIdList.size()];
 
         datePost = datePostList.toArray(datePost);
         hashtag = hashtagList.toArray(hashtag);
@@ -77,6 +86,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         upVoteNumbers= upVoteNumbersList.toArray(upVoteNumbers);
         downVoteNumbers= downVoteNumbersList.toArray(downVoteNumbers);
         commentNumbers= commentNumbersList.toArray(commentNumbers);
+        forumId= forumIdList.toArray(forumId);
     }
 
     @Override
@@ -89,7 +99,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.tvHashtag.setText(hashtag[position]);
         holder.tvTitlePost.setText(title[position]);
@@ -100,7 +110,15 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         holder.tvDownVoteNumbers.setText(Integer.toString(downVoteNumbers[position]));
         holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Komentar");
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentForum = new Intent(v.getContext(), DetailForumActivity.class);
+                intentForum.putExtra(FORUM_ID,forumId[position]);
+                v.getContext().startActivity(intentForum);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
     }
 
 

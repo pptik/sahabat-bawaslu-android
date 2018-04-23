@@ -16,6 +16,7 @@
     <string name="materi_label">Detail Materi</string>
     <string name="notifikasi_label">Notifikasi</string>
     <string name="detail_berita_label">Detail Berita</string>
+    <string name="detail_forum_label">Detail Forum</string>
     <string name="comment_numbers_label">\u2022 9 Komentar</string>
     <string name="dashboard_label">Dashboard</string>
     <string name="pastikan_internet_label">Mohon pastikan anda terhubung dengan Internet</string>

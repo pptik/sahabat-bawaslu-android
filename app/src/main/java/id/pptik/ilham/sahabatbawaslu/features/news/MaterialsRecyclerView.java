@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.forum.DetailForumActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailActivity;
@@ -88,6 +89,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public static final String CONTENT_ID = "CONTENT_ID";
     public static final String TITLE = "TITLE";
     public static final String MATERIAL_ID = "MATERIAL_ID";
+    public static final String FORUM_ID = "FORUM_ID";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
@@ -271,10 +273,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
-                            v.getContext().startActivity(intent);
-                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                            //Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
+                            Intent intentForum = new Intent(v.getContext(), DetailForumActivity.class);
+                            intentForum.putExtra(FORUM_ID,contentId[position]);
+                            v.getContext().startActivity(intentForum);
+                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
                 }
@@ -604,6 +606,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

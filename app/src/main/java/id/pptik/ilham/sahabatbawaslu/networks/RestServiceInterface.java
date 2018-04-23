@@ -142,6 +142,6 @@ public interface RestServiceInterface {
 
     @FormUrlEncoded
     @POST("forums/detail")
-    Call<ForumDetailPOJO> detailForum(@Field("SearchString") String searchString,
+    Call<ForumDetailPOJO> detailForum(@Field("ForumID") String forumId,
                                       @Header("access_token") String access_token);
 }
