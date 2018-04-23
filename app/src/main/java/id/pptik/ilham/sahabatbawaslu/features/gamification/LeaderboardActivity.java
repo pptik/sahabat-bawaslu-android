@@ -1,8 +1,13 @@
 package id.pptik.ilham.sahabatbawaslu.features.gamification;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsCommentsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -36,10 +42,12 @@ public class LeaderboardActivity extends AppCompatActivity {
     RestServiceInterface restServiceInterface;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+    private SwipeRefreshLayout swipeRefreshRecycler;
     SharedPreferences sharedPreferences;
     private List<String> username = new ArrayList<String>();
     private List<Integer> poin = new ArrayList<Integer>();
     private List<String> thumbnail = new ArrayList<String>();
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,35 +75,69 @@ public class LeaderboardActivity extends AppCompatActivity {
         access_token = sharedPreferences.getString("accessToken","abcde");
 
         contentLoad(access_token);
+
+        progressDialog = new ProgressDialog(getApplicationContext());
+        swipeRefreshRecycler = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                contentLoad(access_token);
+                swipeRefreshRecycler.setRefreshing(false);
+            }
+        });
     }
 
     private void contentLoad(String access_token){
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard(0,access_token);
-        Log.d("zzz","asd");
-        leaderboardPOJOCall.enqueue(new Callback<LeaderboardPOJO>() {
-            @Override
-            public void onResponse(Call<LeaderboardPOJO> call, Response<LeaderboardPOJO> response) {
+        progressDialog.setMessage("Mohon tunggu sedang dalam proses");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
+        if(RestServiceClass.isNetworkAvailable(this)){
+            restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+            final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard(0,access_token);
+            leaderboardPOJOCall.enqueue(new Callback<LeaderboardPOJO>() {
+                @Override
+                public void onResponse(Call<LeaderboardPOJO> call, Response<LeaderboardPOJO> response) {
 
 
 
-                LeaderboardPOJO leaderboardPOJO = response.body();
-                for (int item = 0 ; item < leaderboardPOJO.getResults().size(); item++){
-                    username.add(leaderboardPOJO.getResults().get(item).getUsername());
-                    poin.add(leaderboardPOJO.getResults().get(item).getLeader_poin());
-                    thumbnail.add(leaderboardPOJO.getResults().get(item).getDisplay_picture());
+                    LeaderboardPOJO leaderboardPOJO = response.body();
+                    for (int item = 0 ; item < leaderboardPOJO.getResults().size(); item++){
+                        username.add(leaderboardPOJO.getResults().get(item).getUsername());
+                        poin.add(leaderboardPOJO.getResults().get(item).getLeader_poin());
+                        thumbnail.add(leaderboardPOJO.getResults().get(item).getDisplay_picture());
+                    }
+
+                    mAdapter = new LeaderboardRecyclerView(username,thumbnail,poin);
+                    mAdapter.notifyDataSetChanged();
+                    recyclerViewLeaderboard.setAdapter(mAdapter);
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
 
-                mAdapter = new LeaderboardRecyclerView(username,thumbnail,poin);
-                mAdapter.notifyDataSetChanged();
-                recyclerViewLeaderboard.setAdapter(mAdapter);
-            }
+                @Override
+                public void onFailure(Call<LeaderboardPOJO> call, Throwable t) {
+                    Log.e("ax",t.getLocalizedMessage());
+                }
+            });
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
 
-            @Override
-            public void onFailure(Call<LeaderboardPOJO> call, Throwable t) {
-                Log.e("ax",t.getLocalizedMessage());
-            }
-        });
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
