@@ -1,8 +1,10 @@
 package id.pptik.ilham.sahabatbawaslu.networks;
 
 import java.util.List;
+import java.util.Map;
 
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -18,6 +20,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -124,4 +127,16 @@ public interface RestServiceInterface {
     @POST("forums/list")
     Call<ForumsListPOJO> forumsList(@Field("Skip") int skip,
                                     @Header("access_token") String access_token);
+
+    /*@FormUrlEncoded
+    @POST("forums/create")
+    Call<AddForumPojo> createForum(@Field("Title") String title,
+                                   @Field("Title") String title,
+                                  @Header("access_token") String access_token);*/
+
+    @FormUrlEncoded
+    @POST("forums/create")
+    Call<AddForumPojo> createForum(@Field("Title") String title,
+                                   @FieldMap Map<String, String> hashtags,
+                                   @Header("access_token") String access_token);
 }
