@@ -1,11 +1,14 @@
 package id.pptik.ilham.sahabatbawaslu.features.forum;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
@@ -39,6 +43,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
     private StringBuilder hashtagStringBuilder = new StringBuilder();
+    private FloatingActionButton floatingActionButton;
 
     public ForumFragment() {
     }
@@ -48,6 +53,18 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
+        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_forum);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(v.getContext(), "Tambah berita!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), AddForumActivity.class);
+                startActivity(intent);
+                //startActivityForResult(intent,);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -67,20 +84,20 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                 for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
                     datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
                     for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getTags().size();hashtag++){
-                        hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getTags()+" ");
+                        hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getTags().get(hashtag)+" ");
                     }
                     hashtag.add(hashtagStringBuilder.toString());
                     titles.add(forumsListPOJO.getResults().get(forum).getTitle());
                     upVotes.add(forumsListPOJO.getResults().get(forum).getUpvote());
                     downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
-                    comments.add(forumsListPOJO.getResults().get(forum).getComment());
+                    //comments.add(forumsListPOJO.getResults().get(forum).getComment());
                     favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
-
+                    Log.e("Hashtag: ",hashtagStringBuilder.toString());
                     //Clear String hashtag Builder
                     hashtagStringBuilder = new StringBuilder();
                 }
 
-                mAdapter = new ForumRecyclerView(datePosts,descs,titles,favorites,upVotes,downVotes,comments);
+                mAdapter = new ForumRecyclerView(datePosts,hashtag,titles,favorites,upVotes,downVotes,comments);
                 mAdapter.notifyDataSetChanged();
                 mRecyclerView.setAdapter(mAdapter);
             }

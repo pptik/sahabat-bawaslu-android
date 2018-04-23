@@ -120,7 +120,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
         switch (materialType[position]) {
             case 0:
                 holder.tvMaterialType.setText("video");
-                holder.tvCommentNumbers.setVisibility(View.INVISIBLE);
+
                 holder.secondaryContent.setVisibility(View.INVISIBLE);
                 holder.secondaryContentSuplemen.setVisibility(View.VISIBLE);
                 //holder.buttonComment.setVisibility(View.INVISIBLE);
@@ -128,6 +128,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 break;
             case 1:
                 holder.tvMaterialType.setText("suplemen");
+                holder.tvCommentNumbers.setVisibility(View.INVISIBLE);
                 ;
                 break;
             case 2:

@@ -572,13 +572,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     }
 
-    private void materialAdapter(final String content_id, String access_token, final Activity activity){
+    private void materialAdapter(final String content_id, final String access_token, final Activity activity){
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(content_id,access_token);
         materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
             @Override
             public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
                 MaterialDetailPOJO materialDetailPOJO = response.body();
+
                 switch (materialDetailPOJO.getResults().getType()){
                     case 0://video
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
