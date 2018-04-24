@@ -12,6 +12,7 @@
     <string name="daftar_label">Daftar</string>
     <string name="add_news_label">Tambah Berita</string>
     <string name="add_comment_label">Tambah Komentar</string>
+    <string name="add_answer_label">Tambah Jawaban</string>
     <string name="add_forum_label">Tambah Forum</string>
     <string name="materi_label">Detail Materi</string>
     <string name="notifikasi_label">Notifikasi</string>

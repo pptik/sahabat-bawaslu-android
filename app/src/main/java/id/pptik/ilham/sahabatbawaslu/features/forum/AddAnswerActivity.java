@@ -41,7 +41,7 @@ public class AddAnswerActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
 
         toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.add_comment_label));
+        toolbar.setTitle(getResources().getString(R.string.add_answer_label));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

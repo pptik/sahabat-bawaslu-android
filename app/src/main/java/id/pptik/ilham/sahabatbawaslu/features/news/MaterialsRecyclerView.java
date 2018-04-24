@@ -332,8 +332,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());
-        holder.tvNumberComment.setText(textNumberComment[position].toString() + " Komentar");
 
+        if(newsType[position] == 0 && contentType[position] == "3"){//Forum
+            holder.tvNumberComment.setText(textNumberComment[position].toString() + " Jawaban");
+        }else {
+            holder.tvNumberComment.setText(textNumberComment[position].toString() + " Komentar");
+        }
 
         //Gamifikasi respon
         if (statusUpvote[position]) {

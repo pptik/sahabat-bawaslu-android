@@ -108,7 +108,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
         holder.tvFavoriteNumbers.setText(Integer.toString(favoriteNumbers[position]));
         holder.tvUpVoteNumbers.setText(Integer.toString(upVoteNumbers[position]));
         holder.tvDownVoteNumbers.setText(Integer.toString(downVoteNumbers[position]));
-        holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Komentar");
+        holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Jawaban");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
