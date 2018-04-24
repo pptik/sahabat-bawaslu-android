@@ -36,6 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.id.content;
@@ -44,30 +45,30 @@ import static android.R.id.redo;
 
 
 public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecyclerView.ViewHolder> {
-    private List<String> usernameList;
-    private List<String> datePostList;
-    private List<String> titlePostList;
-    private List<String> contentPostList;
-    private List<String> userPictureProfileList;
-    private List<String> newsMediaList;
-    private List<Integer> textNumberFavoriteList;
-    private List<Integer> textNumberDownvoteList;
-    private List<Integer> textNumberUpvoteList;
-    private List<Integer> textNumberCommentList;
-    private List<Integer> newsTypeList;
-    private List<Integer> activityCodeList;
+    public static List<String> usernameList= new ArrayList<String>();
+    public static List<String> datePostList= new ArrayList<String>();
+    public static List<String> titlePostList= new ArrayList<String>();
+    public static List<String> contentPostList= new ArrayList<String>();
+    public static List<String> userPictureProfileList= new ArrayList<String>();
+    public static List<String> newsMediaList= new ArrayList<String>();
+    public static List<Integer> textNumberFavoriteList= new ArrayList<Integer>();
+    public static List<Integer> textNumberDownvoteList= new ArrayList<Integer>();
+    public static List<Integer> textNumberUpvoteList= new ArrayList<Integer>();
+    public static List<Integer> textNumberCommentList= new ArrayList<Integer>();
+    public static List<Integer> newsTypeList= new ArrayList<Integer>();
+    public static List<Integer> activityCodeList= new ArrayList<Integer>();
     //Buat menentukan warna marker
-    private List<String> contentIdList;
-    private List<String> contentTypeList;
+    public static List<String> contentIdList= new ArrayList<String>();
+    public static List<String> contentTypeList= new ArrayList<String>();
 
     //Buar menentukan label marker card
-    private List<String> contentTextList;
-    private List<String> activityTextList;
+    public static List<String> contentTextList= new ArrayList<String>();
+    public static List<String> activityTextList= new ArrayList<String>();
 
 
-    private List<Boolean> statusUpvoteList;
-    private List<Boolean> statusDownvoteList;
-    private List<Boolean> statusFavoriteList;
+    public static List<Boolean> statusUpvoteList= new ArrayList<Boolean>();
+    public static List<Boolean> statusDownvoteList= new ArrayList<Boolean>();
+    public static List<Boolean> statusFavoriteList= new ArrayList<Boolean>();
 
     private String[] username, datePost, titlePost,
             contentPost, userPictureProfile, contentType,

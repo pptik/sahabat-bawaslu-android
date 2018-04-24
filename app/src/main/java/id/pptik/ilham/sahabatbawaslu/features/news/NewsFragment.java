@@ -145,6 +145,28 @@ public class NewsFragment extends Fragment {
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                    //Adapter
+                    MaterialsRecyclerView.usernameList.clear();
+                    MaterialsRecyclerView.datePostList.clear();
+                    MaterialsRecyclerView.titlePostList.clear();
+                    MaterialsRecyclerView.contentPostList.clear();
+                    MaterialsRecyclerView.userPictureProfileList.clear();
+                    MaterialsRecyclerView.newsMediaList.clear();
+                    MaterialsRecyclerView.textNumberFavoriteList.clear();
+                    MaterialsRecyclerView.textNumberDownvoteList.clear();
+                    MaterialsRecyclerView.textNumberUpvoteList.clear();
+                    MaterialsRecyclerView.textNumberCommentList.clear();
+                    MaterialsRecyclerView.newsTypeList.clear();
+                    MaterialsRecyclerView.activityCodeList.clear();
+                    MaterialsRecyclerView.contentIdList.clear();
+                    MaterialsRecyclerView.contentTypeList.clear();
+                    MaterialsRecyclerView.contentTextList.clear();
+                    MaterialsRecyclerView.activityTextList.clear();
+                    MaterialsRecyclerView.statusUpvoteList.clear();
+                    MaterialsRecyclerView.statusDownvoteList.clear();
+                    MaterialsRecyclerView.statusFavoriteList.clear();
+
+                    //Fragment
                     username.clear();
                     datePost.clear();
                     contentPost.clear();
@@ -237,7 +259,28 @@ public class NewsFragment extends Fragment {
             dashboardSearchTitlePOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                    //Mengosongkan recycle material yang sudah diisi
+                    //Adapter
+                    MaterialsRecyclerView.usernameList.clear();
+                    MaterialsRecyclerView.datePostList.clear();
+                    MaterialsRecyclerView.titlePostList.clear();
+                    MaterialsRecyclerView.contentPostList.clear();
+                    MaterialsRecyclerView.userPictureProfileList.clear();
+                    MaterialsRecyclerView.newsMediaList.clear();
+                    MaterialsRecyclerView.textNumberFavoriteList.clear();
+                    MaterialsRecyclerView.textNumberDownvoteList.clear();
+                    MaterialsRecyclerView.textNumberUpvoteList.clear();
+                    MaterialsRecyclerView.textNumberCommentList.clear();
+                    MaterialsRecyclerView.newsTypeList.clear();
+                    MaterialsRecyclerView.activityCodeList.clear();
+                    MaterialsRecyclerView.contentIdList.clear();
+                    MaterialsRecyclerView.contentTypeList.clear();
+                    MaterialsRecyclerView.contentTextList.clear();
+                    MaterialsRecyclerView.activityTextList.clear();
+                    MaterialsRecyclerView.statusUpvoteList.clear();
+                    MaterialsRecyclerView.statusDownvoteList.clear();
+                    MaterialsRecyclerView.statusFavoriteList.clear();
+
+                    //Fragment
                     username.clear();
                     datePost.clear();
                     contentPost.clear();
@@ -457,7 +500,28 @@ public class NewsFragment extends Fragment {
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                    //Mengosongkan recycle material yang sudah diisi
+                    //Adapter
+                    MaterialsRecyclerView.usernameList.clear();
+                    MaterialsRecyclerView.datePostList.clear();
+                    MaterialsRecyclerView.titlePostList.clear();
+                    MaterialsRecyclerView.contentPostList.clear();
+                    MaterialsRecyclerView.userPictureProfileList.clear();
+                    MaterialsRecyclerView.newsMediaList.clear();
+                    MaterialsRecyclerView.textNumberFavoriteList.clear();
+                    MaterialsRecyclerView.textNumberDownvoteList.clear();
+                    MaterialsRecyclerView.textNumberUpvoteList.clear();
+                    MaterialsRecyclerView.textNumberCommentList.clear();
+                    MaterialsRecyclerView.newsTypeList.clear();
+                    MaterialsRecyclerView.activityCodeList.clear();
+                    MaterialsRecyclerView.contentIdList.clear();
+                    MaterialsRecyclerView.contentTypeList.clear();
+                    MaterialsRecyclerView.contentTextList.clear();
+                    MaterialsRecyclerView.activityTextList.clear();
+                    MaterialsRecyclerView.statusUpvoteList.clear();
+                    MaterialsRecyclerView.statusDownvoteList.clear();
+                    MaterialsRecyclerView.statusFavoriteList.clear();
+
+                    //Fragment
                     username.clear();
                     datePost.clear();
                     contentPost.clear();
@@ -470,6 +534,9 @@ public class NewsFragment extends Fragment {
                     numberUpvote.clear();
                     numberDownvote.clear();
                     numberComments.clear();
+                    upvoteStatus.clear();
+                    downvoteStatus.clear();
+                    favoriteStatus.clear();
                     upvoteStatus.clear();
                     downvoteStatus.clear();
                     favoriteStatus.clear();
@@ -552,7 +619,28 @@ public class NewsFragment extends Fragment {
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                    //Mengosongkan recycle material yang sudah diisi
+                    //Adapter
+                    MaterialsRecyclerView.usernameList.clear();
+                    MaterialsRecyclerView.datePostList.clear();
+                    MaterialsRecyclerView.titlePostList.clear();
+                    MaterialsRecyclerView.contentPostList.clear();
+                    MaterialsRecyclerView.userPictureProfileList.clear();
+                    MaterialsRecyclerView.newsMediaList.clear();
+                    MaterialsRecyclerView.textNumberFavoriteList.clear();
+                    MaterialsRecyclerView.textNumberDownvoteList.clear();
+                    MaterialsRecyclerView.textNumberUpvoteList.clear();
+                    MaterialsRecyclerView.textNumberCommentList.clear();
+                    MaterialsRecyclerView.newsTypeList.clear();
+                    MaterialsRecyclerView.activityCodeList.clear();
+                    MaterialsRecyclerView.contentIdList.clear();
+                    MaterialsRecyclerView.contentTypeList.clear();
+                    MaterialsRecyclerView.contentTextList.clear();
+                    MaterialsRecyclerView.activityTextList.clear();
+                    MaterialsRecyclerView.statusUpvoteList.clear();
+                    MaterialsRecyclerView.statusDownvoteList.clear();
+                    MaterialsRecyclerView.statusFavoriteList.clear();
+
+                    //Fragment
                     username.clear();
                     datePost.clear();
                     contentPost.clear();
@@ -565,6 +653,9 @@ public class NewsFragment extends Fragment {
                     numberUpvote.clear();
                     numberDownvote.clear();
                     numberComments.clear();
+                    upvoteStatus.clear();
+                    downvoteStatus.clear();
+                    favoriteStatus.clear();
                     upvoteStatus.clear();
                     downvoteStatus.clear();
                     favoriteStatus.clear();

@@ -112,6 +112,18 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    //Adapter
+                    LearningRecyclerView.materialTypeList.clear();
+                    LearningRecyclerView.datePostList.clear();
+                    LearningRecyclerView.materialIdList.clear();
+                    LearningRecyclerView.descList.clear();
+                    LearningRecyclerView.titleList.clear();
+                    LearningRecyclerView.upVoteNumbersList.clear();
+                    LearningRecyclerView.downVoteNumbersList.clear();
+                    LearningRecyclerView.commentNumbersList.clear();
+                    LearningRecyclerView.favoriteNumbersList.clear();
+
+                    //Fragment
                     authors.clear();
                     datePosts.clear();
                     descs.clear();
@@ -179,15 +191,27 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
 
-                    //Mengosongkan recycle material yang sudah diisi
+                    //Adapter
+                    LearningRecyclerView.materialTypeList.clear();
+                    LearningRecyclerView.datePostList.clear();
+                    LearningRecyclerView.materialIdList.clear();
+                    LearningRecyclerView.descList.clear();
+                    LearningRecyclerView.titleList.clear();
+                    LearningRecyclerView.upVoteNumbersList.clear();
+                    LearningRecyclerView.downVoteNumbersList.clear();
+                    LearningRecyclerView.commentNumbersList.clear();
+                    LearningRecyclerView.favoriteNumbersList.clear();
+
+                    //Fragment
                     authors.clear();
                     datePosts.clear();
                     descs.clear();
                     titles.clear();
-                    favorites.clear();
                     upVotes.clear();
                     downVotes.clear();
                     comments.clear();
+                    favorites.clear();
+                    materialIds.clear();
 
                     MaterialsListPOJO materialsListPOJO = response.body();
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
@@ -199,6 +223,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
                         comments.add(materialsListPOJO.getResults().get(materi).getComment());
                         favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                        materialIds.add(materialsListPOJO.getResults().get(materi).getId());
                     }
                     mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
                             favorites,upVotes,downVotes,comments,materialIds,getActivity());
@@ -360,15 +385,27 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             materialsListPOJOCall.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
-                    //Mengosongkan recycle material yang sudah diisi
+                    //Adapter
+                    LearningRecyclerView.materialTypeList.clear();
+                    LearningRecyclerView.datePostList.clear();
+                    LearningRecyclerView.materialIdList.clear();
+                    LearningRecyclerView.descList.clear();
+                    LearningRecyclerView.titleList.clear();
+                    LearningRecyclerView.upVoteNumbersList.clear();
+                    LearningRecyclerView.downVoteNumbersList.clear();
+                    LearningRecyclerView.commentNumbersList.clear();
+                    LearningRecyclerView.favoriteNumbersList.clear();
+
+                    //Fragment
                     authors.clear();
                     datePosts.clear();
                     descs.clear();
                     titles.clear();
-                    favorites.clear();
                     upVotes.clear();
                     downVotes.clear();
                     comments.clear();
+                    favorites.clear();
+                    materialIds.clear();
 
                     MaterialsListPOJO materialsListPOJO = response.body();
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
@@ -380,6 +417,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
                         comments.add(materialsListPOJO.getResults().get(materi).getComment());
                         favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                        materialIds.add(materialsListPOJO.getResults().get(materi).getId());
                     }
                     mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
                             favorites,upVotes,downVotes,comments,materialIds,getActivity());

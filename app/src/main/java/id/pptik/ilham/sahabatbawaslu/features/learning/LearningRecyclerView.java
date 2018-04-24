@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -24,15 +25,15 @@ import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.
 
 public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerView.ViewHolder> {
 
-    private List<Integer> materialTypeList;
-    private List<String> datePostList;
-    private List<String> materialIdList;
-    private List<String> descList;
-    private List<String> titleList;
-    private List<Integer> upVoteNumbersList;
-    private List<Integer> downVoteNumbersList;
-    private List<Integer> commentNumbersList;
-    private List<Integer> favoriteNumbersList;
+    public static List<Integer> materialTypeList = new ArrayList<Integer>();
+    public static List<String> datePostList = new ArrayList<String>();
+    public static List<String> materialIdList = new ArrayList<String>();
+    public static List<String> descList = new ArrayList<String>();
+    public static List<String> titleList = new ArrayList<String>();
+    public static List<Integer> upVoteNumbersList = new ArrayList<Integer>();
+    public static List<Integer> downVoteNumbersList = new ArrayList<Integer>();
+    public static List<Integer> commentNumbersList = new ArrayList<Integer>();
+    public static List<Integer> favoriteNumbersList = new ArrayList<Integer>();
 
     private String[] datePost, desc, title, materialId;
     private Integer[] favoriteNumbers, upVoteNumbers, downVoteNumbers,
