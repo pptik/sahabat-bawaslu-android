@@ -112,11 +112,9 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
                 intent.putExtra(CONTENT_ID,contentId);
                 startActivity(intent);
-                //startActivityForResult(intent,);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });

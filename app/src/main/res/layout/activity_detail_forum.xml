@@ -234,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"></android.support.v7.widget.RecyclerView>
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_tambah_komentar"
+            android:id="@+id/fab_tambah_answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"

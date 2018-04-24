@@ -113,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }else{
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
                         snackbar = Snackbar.make(linearLayout,loginPOJO.getRm(),Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }

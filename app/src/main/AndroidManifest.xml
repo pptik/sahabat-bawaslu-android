@@ -39,7 +39,8 @@
         <activity android:name=".features.learning.MaterialAdapter" />
         <activity android:name=".features.learning.FileManagerDownloadActivity" />
         <activity android:name=".features.learning.VideoMaterialDetailActivity" />
-        <activity android:name=".features.forum.DetailForumActivity"></activity>
+        <activity android:name=".features.forum.DetailForumActivity" />
+        <activity android:name=".features.forum.AddAnswerActivity"></activity>
     </application>
 
 </manifest>

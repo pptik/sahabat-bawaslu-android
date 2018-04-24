@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.features.forum;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsCommentActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
@@ -30,6 +32,8 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.FORUM_ID;
 
 public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
@@ -41,11 +45,13 @@ public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.text_numbers_downvote)TextView textViewNumberDownvote;
     @BindView(R.id.text_comments)TextView textViewNumberComment;
     @BindView(R.id.user_picture)ImageView imageViewUserPicture;
+    @BindView(R.id.fab_tambah_answer)FloatingActionButton floatingActionButtonTambahAnswer;
 
     Intent intent;
     String contentId;
     RestServiceInterface restServiceInterface;
     SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +73,18 @@ public class DetailForumActivity extends AppCompatActivity {
 
         intent = getIntent();
         Bundle bundle = intent.getExtras();
-        contentId = bundle.getString(MaterialsRecyclerView.FORUM_ID);
+        contentId = bundle.getString(FORUM_ID);
 
         contentRequest(contentId);
+        floatingActionButtonTambahAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddAnswerActivity.class);
+                intent.putExtra(FORUM_ID,contentId);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
     }
 
     private void contentRequest(final String contentId){
