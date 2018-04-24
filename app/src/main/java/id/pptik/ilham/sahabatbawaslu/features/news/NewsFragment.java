@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -77,6 +78,8 @@ public class NewsFragment extends Fragment {
     private List<Boolean> downvoteStatus = new ArrayList<Boolean>();
     private List<Boolean> favoriteStatus = new ArrayList<Boolean>();
 
+    private int scrolledPostition = 5;
+    private int scrolledPositionTemp;
     SharedPreferences sharedPreferences;
 
     ProgressDialog progressDialog;
@@ -120,28 +123,83 @@ public class NewsFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-        getNewsList(access_token,view.getContext());
+        getNewsList(access_token,view.getContext(),0);
 
         swipeRefreshRecycler = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshRecycler);
         swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNewsList(access_token,view.getContext());
+                getNewsList(access_token,view.getContext(),0);
                 swipeRefreshRecycler.setRefreshing(false);
             }
         });
+
+        //Content when scrolling
+        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
+                //int firstVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
+
+                *//*scrolledPositionTemp = layoutManager.findLastCompletelyVisibleItemPosition();
+                if (scrolledPostition < scrolledPositionTemp){
+                    scrolledPostition = scrolledPositionTemp;
+
+                }*//*
+                Log.d("SCROLL","A "+layoutManager.findLastCompletelyVisibleItemPosition());
+                if (layoutManager.findLastCompletelyVisibleItemPosition() % 4 == 0){
+                    Log.d("XSCROLL","A "+layoutManager.findLastCompletelyVisibleItemPosition());
+                    getNewsListScrolled(access_token,view.getContext(),scrolledPostition,layoutManager.findLastCompletelyVisibleItemPosition());
+                    scrolledPostition = scrolledPostition+5;
+                }
+
+            }
+
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return super.equals(obj);
+            }
+
+            @Override
+            protected Object clone() throws CloneNotSupportedException {
+                return super.clone();
+            }
+
+            @Override
+            public String toString() {
+                return super.toString();
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+            }
+        });*/
+
+
         return view;
 
     }
 
-    private void getNewsList(String accessToken, final Context context){
+    private void getNewsList(String accessToken, final Context context, int skip){
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
         progressDialog.show();
 
         if(RestServiceClass.isNetworkAvailable(context)){
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(0,accessToken);
+            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skip,accessToken);
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
@@ -233,6 +291,82 @@ public class NewsFragment extends Fragment {
         }else{
             progressDialog.setProgress(100);
             progressDialog.dismiss();
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
+    }
+    private void getNewsListScrolled(final String accessToken, final Context context, final int skip, final int currentPosition){
+        /*progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();*/
+
+        if(RestServiceClass.isNetworkAvailable(context)){
+            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skip,accessToken);
+            dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+                @Override
+                public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+
+                    DashboardPOJO dashboardPOJO = response.body();
+                    Log.d("XXSCROLL","AKSES TOKEN "+accessToken);
+                    Log.d("XXSCROLL","SKIP "+skip);
+                    Log.d("XXSCROLL","RESULT "+dashboardPOJO.getResults().size());
+                    Log.d("XXSCROLL","RM "+dashboardPOJO.getRm());
+                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                        username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                        datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                        titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                        contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                        userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                        contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                        activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                        contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                        activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
+                        numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                        numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                        numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                        numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                        upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                        downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                        favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                        newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                        //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                    }
+                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
+                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                            newsType,newsMedia,contentId,activityType
+                    );
+
+                    mRecyclerView.scrollToPosition(skip+currentPosition);
+                    mAdapter.notifyItemRangeInserted(0,username.size());
+                    mAdapter.notifyItemChanged(username.size());
+                    mAdapter.notifyDataSetChanged();
+
+                    /*progressDialog.setProgress(100);
+                    progressDialog.dismiss();*/
+                }
+
+                @Override
+                public void onFailure(Call<DashboardPOJO> call, Throwable t) {
+
+                }
+            });
+        }else{
+            /*progressDialog.setProgress(100);
+            progressDialog.dismiss();*/
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
             alertDialog.setMessage(R.string.pastikan_internet_label)

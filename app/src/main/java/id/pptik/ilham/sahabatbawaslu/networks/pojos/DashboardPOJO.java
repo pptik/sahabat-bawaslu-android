@@ -29,6 +29,10 @@ public class DashboardPOJO {
         this.access_token = access_token;
     }
 
+    public String getRm() {
+        return rm;
+    }
+
     @SerializedName("results")
     @Expose
     private List<DashboardPOJO.Results> results = null;

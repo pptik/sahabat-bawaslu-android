@@ -618,4 +618,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public int getItemCount() {
         return username.length;
     }
+
+    
 }
