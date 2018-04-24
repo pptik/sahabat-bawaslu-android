@@ -3,6 +3,7 @@ package id.pptik.ilham.sahabatbawaslu.networks;
 import java.util.List;
 import java.util.Map;
 
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
@@ -145,6 +146,12 @@ public interface RestServiceInterface {
     @POST("forums/detail")
     Call<ForumDetailPOJO> detailForum(@Field("ForumID") String forumId,
                                       @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("/forums/answer")
+    Call<AddAnswerPOJO> addAnswerForum(@Field("ForumID") String forumId,
+                                         @Field("Answer") String answer,
+                                         @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("forums/answer/list")

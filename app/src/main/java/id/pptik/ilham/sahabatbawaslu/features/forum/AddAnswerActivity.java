@@ -87,6 +87,10 @@ public class AddAnswerActivity extends AppCompatActivity {
         final String access_token = sharedPreferences.getString("accessToken","abcde");
     }
 
+    private void submitAnswer(String accessToken, String answerContent){
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
