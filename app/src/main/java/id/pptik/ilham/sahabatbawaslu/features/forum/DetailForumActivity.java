@@ -85,7 +85,7 @@ public class DetailForumActivity extends AppCompatActivity {
                 ForumDetailPOJO forumDetailPOJO = response.body();
                 textViewUsername.setText(forumDetailPOJO.getResults().getPostBy().getUsername());
                 textViewContentForum.setText(forumDetailPOJO.getResults().getTitle());
-                textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAt());
+                textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAtFromNow());
                 textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
                 textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
                 textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
