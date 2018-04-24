@@ -194,12 +194,25 @@ public class ForumFragment extends android.support.v4.app.Fragment {
             callForumSearch.enqueue(new Callback<ForumsListPOJO>() {
                 @Override
                 public void onResponse(Call<ForumsListPOJO> call, Response<ForumsListPOJO> response) {
+                    //Fragment
                     datePosts.clear();
                     hashtag.clear();
                     titles.clear();
                     upVotes.clear();
                     downVotes.clear();
                     favorites.clear();
+
+                    //Adapter
+                    ForumRecyclerView.materialTypeList.clear();
+                    ForumRecyclerView.datePostList.clear();
+                    ForumRecyclerView.hashtagList.clear();
+                    ForumRecyclerView.titleList.clear();
+                    ForumRecyclerView.forumIdList.clear();
+                    ForumRecyclerView.upVoteNumbersList.clear();
+                    ForumRecyclerView.downVoteNumbersList.clear();
+                    ForumRecyclerView.commentNumbersList.clear();
+                    ForumRecyclerView.favoriteNumbersList.clear();
+
                     ForumsListPOJO forumsListPOJO = response.body();
                     for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
                         datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());

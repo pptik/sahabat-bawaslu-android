@@ -6,6 +6,7 @@ import java.util.Map;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
@@ -144,4 +145,10 @@ public interface RestServiceInterface {
     @POST("forums/detail")
     Call<ForumDetailPOJO> detailForum(@Field("ForumID") String forumId,
                                       @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("forums/answer/list")
+    Call<AnswersListPOJO> answersListForum(@Field("ForumID") String forumId,
+                                           @Field("Skip") int skip,
+                                           @Header("access_token") String access_token);
 }

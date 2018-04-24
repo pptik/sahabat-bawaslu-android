@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Ilham on 24/04/18.
  */
 
-public class AddAnswerPOJO {
+public class AnswersListPOJO {
     @SerializedName("success")
     @Expose
     private Boolean success;

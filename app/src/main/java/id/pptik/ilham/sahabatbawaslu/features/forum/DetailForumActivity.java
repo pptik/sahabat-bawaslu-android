@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,14 +21,20 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsCommentActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
+import id.pptik.ilham.sahabatbawaslu.features.news.NewsCommentsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import retrofit2.Call;
@@ -46,12 +54,23 @@ public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.text_comments)TextView textViewNumberComment;
     @BindView(R.id.user_picture)ImageView imageViewUserPicture;
     @BindView(R.id.fab_tambah_answer)FloatingActionButton floatingActionButtonTambahAnswer;
+    @BindView(R.id.recycler_view_answer)RecyclerView recyclerViewAnswers;
 
     Intent intent;
-    String contentId;
+    String contentId, accessToken;
     RestServiceInterface restServiceInterface;
     SharedPreferences sharedPreferences;
 
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
+
+    private List<String> datePost = new ArrayList<String>();
+    private List<String> username = new ArrayList<String>();
+    private List<String> contentPost = new ArrayList<String>();
+    private List<String> userProfilePicture = new ArrayList<String>();
+    private List<String> answerId = new ArrayList<String>();
+    private List<Integer> answerLevel = new ArrayList<Integer>();
+    private List<Integer> answerReplyCounter = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +94,16 @@ public class DetailForumActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         contentId = bundle.getString(FORUM_ID);
 
-        contentRequest(contentId);
+        recyclerViewAnswers.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerViewAnswers.setLayoutManager(mLayoutManager);
+
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        accessToken = sharedPreferences.getString("accessToken","abcde");
+
+        contentRequest(contentId,accessToken);
+        answersList(contentId,accessToken);
         floatingActionButtonTambahAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,11 +115,7 @@ public class DetailForumActivity extends AppCompatActivity {
         });
     }
 
-    private void contentRequest(final String contentId){
-        //Ambil Data dari Networking REST
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
+    private void contentRequest(final String contentId, String access_token){
 
         Call<ForumDetailPOJO> forumDetailPOJOCall = restServiceInterface.detailForum(contentId,access_token);
         forumDetailPOJOCall.enqueue(new Callback<ForumDetailPOJO>() {
@@ -111,6 +135,35 @@ public class DetailForumActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ForumDetailPOJO> call, Throwable t) {
                 Toast.makeText(DetailForumActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void answersList(String contentId, String accessToken){
+        Call<AnswersListPOJO> answersListPOJOCall = restServiceInterface.answersListForum(contentId,0,accessToken);
+        answersListPOJOCall.enqueue(new Callback<AnswersListPOJO>() {
+            @Override
+            public void onResponse(Call<AnswersListPOJO> call, Response<AnswersListPOJO> response) {
+                AnswersListPOJO answersListPOJO = response.body();
+                for (int item = 0 ; item < answersListPOJO.getResults().size(); item++){
+                    username.add(answersListPOJO.getResults().get(item).getPostBy().getUsername());
+                    datePost.add(answersListPOJO.getResults().get(item).getCreatedAtFromNow());
+                    contentPost.add(answersListPOJO.getResults().get(item).getAnswerContent());
+                    userProfilePicture.add(answersListPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
+                    answerId.add(answersListPOJO.getResults().get(item).getId());
+                    answerReplyCounter.add(answersListPOJO.getResults().get(item).getReply().size());
+                    answerLevel.add(answersListPOJO.getResults().get(item).getLevel());
+                }
+                mAdapter = new ForumAnswersRecyclerView(username,datePost,contentPost,
+                        userProfilePicture,answerId,answerReplyCounter,answerLevel);
+
+                mAdapter.notifyDataSetChanged();
+                recyclerViewAnswers.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<AnswersListPOJO> call, Throwable t) {
+
             }
         });
     }

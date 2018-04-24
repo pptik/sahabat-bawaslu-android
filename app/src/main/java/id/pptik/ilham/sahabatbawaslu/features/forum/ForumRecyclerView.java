@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -20,15 +21,15 @@ import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.
 
 public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.ViewHolder> {
 
-    private List<Integer> materialTypeList;
-    private List<String> datePostList;
-    private List<String> hashtagList;
-    private List<String> titleList;
-    private List<String> forumIdList;
-    private List<Integer> upVoteNumbersList;
-    private List<Integer> downVoteNumbersList;
-    private List<Integer> commentNumbersList;
-    private List<Integer> favoriteNumbersList;
+    public static List<Integer> materialTypeList = new ArrayList<Integer>();
+    public static List<String> datePostList = new ArrayList<String>();
+    public static List<String> hashtagList = new ArrayList<String>();
+    public static List<String> titleList = new ArrayList<String>();
+    public static List<String> forumIdList = new ArrayList<String>();
+    public static List<Integer> upVoteNumbersList = new ArrayList<Integer>();
+    public static List<Integer> downVoteNumbersList = new ArrayList<Integer>();
+    public static List<Integer> commentNumbersList = new ArrayList<Integer>();
+    public static List<Integer> favoriteNumbersList = new ArrayList<Integer>();
     private Activity activity;
 
     private String[]  datePost, hashtag, title, forumId;
