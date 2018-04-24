@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/EditText"
                 android:text="@={comment.content}"
-                android:hint="@string/answer_caption_label"/>
+                android:hint="@string/comment_caption_label"/>
         </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/button_masuk"

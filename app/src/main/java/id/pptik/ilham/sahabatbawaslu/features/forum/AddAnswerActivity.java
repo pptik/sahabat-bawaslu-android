@@ -7,25 +7,43 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.commands.CommentsInterface;
+import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddAnswerBinding;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddNewsCommentBinding;
+import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsCommentActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity;
+import id.pptik.ilham.sahabatbawaslu.models.CommentsModel;
+import id.pptik.ilham.sahabatbawaslu.networks.HTMLParser;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
+import id.pptik.ilham.sahabatbawaslu.view_models.CommentsViewModel;
+import jp.wasabeef.richeditor.RichEditor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddAnswerActivity extends AppCompatActivity {
-    private ActivityAddNewsCommentBinding activityAddNewsCommentBinding;
+    private ActivityAddAnswerBinding activityAddAnswerBinding;
     private RestServiceInterface restServiceInterface;
     private android.support.v7.widget.Toolbar toolbar;
     private Intent intent;
     private String contentId;
     private SharedPreferences sharedPreferences;
     private EditText editTextAnswer;
+    private RichEditor richEditor;
+    private Button buttonAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +51,7 @@ public class AddAnswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_answer);
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        activityAddNewsCommentBinding = DataBindingUtil.setContentView(this,R.layout.activity_add_news_comment);
+        activityAddAnswerBinding = DataBindingUtil.setContentView(this,R.layout.activity_add_answer);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -46,7 +64,21 @@ public class AddAnswerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        editTextAnswer = (EditText)findViewById(R.id.edit_text_answer);
+        richEditor = (RichEditor)findViewById(R.id.rich_editor);
+        richEditor.setEditorHeight(300);
+        richEditor.setEditorFontSize(15);
+        richEditor.setPlaceholder("Tuliskan Jawaban disini");
+        richEditor.setPadding(10,10,10,10);
+
+        final CommentsViewModel commentsViewModel = new CommentsViewModel(new CommentsModel());
+        activityAddAnswerBinding.setComment(commentsViewModel);
+        activityAddAnswerBinding.setAddcommentevent(new CommentsInterface() {
+            @Override
+            public void onClickAddComment() {
+                Toast.makeText(AddAnswerActivity.this, HTMLParser.html2text(richEditor.getHtml()), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         intent = getIntent();
         contentId = intent.getStringExtra(DetailNewsNotAdminTextActivity.CONTENT_ID);
