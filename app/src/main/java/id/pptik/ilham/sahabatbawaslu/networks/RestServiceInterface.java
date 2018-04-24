@@ -148,7 +148,7 @@ public interface RestServiceInterface {
                                       @Header("access_token") String access_token);
 
     @FormUrlEncoded
-    @POST("/forums/answer")
+    @POST("forums/answer")
     Call<AddAnswerPOJO> addAnswerForum(@Field("ForumID") String forumId,
                                          @Field("Answer") String answer,
                                          @Header("access_token") String access_token);

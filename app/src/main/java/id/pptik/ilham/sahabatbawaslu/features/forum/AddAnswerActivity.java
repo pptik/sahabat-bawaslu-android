@@ -27,12 +27,15 @@ import id.pptik.ilham.sahabatbawaslu.models.CommentsModel;
 import id.pptik.ilham.sahabatbawaslu.networks.HTMLParser;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.view_models.CommentsViewModel;
 import jp.wasabeef.richeditor.RichEditor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.FORUM_ID;
 
 public class AddAnswerActivity extends AppCompatActivity {
     private ActivityAddAnswerBinding activityAddAnswerBinding;
@@ -70,25 +73,40 @@ public class AddAnswerActivity extends AppCompatActivity {
         richEditor.setPlaceholder("Tuliskan Jawaban disini");
         richEditor.setPadding(10,10,10,10);
 
+        intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        contentId = bundle.getString(FORUM_ID);
+        //contentId = intent.getStringExtra(DetailNewsNotAdminTextActivity.CONTENT_ID);
+        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
         final CommentsViewModel commentsViewModel = new CommentsViewModel(new CommentsModel());
         activityAddAnswerBinding.setComment(commentsViewModel);
         activityAddAnswerBinding.setAddcommentevent(new CommentsInterface() {
             @Override
             public void onClickAddComment() {
-                Toast.makeText(AddAnswerActivity.this, HTMLParser.html2text(richEditor.getHtml()), Toast.LENGTH_SHORT).show();
-
+            submitAnswer(contentId,access_token,HTMLParser.html2text(richEditor.getHtml()));
             }
         });
-
-        intent = getIntent();
-        contentId = intent.getStringExtra(DetailNewsNotAdminTextActivity.CONTENT_ID);
-
-        sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
     }
 
-    private void submitAnswer(String accessToken, String answerContent){
+    private void submitAnswer(String contentId, String accessToken, String answerContent){
 
+        Call<AddAnswerPOJO> addAnswerPOJOCall = restServiceInterface.
+                addAnswerForum(contentId,answerContent,accessToken);
+        addAnswerPOJOCall.enqueue(new Callback<AddAnswerPOJO>() {
+            @Override
+            public void onResponse(Call<AddAnswerPOJO> call, Response<AddAnswerPOJO> response) {
+                AddAnswerPOJO addAnswerPOJO = response.body();
+                Toast.makeText(AddAnswerActivity.this, addAnswerPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<AddAnswerPOJO> call, Throwable t) {
+                Toast.makeText(AddAnswerActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
