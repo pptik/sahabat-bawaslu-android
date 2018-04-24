@@ -261,10 +261,13 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                            Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(CONTENT_ID,contentId[position]);
+                            bundle.putString(TITLE,titlePost[position]);
+                            intent.putExtras(bundle);
                             v.getContext().startActivity(intent);
-                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                            //Toast.makeText(activity, "0", Toast.LENGTH_SHORT).show();
+                            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
                 }else if (contentType[position] == "3") {//Forum
@@ -307,13 +310,11 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     public void onClick(View v) {
                         Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
                         Bundle bundle = new Bundle();
-                        //intent.putExtra(CONTENT_ID,contentId[position]);
                         bundle.putString(CONTENT_ID,contentId[position]);
                         bundle.putString(TITLE,titlePost[position]);
                         intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        //Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -619,5 +620,5 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         return username.length;
     }
 
-    
+
 }
