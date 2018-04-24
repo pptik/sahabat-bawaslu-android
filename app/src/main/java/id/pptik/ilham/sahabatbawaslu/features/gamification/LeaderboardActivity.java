@@ -54,8 +54,6 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-        //restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -76,7 +74,6 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         contentLoad(access_token);
 
-        progressDialog = new ProgressDialog(getApplicationContext());
         swipeRefreshRecycler = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshRecycler);
         swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -88,19 +85,23 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void contentLoad(String access_token){
-        progressDialog.setMessage("Mohon tunggu sedang dalam proses");
+        progressDialog = new ProgressDialog(LeaderboardActivity.this);
+        //progressDialog.setMessage("Mohon tunggu sedang dalam proses");
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
         progressDialog.show();
 
         if(RestServiceClass.isNetworkAvailable(this)){
+
             restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
             final Call<LeaderboardPOJO> leaderboardPOJOCall = restServiceInterface.leaderboard(0,access_token);
             leaderboardPOJOCall.enqueue(new Callback<LeaderboardPOJO>() {
                 @Override
                 public void onResponse(Call<LeaderboardPOJO> call, Response<LeaderboardPOJO> response) {
-
-
+                    username.clear();
+                    poin.clear();
+                    thumbnail.clear();
 
                     LeaderboardPOJO leaderboardPOJO = response.body();
                     for (int item = 0 ; item < leaderboardPOJO.getResults().size(); item++){
