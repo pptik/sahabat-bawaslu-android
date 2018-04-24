@@ -38,7 +38,7 @@ public class ForumAnswersRecyclerView extends RecyclerView.Adapter<ForumAnswersR
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvUsername2, tvAnswerContent, tvAnswerContent2,
-                tvDatePost, tvDatePost2;
+                tvDatePost, tvDatePost2, tvSubAnswer;
 
         public ImageView ivUserpicture,ivUserpicture2;
         public CardView cardViewAnswerLevel0,cardViewAnswerLevel1;
@@ -52,6 +52,7 @@ public class ForumAnswersRecyclerView extends RecyclerView.Adapter<ForumAnswersR
             tvDatePost2 = (TextView) itemView.findViewById(R.id.date_post_2);
             tvAnswerContent = (TextView) itemView.findViewById(R.id.answer_content);
             tvAnswerContent2 = (TextView) itemView.findViewById(R.id.answer_content_2);
+            tvSubAnswer = (TextView) itemView.findViewById(R.id.text_view_sub_answer);
             cardViewAnswerLevel0 = (CardView) itemView.findViewById(R.id.card_view_answer_level_0);
             cardViewAnswerLevel1 = (CardView) itemView.findViewById(R.id.card_view_answer_level_1);
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
@@ -110,6 +111,7 @@ public class ForumAnswersRecyclerView extends RecyclerView.Adapter<ForumAnswersR
         holder.tvDatePost.setText(datePost[position]);
         holder.tvAnswerContent.setText(contentPost[position]);
         holder.tvDatePost.setText(datePost[position]);
+        holder.tvSubAnswer.setText("\u2022 "+textNumberAnswerNumbers[position]+" Jawaban");
 
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
