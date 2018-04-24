@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.FORUM_ID;
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.usernameList;
 
 public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
@@ -63,7 +65,7 @@ public class DetailForumActivity extends AppCompatActivity {
 
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<String> datePost = new ArrayList<String>();
     private List<String> username = new ArrayList<String>();
     private List<String> contentPost = new ArrayList<String>();
@@ -113,6 +115,15 @@ public class DetailForumActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
+
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                answersList(contentId,accessToken);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void contentRequest(final String contentId, String access_token){
@@ -141,6 +152,24 @@ public class DetailForumActivity extends AppCompatActivity {
     }
 
     private void answersList(String contentId, String accessToken){
+        //Activity
+        username.clear();
+        datePost.clear();
+        contentPost.clear();
+        userProfilePicture.clear();
+        answerId.clear();
+        answerReplyCounter.clear();
+        answerLevel.clear();
+
+        //Adapter
+        ForumAnswersRecyclerView.usernameList.clear();
+        ForumAnswersRecyclerView.datePostList.clear();
+        ForumAnswersRecyclerView.contentPostList.clear();
+        ForumAnswersRecyclerView.userPictureProfileList.clear();
+        ForumAnswersRecyclerView.answerLevelList.clear();
+        ForumAnswersRecyclerView.answerNumbersList.clear();
+        ForumAnswersRecyclerView.answerIdList.clear();
+
         Call<AnswersListPOJO> answersListPOJOCall = restServiceInterface.answersListForum(contentId,0,accessToken);
         answersListPOJOCall.enqueue(new Callback<AnswersListPOJO>() {
             @Override

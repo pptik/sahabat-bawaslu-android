@@ -56,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
 
-
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(LoginActivity.this);
 
         final UserViewModel userViewModel = new UserViewModel(new UserModel());
         //Binding View Model
@@ -66,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         activityLoginBinding.setLoginevent(new LoginInterface() {
             @Override
             public void onClickLogin() {
+
                 progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(RestServiceClass.isNetworkAvailable(LoginActivity.this)){
                     login(activityLoginBinding.getUser().getEmail(),activityLoginBinding.getUser().getPassword());
                 }else{
+                    progressDialog.setProgress(100);
                     progressDialog.dismiss();
                     snackbar = Snackbar.make(linearLayout,R.string.pastikan_internet_label,Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -95,8 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         call1.enqueue(new Callback<LoginPOJO>() {
             @Override
             public void onResponse(Call<LoginPOJO> call, Response<LoginPOJO> response) {
-                progressDialog.setProgress(100);
-                progressDialog.dismiss();
+
 
                 LoginPOJO loginPOJO = response.body();
                 if (loginPOJO != null){
@@ -107,6 +107,9 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("accessToken", loginPOJO.getResults().getAccess_token().toString());
                         editor.putString("userId", loginPOJO.getResults().getId().toString());
                         editor.commit();
+
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
 
                         finish();
                         Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);

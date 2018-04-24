@@ -13,19 +13,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 
 
 public class ForumAnswersRecyclerView extends RecyclerView.Adapter<ForumAnswersRecyclerView.ViewHolder> {
-    private List<String> usernameList;
-    private List<String> datePostList;
-    private List<String> contentPostList;
-    private List<String> userPictureProfileList;
-    private List<Integer> answerLevelList;
-    private List<Integer> answerNumbersList;
-    private List<String> answerIdList;
+    public static List<String> usernameList= new ArrayList<String>();
+    public static List<String> datePostList= new ArrayList<String>();
+    public static List<String> contentPostList= new ArrayList<String>();
+    public static List<String> userPictureProfileList= new ArrayList<String>();
+    public static List<Integer> answerLevelList= new ArrayList<Integer>();
+    public static List<Integer> answerNumbersList= new ArrayList<Integer>();
+    public static List<String> answerIdList= new ArrayList<String>();
 
     private String[] username, datePost,
             contentPost, userPictureProfile,
