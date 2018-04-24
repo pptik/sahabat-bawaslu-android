@@ -270,7 +270,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 }else if (contentType[position] == "3") {//Forum
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
-                    holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                    //holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                    holder.tvContentPostNewsAdmin.setVisibility(View.GONE);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

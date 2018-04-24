@@ -56,6 +56,9 @@ public class ForumDetailPOJO {
         @SerializedName("downvote")
         @Expose
         private Integer downvote;
+        @SerializedName("comment")
+        @Expose
+        private Integer comment;
         @SerializedName("favorite")
         @Expose
         private Integer favorite;
@@ -124,6 +127,10 @@ public class ForumDetailPOJO {
 
         public void setFavorite(Integer favorite) {
             this.favorite = favorite;
+        }
+
+        public Integer getComment() {
+            return comment;
         }
 
         public String getCreatedAt() {

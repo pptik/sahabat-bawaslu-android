@@ -128,6 +128,7 @@ public class DetailForumActivity extends AppCompatActivity {
                 textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
                 textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
                 textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
+                textViewNumberComment.setText(Integer.toString(forumDetailPOJO.getResults().getComment())+" Jawaban");
                 imageViewUserPicture.setImageDrawable(null);
                 Glide.with(imageViewUserPicture.getContext()).load(forumDetailPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
             }
