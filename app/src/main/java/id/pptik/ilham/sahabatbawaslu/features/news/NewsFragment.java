@@ -572,6 +572,9 @@ public class NewsFragment extends Fragment {
                     case R.id.pop_up_filter_berita:
                         filterByContentREST(2,view.getContext());
                         return true;
+                    case R.id.pop_up_sort_comment:
+                        filterByContentREST(3,view.getContext());
+                        return true;
                     default:return false;
                 }
             }
