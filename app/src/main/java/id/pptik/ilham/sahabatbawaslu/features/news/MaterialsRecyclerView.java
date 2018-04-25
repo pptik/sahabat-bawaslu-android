@@ -148,6 +148,40 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         }
     }
 
+    public  void updateData(List<String> usernameListParam, List<String> datePostListParam,
+                           List<String> contentPostListParam, List<String> userPictureProfileListParam,
+                           List<String> contentTypeListParam, List<String> titlePostListParam,
+                           List<String> contentLabelListParam, List<String> activityLabelListParam,
+                           List<Integer> textNumberFavoriteListParam, List<Integer> textNumberUpvoteListParam,
+                           List<Integer> textNumberDownvoteListParam, List<Integer> textNumberCommentListParam,
+                           List<Boolean> statusUpvotesParam, List<Boolean> statusDownvotesParam,
+                           List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam,
+                           List<String> newsMediaListParam, List<String> contentIdListParam,
+                           List<Integer> activityCodeListParam){
+        this.usernameList = usernameListParam;
+        this.datePostList = datePostListParam;
+        this.contentPostList = contentPostListParam;
+        this.userPictureProfileList = userPictureProfileListParam;
+        this.contentTypeList = contentTypeListParam;
+        this.titlePostList = titlePostListParam;
+        this.contentTextList = contentLabelListParam;
+        this.activityTextList = activityLabelListParam;
+        this.textNumberDownvoteList = textNumberDownvoteListParam;
+        this.textNumberUpvoteList = textNumberUpvoteListParam;
+        this.textNumberFavoriteList = textNumberFavoriteListParam;
+        this.textNumberCommentList = textNumberCommentListParam;
+        this.statusUpvoteList = statusUpvotesParam;
+        this.statusDownvoteList = statusDownvotesParam;
+        this.statusFavoriteList = statusFavoritesParam;
+        this.newsTypeList = newsTypeListParam;
+        this.newsMediaList = newsMediaListParam;
+        this.newsMediaList = newsMediaListParam;
+        this.contentIdList = contentIdListParam;
+        this.activityCodeList = activityCodeListParam;
+        notifyDataSetChanged();
+
+    }
+
     public MaterialsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
                                  List<String> contentTypeListParam, List<String> titlePostListParam,
@@ -220,6 +254,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         newsMedia = newsMediaList.toArray(newsMedia);
         contentId = contentIdList.toArray(contentId);
         activityCode = activityCodeList.toArray(activityCode);
+
+        //notifyDataSetChanged();
 
     }
 

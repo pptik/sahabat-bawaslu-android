@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
+                progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
 
                 if(RestServiceClass.isNetworkAvailable(LoginActivity.this)){
@@ -132,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginPOJO> call, Throwable t) {
                 //Toast.makeText(LoginActivity.this, "Maaf terjadi gangguan pada koneksi ke server.", Toast.LENGTH_LONG).show();
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
                 snackbar = Snackbar.make(linearLayout,"Maaf terjadi gangguan pada koneksi ke server.",Snackbar.LENGTH_LONG);
                 snackbar.show();
                 call.cancel();

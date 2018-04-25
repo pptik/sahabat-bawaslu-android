@@ -29,6 +29,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -79,8 +80,9 @@ public class NewsFragment extends Fragment {
     private List<Boolean> favoriteStatus = new ArrayList<Boolean>();
 
     private int scrolledPostition = 5;
-    private int scrolledPositionTemp;
+    private int scrolledPositionTemp = 0;
     SharedPreferences sharedPreferences;
+    MaterialsRecyclerView mRV;
 
     ProgressDialog progressDialog;
 
@@ -135,7 +137,7 @@ public class NewsFragment extends Fragment {
         });
 
         //Content when scrolling
-        /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -145,17 +147,12 @@ public class NewsFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
-                //int firstVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
 
-                *//*scrolledPositionTemp = layoutManager.findLastCompletelyVisibleItemPosition();
-                if (scrolledPostition < scrolledPositionTemp){
-                    scrolledPostition = scrolledPositionTemp;
-
-                }*//*
-                Log.d("SCROLL","A "+layoutManager.findLastCompletelyVisibleItemPosition());
-                if (layoutManager.findLastCompletelyVisibleItemPosition() % 4 == 0){
-                    Log.d("XSCROLL","A "+layoutManager.findLastCompletelyVisibleItemPosition());
-                    getNewsListScrolled(access_token,view.getContext(),scrolledPostition,layoutManager.findLastCompletelyVisibleItemPosition());
+                Log.d("SCROLLEDPOSITION","SC "+scrolledPostition);
+                int numItems = mLayoutManager.getItemCount();
+                int pos = layoutManager.findLastCompletelyVisibleItemPosition();
+                if(pos - numItems == -1){
+                    getNewsListScrolled(access_token,view.getContext(),scrolledPostition,numItems);
                     scrolledPostition = scrolledPostition+5;
                 }
 
@@ -185,7 +182,7 @@ public class NewsFragment extends Fragment {
             protected void finalize() throws Throwable {
                 super.finalize();
             }
-        });*/
+        });
 
 
         return view;
@@ -193,6 +190,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void getNewsList(String accessToken, final Context context, int skip){
+        scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -318,10 +316,10 @@ public class NewsFragment extends Fragment {
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
 
                     DashboardPOJO dashboardPOJO = response.body();
-                    Log.d("XXSCROLL","AKSES TOKEN "+accessToken);
+                    /*Log.d("XXSCROLL","AKSES TOKEN "+accessToken);
                     Log.d("XXSCROLL","SKIP "+skip);
                     Log.d("XXSCROLL","RESULT "+dashboardPOJO.getResults().size());
-                    Log.d("XXSCROLL","RM "+dashboardPOJO.getRm());
+                    Log.d("XXSCROLL","RM "+dashboardPOJO.getRm());*/
                     for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                         datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
@@ -344,16 +342,17 @@ public class NewsFragment extends Fragment {
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                     }
+
                     mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
                             userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
                             numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
                             newsType,newsMedia,contentId,activityType
                     );
 
-                    mRecyclerView.scrollToPosition(skip+currentPosition);
-                    mAdapter.notifyItemRangeInserted(0,username.size());
-                    mAdapter.notifyItemChanged(username.size());
                     mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.scrollToPosition(currentPosition-1);
+
 
                     /*progressDialog.setProgress(100);
                     progressDialog.dismiss();*/
@@ -382,6 +381,7 @@ public class NewsFragment extends Fragment {
         }
     }
     private void searchNewsList(String query,String accessToken, Context context){
+        scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -622,6 +622,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void sortByCategoryREST(int code, Context context){
+        scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -741,6 +742,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void filterByContentREST(int code, Context context){
+        scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
