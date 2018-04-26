@@ -387,7 +387,8 @@ public class NewsFragment extends Fragment {
                                     newsType, newsMedia, contentId, activityType
                             );
 
-                            mAdapter.notifyDataSetChanged();
+                            //mAdapter.notifyDataSetChanged();
+                            //mAdapter.notifyItemRangeChanged(itemCount-1,5);
                             mRecyclerView.setAdapter(mAdapter);
                             mRecyclerView.scrollToPosition(itemCount - 1);
 
