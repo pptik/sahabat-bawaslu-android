@@ -92,6 +92,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public static final String MATERIAL_ID = "MATERIAL_ID";
     public static final String FORUM_ID = "FORUM_ID";
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvDatePost, tvTitlePost,
                 tvContentPost, tvContentCode, tvContentLabel, tvActivityLabel,
@@ -110,40 +111,40 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvUsername = (TextView) itemView.findViewById(R.id.username);
-            tvDatePost = (TextView) itemView.findViewById(R.id.date_post);
-            tvTitlePost = (TextView) itemView.findViewById(R.id.title_post);
-            tvContentPost = (TextView) itemView.findViewById(R.id.content_post);
-            tvContentCode = (TextView) itemView.findViewById(R.id.post_label);
-            tvContentLabel = (TextView) itemView.findViewById(R.id.post_content_desc);
-            tvActivityLabel = (TextView) itemView.findViewById(R.id.post_activity_desc);
-            tvNumberFavorite = (TextView) itemView.findViewById(R.id.text_number_favorite);
-            tvNumberDownvote = (TextView) itemView.findViewById(R.id.text_numbers_downvote);
-            tvNumberUpvote = (TextView) itemView.findViewById(R.id.text_numbers_upvote);
-            tvNumberComment = (TextView) itemView.findViewById(R.id.text_comments);
-            tvActivityUsername = (TextView) itemView.findViewById(R.id.activity_username);
-            tvTitlePostNewsAdmin = (TextView) itemView.findViewById(R.id.title_post_news_admin);
-            tvContentPostNewsAdmin = (TextView) itemView.findViewById(R.id.content_post_news_admin);
-            tvTitlePostNewsNonAdminText = (TextView) itemView.findViewById(R.id.title_post_news_nonadmin_text);
-            tvContentPostNewsNonAdminText = (TextView) itemView.findViewById(R.id.content_post_nonadmin_text);
-            newsMedia = (ImageView) itemView.findViewById(R.id.media_post_news_nonadmin_media);
-            tvContentPostNewsNonAdminMedia = (TextView) itemView.findViewById(R.id.caption_post_news_nonadmin_media);
+            tvUsername = itemView.findViewById(R.id.username);
+            tvDatePost = itemView.findViewById(R.id.date_post);
+            tvTitlePost = itemView.findViewById(R.id.title_post);
+            tvContentPost = itemView.findViewById(R.id.content_post);
+            tvContentCode = itemView.findViewById(R.id.post_label);
+            tvContentLabel = itemView.findViewById(R.id.post_content_desc);
+            tvActivityLabel = itemView.findViewById(R.id.post_activity_desc);
+            tvNumberFavorite = itemView.findViewById(R.id.text_number_favorite);
+            tvNumberDownvote = itemView.findViewById(R.id.text_numbers_downvote);
+            tvNumberUpvote = itemView.findViewById(R.id.text_numbers_upvote);
+            tvNumberComment = itemView.findViewById(R.id.text_comments);
+            tvActivityUsername = itemView.findViewById(R.id.activity_username);
+            tvTitlePostNewsAdmin = itemView.findViewById(R.id.title_post_news_admin);
+            tvContentPostNewsAdmin = itemView.findViewById(R.id.content_post_news_admin);
+            tvTitlePostNewsNonAdminText = itemView.findViewById(R.id.title_post_news_nonadmin_text);
+            tvContentPostNewsNonAdminText = itemView.findViewById(R.id.content_post_nonadmin_text);
+            newsMedia = itemView.findViewById(R.id.media_post_news_nonadmin_media);
+            tvContentPostNewsNonAdminMedia = itemView.findViewById(R.id.caption_post_news_nonadmin_media);
 
-            viewLabelColorNews = (View) itemView.findViewById(R.id.label_color_news);
-            viewLabelColorMaterial = (View) itemView.findViewById(R.id.label_color_material);
+            viewLabelColorNews = itemView.findViewById(R.id.label_color_news);
+            viewLabelColorMaterial = itemView.findViewById(R.id.label_color_material);
 
-            ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-            infoButton = (ImageView) itemView.findViewById(R.id.info_button_content_activity);
+            ivUserpicture = itemView.findViewById(R.id.user_picture);
+            infoButton = itemView.findViewById(R.id.info_button_content_activity);
 
-            buttonUpvote = (ImageView) itemView.findViewById(R.id.button_upvote);
-            buttonDownvote = (ImageView) itemView.findViewById(R.id.button_downvote);
-            buttonFavorite = (ImageView) itemView.findViewById(R.id.button_favorite);
-            buttonComment = (ImageView) itemView.findViewById(R.id.button_comment);
+            buttonUpvote = itemView.findViewById(R.id.button_upvote);
+            buttonDownvote = itemView.findViewById(R.id.button_downvote);
+            buttonFavorite = itemView.findViewById(R.id.button_favorite);
+            buttonComment = itemView.findViewById(R.id.button_comment);
 
-            relativeLayoutNotNewsContent = (RelativeLayout) itemView.findViewById(R.id.relativelayout_not_news_content);
-            relativeLayoutNewsAdmin = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_admin);
-            relativeLayoutNewsContentNotAdminText = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_text);
-            relativeLayoutNewsContentNotAdminMedia = (RelativeLayout) itemView.findViewById(R.id.relativelayout_news_nonadmin_media);
+            relativeLayoutNotNewsContent = itemView.findViewById(R.id.relativelayout_not_news_content);
+            relativeLayoutNewsAdmin = itemView.findViewById(R.id.relativelayout_news_admin);
+            relativeLayoutNewsContentNotAdminText = itemView.findViewById(R.id.relativelayout_news_nonadmin_text);
+            relativeLayoutNewsContentNotAdminMedia = itemView.findViewById(R.id.relativelayout_news_nonadmin_media);
 
         }
     }
@@ -158,26 +159,26 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                            List<Boolean> statusFavoritesParam, Activity activity, List<Integer> newsTypeListParam,
                            List<String> newsMediaListParam, List<String> contentIdListParam,
                            List<Integer> activityCodeListParam){
-        this.usernameList = usernameListParam;
-        this.datePostList = datePostListParam;
-        this.contentPostList = contentPostListParam;
-        this.userPictureProfileList = userPictureProfileListParam;
-        this.contentTypeList = contentTypeListParam;
-        this.titlePostList = titlePostListParam;
-        this.contentTextList = contentLabelListParam;
-        this.activityTextList = activityLabelListParam;
-        this.textNumberDownvoteList = textNumberDownvoteListParam;
-        this.textNumberUpvoteList = textNumberUpvoteListParam;
-        this.textNumberFavoriteList = textNumberFavoriteListParam;
-        this.textNumberCommentList = textNumberCommentListParam;
-        this.statusUpvoteList = statusUpvotesParam;
-        this.statusDownvoteList = statusDownvotesParam;
-        this.statusFavoriteList = statusFavoritesParam;
-        this.newsTypeList = newsTypeListParam;
-        this.newsMediaList = newsMediaListParam;
-        this.newsMediaList = newsMediaListParam;
-        this.contentIdList = contentIdListParam;
-        this.activityCodeList = activityCodeListParam;
+        usernameList = usernameListParam;
+        datePostList = datePostListParam;
+        contentPostList = contentPostListParam;
+        userPictureProfileList = userPictureProfileListParam;
+        contentTypeList = contentTypeListParam;
+        titlePostList = titlePostListParam;
+        contentTextList = contentLabelListParam;
+        activityTextList = activityLabelListParam;
+        textNumberDownvoteList = textNumberDownvoteListParam;
+        textNumberUpvoteList = textNumberUpvoteListParam;
+        textNumberFavoriteList = textNumberFavoriteListParam;
+        textNumberCommentList = textNumberCommentListParam;
+        statusUpvoteList = statusUpvotesParam;
+        statusDownvoteList = statusDownvotesParam;
+        statusFavoriteList = statusFavoritesParam;
+        newsTypeList = newsTypeListParam;
+        newsMediaList = newsMediaListParam;
+        newsMediaList = newsMediaListParam;
+        contentIdList = contentIdListParam;
+        activityCodeList = activityCodeListParam;
         notifyDataSetChanged();
 
     }
@@ -194,26 +195,26 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                  List<Integer> activityCodeListParam) {
 
         this.activity = activity;
-        this.usernameList = usernameListParam;
-        this.datePostList = datePostListParam;
-        this.contentPostList = contentPostListParam;
-        this.userPictureProfileList = userPictureProfileListParam;
-        this.contentTypeList = contentTypeListParam;
-        this.titlePostList = titlePostListParam;
-        this.contentTextList = contentLabelListParam;
-        this.activityTextList = activityLabelListParam;
-        this.textNumberDownvoteList = textNumberDownvoteListParam;
-        this.textNumberUpvoteList = textNumberUpvoteListParam;
-        this.textNumberFavoriteList = textNumberFavoriteListParam;
-        this.textNumberCommentList = textNumberCommentListParam;
-        this.statusUpvoteList = statusUpvotesParam;
-        this.statusDownvoteList = statusDownvotesParam;
-        this.statusFavoriteList = statusFavoritesParam;
-        this.newsTypeList = newsTypeListParam;
-        this.newsMediaList = newsMediaListParam;
-        this.newsMediaList = newsMediaListParam;
-        this.contentIdList = contentIdListParam;
-        this.activityCodeList = activityCodeListParam;
+        usernameList = usernameListParam;
+        datePostList = datePostListParam;
+        contentPostList = contentPostListParam;
+        userPictureProfileList = userPictureProfileListParam;
+        contentTypeList = contentTypeListParam;
+        titlePostList = titlePostListParam;
+        contentTextList = contentLabelListParam;
+        activityTextList = activityLabelListParam;
+        textNumberDownvoteList = textNumberDownvoteListParam;
+        textNumberUpvoteList = textNumberUpvoteListParam;
+        textNumberFavoriteList = textNumberFavoriteListParam;
+        textNumberCommentList = textNumberCommentListParam;
+        statusUpvoteList = statusUpvotesParam;
+        statusDownvoteList = statusDownvotesParam;
+        statusFavoriteList = statusFavoritesParam;
+        newsTypeList = newsTypeListParam;
+        newsMediaList = newsMediaListParam;
+        newsMediaList = newsMediaListParam;
+        contentIdList = contentIdListParam;
+        activityCodeList = activityCodeListParam;
 
         username = new String[usernameList.size()];
         datePost = new String[datePostList.size()];
@@ -275,11 +276,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
+        int test = newsType[position];
 
         //Khusus berita
-        switch (newsType[position]) {
+        switch (test) {
             case 0://konten admin
-                if (contentType[position] == "1") {//Materi
+                if (contentType[position].equals("1")) {//Materi
                     holder.relativeLayoutNotNewsContent.setVisibility(View.VISIBLE);
                     holder.tvContentPost.setText(contentPost[position]);
                     holder.tvTitlePost.setText(titlePost[position]);
@@ -290,7 +292,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         }
                     });
                     holder.tvNumberComment.setVisibility(View.GONE);
-                } else if (contentType[position] == "2") {//Berita
+                } else if (contentType[position].equals("2")) {//Berita
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
                     holder.tvContentPostNewsAdmin.setText(contentPost[position]);
@@ -306,10 +308,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
-                }else if (contentType[position] == "3") {//Forum
+                }else if (contentType[position].equals("3")) {//Forum
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
-                    //holder.tvContentPostNewsAdmin.setText(contentPost[position]);
+                    holder.tvContentPostNewsAdmin.setText(contentPost[position]);
                     holder.tvContentPostNewsAdmin.setVisibility(View.GONE);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
