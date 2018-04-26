@@ -79,8 +79,8 @@ public class NewsFragment extends Fragment {
     private List<Boolean> downvoteStatus = new ArrayList<Boolean>();
     private List<Boolean> favoriteStatus = new ArrayList<Boolean>();
 
-    private int scrolledPostition = 5;
-    private int scrolledPositionTemp = 0;
+    private int skip = 5;
+    private boolean loadMore = true;
     SharedPreferences sharedPreferences;
     MaterialsRecyclerView mRV;
 
@@ -148,12 +148,12 @@ public class NewsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
 
-                Log.d("SCROLLEDPOSITION","SC "+scrolledPostition);
-                int numItems = mLayoutManager.getItemCount();
+                Log.d("SKIP","SKIP: "+skip);
+                int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
-                if(pos - numItems == -1){
-                    getNewsListScrolled(access_token,view.getContext(),scrolledPostition,numItems);
-                    scrolledPostition = scrolledPostition+5;
+                if(itemCount - pos == 1){
+                    getNewsListScrolled(access_token,view.getContext(),skip,itemCount);
+                    skip = skip+5;
                 }
 
             }
@@ -190,9 +190,10 @@ public class NewsFragment extends Fragment {
     }
 
     private void getNewsList(String accessToken, final Context context, int skip){
-        scrolledPostition = 5;
+        //scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setProgress(0);
         progressDialog.show();
 
@@ -286,6 +287,7 @@ public class NewsFragment extends Fragment {
 
                 }
             });
+
         }else{
             progressDialog.setProgress(100);
             progressDialog.dismiss();
@@ -303,66 +305,72 @@ public class NewsFragment extends Fragment {
                     }).show();
         }
     }
-    private void getNewsListScrolled(final String accessToken, final Context context, final int skip, final int currentPosition){
+    private void getNewsListScrolled(final String accessToken, final Context context, final int skip, final int itemCount){
         /*progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
         progressDialog.show();*/
 
         if(RestServiceClass.isNetworkAvailable(context)){
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skip,accessToken);
-            dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
-                @Override
-                public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+            if (loadMore){
+                Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skip,accessToken);
+                dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
+                    @Override
+                    public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
 
-                    DashboardPOJO dashboardPOJO = response.body();
-                    /*Log.d("XXSCROLL","AKSES TOKEN "+accessToken);
-                    Log.d("XXSCROLL","SKIP "+skip);
-                    Log.d("XXSCROLL","RESULT "+dashboardPOJO.getResults().size());
-                    Log.d("XXSCROLL","RM "+dashboardPOJO.getRm());*/
-                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
-                        username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
-                        datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
-                        titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
-                        contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
-                        userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
-                        contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
-                        activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
-                        contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
-                        activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
-                        numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
-                        numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
-                        numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
-                        numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
-                        upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
-                        downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
-                        favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
-                        newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                        //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
-                        contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        DashboardPOJO dashboardPOJO = response.body();
+                        /*Log.d("XXSCROLL","AKSES TOKEN "+accessToken);
+                        Log.d("XXSCROLL","SKIP "+skip);
+                        Log.d("XXSCROLL","RESULT "+dashboardPOJO.getResults().size());
+                        Log.d("XXSCROLL","RM "+dashboardPOJO.getRm());*/
+
+                        if (dashboardPOJO.getResults().size() < 5){
+                            loadMore = false;
+                        }else{
+                            for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                                username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                                datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                                titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                                contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                                userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                                contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                                activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                                contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                                activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
+                                numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                                numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                                numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                                numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                                upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                                downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                                favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                                newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                                //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                                contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                                newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                            }
+
+                            mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
+                                    userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
+                                    numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
+                                    newsType,newsMedia,contentId,activityType
+                            );
+
+                            mAdapter.notifyDataSetChanged();
+                            mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.scrollToPosition(itemCount-1);
+                        }
+
+                        /*progressDialog.setProgress(100);
+                        progressDialog.dismiss();*/
                     }
 
-                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                            newsType,newsMedia,contentId,activityType
-                    );
+                    @Override
+                    public void onFailure(Call<DashboardPOJO> call, Throwable t) {
 
-                    mAdapter.notifyDataSetChanged();
-                    mRecyclerView.setAdapter(mAdapter);
-                    mRecyclerView.scrollToPosition(currentPosition-1);
-
-
-                    /*progressDialog.setProgress(100);
-                    progressDialog.dismiss();*/
-                }
-
-                @Override
-                public void onFailure(Call<DashboardPOJO> call, Throwable t) {
-
-                }
-            });
+                    }
+                });
+            }
         }else{
             /*progressDialog.setProgress(100);
             progressDialog.dismiss();*/
@@ -381,7 +389,7 @@ public class NewsFragment extends Fragment {
         }
     }
     private void searchNewsList(String query,String accessToken, Context context){
-        scrolledPostition = 5;
+        //scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -622,7 +630,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void sortByCategoryREST(int code, Context context){
-        scrolledPostition = 5;
+        //scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -742,7 +750,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void filterByContentREST(int code, Context context){
-        scrolledPostition = 5;
+        //scrolledPostition = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);

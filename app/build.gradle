@@ -44,4 +44,5 @@ dependencies {
     compile 'com.androidadvance:topsnackbar:1.1.1'
     compile 'jp.wasabeef:richeditor-android:1.2.2'
     compile 'org.jsoup:jsoup:1.11.3'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
 }
