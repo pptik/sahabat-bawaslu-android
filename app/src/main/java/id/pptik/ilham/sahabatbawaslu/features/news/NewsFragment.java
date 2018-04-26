@@ -102,7 +102,7 @@ public class NewsFragment extends Fragment {
         progressDialog = new ProgressDialog(view.getContext());
 
 
-        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_berita);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_tambah_berita);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,15 +124,15 @@ public class NewsFragment extends Fragment {
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
-        getNewsList(access_token,view.getContext(),0);
+        getNewsList(access_token, view.getContext(), 0);
 
-        swipeRefreshRecycler = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshRecycler = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshRecycler);
         swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNewsList(access_token,view.getContext(),0);
+                getNewsList(access_token, view.getContext(), 0);
                 swipeRefreshRecycler.setRefreshing(false);
             }
         });
@@ -147,18 +147,18 @@ public class NewsFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
+                LinearLayoutManager layoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
 
 
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
-                if(itemCount - pos == 1){
-                    getNewsListScrolled(access_token,view.getContext(),skip,itemCount);
+                if (itemCount - pos == 1) {
+                    getNewsListScrolled(access_token, view.getContext(), skip, itemCount);
 
                 }
-                Log.d("SKIP","SKIP: "+skip);
-                Log.d("ITEMCOUNT","ITEMCOUNT: "+itemCount);
-                Log.d("POS","POS: "+pos);
+                Log.d("SKIP", "SKIP: " + skip);
+                Log.d("ITEMCOUNT", "ITEMCOUNT: " + itemCount);
+                Log.d("POS", "POS: " + pos);
 
             }
 
@@ -193,7 +193,7 @@ public class NewsFragment extends Fragment {
 
     }
 
-    private void getNewsList(String accessToken, final Context context, int skipParam){
+    private void getNewsList(String accessToken, final Context context, int skipParam) {
         skip = 5;
         loadMore = true;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
@@ -202,8 +202,8 @@ public class NewsFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        if(RestServiceClass.isNetworkAvailable(context)){
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam,accessToken);
+        if (RestServiceClass.isNetworkAvailable(context)) {
+            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam, accessToken);
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
@@ -253,7 +253,7 @@ public class NewsFragment extends Fragment {
                     activityType.clear();
 
                     DashboardPOJO dashboardPOJO = response.body();
-                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                         datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                         titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
@@ -275,12 +275,13 @@ public class NewsFragment extends Fragment {
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                     }
-                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                            newsType,newsMedia,contentId,activityType
+                    mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                            userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                            numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
+                            newsType, newsMedia, contentId, activityType
                     );
                     mAdapter.notifyDataSetChanged();
+
                     mRecyclerView.setAdapter(mAdapter);
 
                     progressDialog.setProgress(100);
@@ -296,7 +297,7 @@ public class NewsFragment extends Fragment {
                 }
             });
 
-        }else{
+        } else {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
 
@@ -314,7 +315,8 @@ public class NewsFragment extends Fragment {
         }
 
     }
-    private void getNewsListScrolled(final String accessToken, final Context context, final int skipParam, final int itemCount){
+
+    private void getNewsListScrolled(final String accessToken, final Context context, final int skipParam, final int itemCount) {
 
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -322,21 +324,20 @@ public class NewsFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        if(RestServiceClass.isNetworkAvailable(context)){
-            if (loadMore){
-                Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam,accessToken);
+        if (RestServiceClass.isNetworkAvailable(context)) {
+            if (loadMore) {
+                Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam, accessToken);
                 dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                     @Override
                     public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
 
                         DashboardPOJO dashboardPOJO = response.body();
 
-                        if (dashboardPOJO.getResults().size() == 0){
+                        if (dashboardPOJO.getResults().size() == 0) {
                             loadMore = false;
-                        }else{
-                            for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                        } else {
+                            for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                                 username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
-
                                 datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                                 titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
                                 contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
@@ -378,19 +379,19 @@ public class NewsFragment extends Fragment {
                                 Collections.reverse(newsMedia);*/
                             }
 
-                            mRecyclerView.setAdapter(null);
+                            //mRecyclerView.setAdapter(null);
 
-                            mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                                    userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                                    numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                                    newsType,newsMedia,contentId,activityType
+                            mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                                    userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                                    numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
+                                    newsType, newsMedia, contentId, activityType
                             );
 
-
-                            //mAdapter.notifyDataSetChanged();
+                            mAdapter.notifyDataSetChanged();
                             mRecyclerView.setAdapter(mAdapter);
-                            mRecyclerView.scrollToPosition(itemCount-1);
-                            skip = skip+5;
+                            mRecyclerView.scrollToPosition(itemCount - 1);
+
+                            skip = skip + 5;
                         }
 
                         progressDialog.setProgress(100);
@@ -402,11 +403,11 @@ public class NewsFragment extends Fragment {
 
                     }
                 });
-            }else{
+            } else {
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
             }
-        }else{
+        } else {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
 
@@ -423,16 +424,17 @@ public class NewsFragment extends Fragment {
                     }).show();
         }
     }
-    private void searchNewsList(String query,String accessToken, Context context){
+
+    private void searchNewsList(String query, String accessToken, Context context) {
         skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        if(RestServiceClass.isNetworkAvailable(context)){
+        if (RestServiceClass.isNetworkAvailable(context)) {
             restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-            Call<DashboardPOJO> dashboardSearchTitlePOJOCall = restServiceInterface.dashboardSearchTitle(0,query,accessToken);
+            Call<DashboardPOJO> dashboardSearchTitlePOJOCall = restServiceInterface.dashboardSearchTitle(0, query, accessToken);
             dashboardSearchTitlePOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
@@ -483,7 +485,7 @@ public class NewsFragment extends Fragment {
 
                     DashboardPOJO dashboardPOJO = response.body();
 
-                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                         datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                         titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
@@ -505,10 +507,10 @@ public class NewsFragment extends Fragment {
                         newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                     }
-                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,
-                            getActivity(),newsType,newsMedia,contentId,activityType
+                    mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                            userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                            numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus,
+                            getActivity(), newsType, newsMedia, contentId, activityType
                     );
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(mAdapter);
@@ -522,7 +524,7 @@ public class NewsFragment extends Fragment {
 
                 }
             });
-        }else{
+        } else {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
 
@@ -550,7 +552,7 @@ public class NewsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.newssearchmenu,menu);
+        inflater.inflate(R.menu.newssearchmenu, menu);
 
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getContext().getSystemService(SEARCH_SERVICE);
@@ -561,8 +563,8 @@ public class NewsFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 //Query pencarian materi berdasarkan teks
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-                final String access_token = sharedPreferences.getString("accessToken","abcde");
-                searchNewsList(query,access_token,getContext());
+                final String access_token = sharedPreferences.getString("accessToken", "abcde");
+                searchNewsList(query, access_token, getContext());
                 return false;
             }
 
@@ -578,7 +580,7 @@ public class NewsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         View view = getActivity().findViewById(R.id.action_more);
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.sort:
                 popUpSortMenu(view);
                 return true;
@@ -589,50 +591,51 @@ public class NewsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void popUpSortMenu(final View view){
-        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+    public void popUpSortMenu(final View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.popupsortcontent,popupMenu.getMenu());
+        menuInflater.inflate(R.menu.popupsortcontent, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.pop_up_sort_date:
-                        sortByCategoryREST(0,view.getContext());
+                        sortByCategoryREST(0, view.getContext());
                         return true;
                     case R.id.pop_up_sort_upvote:
-                        sortByCategoryREST(1,view.getContext());
+                        sortByCategoryREST(1, view.getContext());
                         return true;
                     case R.id.pop_up_sort_downvote:
-                        sortByCategoryREST(2,view.getContext());
+                        sortByCategoryREST(2, view.getContext());
                         return true;
                     case R.id.pop_up_sort_favorite:
-                        sortByCategoryREST(3,view.getContext());
+                        sortByCategoryREST(3, view.getContext());
                         return true;
                     case R.id.pop_up_filter_materi:
-                        filterByContentREST(1,view.getContext());
+                        filterByContentREST(1, view.getContext());
                         return true;
                     case R.id.pop_up_filter_berita:
-                        filterByContentREST(2,view.getContext());
+                        filterByContentREST(2, view.getContext());
                         return true;
                     case R.id.pop_up_sort_comment:
-                        filterByContentREST(3,view.getContext());
+                        filterByContentREST(3, view.getContext());
                         return true;
-                    default:return false;
+                    default:
+                        return false;
                 }
             }
         });
         popupMenu.show();
     }
 
-    public void popUpMoreMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(getContext(),view);
+    public void popUpMoreMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
-        menuInflater.inflate(R.menu.popupslidingtab,popupMenu.getMenu());
+        menuInflater.inflate(R.menu.popupslidingtab, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.pop_up_notifikasi:
                         Intent intent = new Intent(getContext(), NotificationActivity.class);
                         startActivity(intent);
@@ -657,14 +660,15 @@ public class NewsFragment extends Fragment {
                         getActivity().finish();
                         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         return true;
-                    default:return false;
+                    default:
+                        return false;
                 }
             }
         });
         popupMenu.show();
     }
 
-    private void sortByCategoryREST(int code, Context context){
+    private void sortByCategoryREST(int code, Context context) {
         skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -674,10 +678,10 @@ public class NewsFragment extends Fragment {
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
-        if(RestServiceClass.isNetworkAvailable(context)){
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardSortBy(0,code,access_token);
+        if (RestServiceClass.isNetworkAvailable(context)) {
+            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardSortBy(0, code, access_token);
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
@@ -727,7 +731,7 @@ public class NewsFragment extends Fragment {
                     activityType.clear();
 
                     DashboardPOJO dashboardPOJO = response.body();
-                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                         datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                         titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
@@ -749,10 +753,10 @@ public class NewsFragment extends Fragment {
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                     }
-                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                            newsType,newsMedia,contentId,activityType
+                    mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                            userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                            numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
+                            newsType, newsMedia, contentId, activityType
                     );
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(mAdapter);
@@ -766,7 +770,7 @@ public class NewsFragment extends Fragment {
 
                 }
             });
-        }else{
+        } else {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
 
@@ -784,7 +788,7 @@ public class NewsFragment extends Fragment {
         }
     }
 
-    private void filterByContentREST(int code, Context context){
+    private void filterByContentREST(int code, Context context) {
         skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -794,10 +798,10 @@ public class NewsFragment extends Fragment {
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
-        if(RestServiceClass.isNetworkAvailable(context)){
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardFilterByContent(0,code,access_token);
+        if (RestServiceClass.isNetworkAvailable(context)) {
+            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboardFilterByContent(0, code, access_token);
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
@@ -847,7 +851,7 @@ public class NewsFragment extends Fragment {
                     activityType.clear();
 
                     DashboardPOJO dashboardPOJO = response.body();
-                    for (int item = 0 ; item < dashboardPOJO.getResults().size(); item++){
+                    for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                         datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                         titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
@@ -869,10 +873,10 @@ public class NewsFragment extends Fragment {
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
                     }
-                    mAdapter = new MaterialsRecyclerView(username,datePost,contentPost,
-                            userPicturePost,contentType,titlePost,contentLabel,activityLabel,numberFavorite,
-                            numberUpvote,numberDownvote,numberComments,upvoteStatus,downvoteStatus,favoriteStatus,getActivity(),
-                            newsType,newsMedia,contentId,activityType
+                    mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                            userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                            numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
+                            newsType, newsMedia, contentId, activityType
                     );
                     mAdapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(mAdapter);
@@ -886,7 +890,7 @@ public class NewsFragment extends Fragment {
 
                 }
             });
-        }else{
+        } else {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
 

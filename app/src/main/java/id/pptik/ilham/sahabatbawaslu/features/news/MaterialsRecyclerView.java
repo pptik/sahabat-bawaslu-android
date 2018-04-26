@@ -274,6 +274,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Log.e("POS","POSISI: "+position);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
         int test = newsType[position];
@@ -655,7 +656,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     @Override
     public int getItemCount() {
-        return username.length;
+        return usernameList.size();
     }
 
 
