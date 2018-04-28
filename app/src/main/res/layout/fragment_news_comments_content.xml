@@ -73,7 +73,7 @@
                     android:layout_marginTop="5dp"
                     />
                 <TextView
-                    android:id="@+id/komentari"
+                    android:id="@+id/text_view_jumlah_komentar"
                     android:layout_width="wrap_content"
                     android:text="@string/comment_numbers_label"
                     android:layout_below="@+id/comment_content"
@@ -83,7 +83,7 @@
                     android:textStyle="bold"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/abu"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_marginTop="5dp"
                     />
                 </RelativeLayout>

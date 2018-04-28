@@ -49,7 +49,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername, tvUsername2, tvCommentContent, tvCommentContent2,
-                tvDatePost, tvDatePost2;
+                tvDatePost, tvDatePost2, tvJumlahKomentar;
 
         public ImageView ivUserpicture,ivUserpicture2;
         public CardView cardViewCommentLevel0,cardViewCommentLevel1;
@@ -67,6 +67,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
             cardViewCommentLevel1 = (CardView) itemView.findViewById(R.id.card_view_comment_level_1);
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
             ivUserpicture2 = (ImageView) itemView.findViewById(R.id.user_picture_2);
+            tvJumlahKomentar = (TextView) itemView.findViewById(R.id.text_view_jumlah_komentar);
         }
     }
 
@@ -120,6 +121,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         holder.tvDatePost.setText(datePost[position]);
 
         holder.ivUserpicture.setImageDrawable(null);
+        holder.tvJumlahKomentar.setText("\u2022 "+textNumberCommentNumbers[position]+" Komentar");
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 
     }
