@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.forum;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,6 +66,7 @@ public class DetailForumActivity extends AppCompatActivity {
 
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+    ProgressDialog progressDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
     private List<String> datePost = new ArrayList<String>();
     private List<String> username = new ArrayList<String>();
