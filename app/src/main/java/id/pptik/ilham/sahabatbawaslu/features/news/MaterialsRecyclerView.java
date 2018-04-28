@@ -176,7 +176,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusFavoriteList = statusFavoritesParam;
         newsTypeList = newsTypeListParam;
         newsMediaList = newsMediaListParam;
-        newsMediaList = newsMediaListParam;
         contentIdList = contentIdListParam;
         activityCodeList = activityCodeListParam;
         notifyDataSetChanged();
@@ -211,7 +210,6 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         statusDownvoteList = statusDownvotesParam;
         statusFavoriteList = statusFavoritesParam;
         newsTypeList = newsTypeListParam;
-        newsMediaList = newsMediaListParam;
         newsMediaList = newsMediaListParam;
         contentIdList = contentIdListParam;
         activityCodeList = activityCodeListParam;

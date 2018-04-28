@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +82,8 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
     RecyclerView.Adapter mAdapter;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
+    @BindView(R.id.swipeRefreshRecycler)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private List<String> datePost = new ArrayList<String>();
     private List<String> username = new ArrayList<String>();
@@ -119,6 +122,14 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
 
         Log.d("PRE CONTENT ID", contentId);
         contentRequest(contentId);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                contentRequest(contentId);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         recyclerViewComments.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);

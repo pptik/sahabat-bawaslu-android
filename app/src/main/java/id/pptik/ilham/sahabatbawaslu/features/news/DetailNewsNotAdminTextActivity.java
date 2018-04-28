@@ -1,11 +1,13 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -56,12 +58,14 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     //@BindView(R.id.button_comment)ImageView imageButtonComment;
     @BindView(R.id.recycler_view_komentar)RecyclerView recyclerViewComments;
     @BindView(R.id.fab_tambah_komentar)FloatingActionButton floatingActionButtonTambahKomentar;
+    @BindView(R.id.swipeRefreshRecycler)SwipeRefreshLayout swipeRefreshLayout;
     String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
     SharedPreferences sharedPreferences;
+    ProgressDialog progressDialog;
 
     private List<String> datePost = new ArrayList<String>();
     private List<String> username = new ArrayList<String>();
@@ -101,6 +105,13 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         Log.d("PRE CONTENT ID",contentId);
         contentRequest(contentId);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                contentRequest(contentId);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         recyclerViewComments.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         recyclerViewComments.setLayoutManager(mLayoutManager);
@@ -125,6 +136,13 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     }
 
     private void contentRequest(final String contentId){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -201,11 +219,15 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                         gamifikasiAksiRespon(contentId,3,2,title,access_token);
                     }
                 });
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<NewsPOJO> call, Throwable t) {
-
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
         });
     }
