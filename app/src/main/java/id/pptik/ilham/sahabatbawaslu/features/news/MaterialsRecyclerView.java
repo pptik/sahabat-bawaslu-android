@@ -300,7 +300,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                            Intent intent = new Intent(v.getContext(), DetailNewsAdminActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(CONTENT_ID,contentId[position]);
                             bundle.putString(TITLE,titlePost[position]);
