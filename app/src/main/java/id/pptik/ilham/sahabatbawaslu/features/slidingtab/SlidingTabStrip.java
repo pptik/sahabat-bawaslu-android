@@ -71,7 +71,7 @@ class SlidingTabStrip extends LinearLayout {
         mBottomBorderPaint = new Paint();
         mBottomBorderPaint.setColor(mDefaultBottomBorderColor);
 
-        mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
+        mSelectedIndicatorThickness = (int) ((SELECTED_INDICATOR_THICKNESS_DIPS * density)*1.8);
         mSelectedIndicatorPaint = new Paint();
     }
 

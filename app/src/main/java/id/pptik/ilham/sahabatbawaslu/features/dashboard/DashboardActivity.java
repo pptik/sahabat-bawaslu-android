@@ -56,12 +56,6 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         toolbar.setTitle(getResources().getString(R.string.dashboard_label));
         setSupportActionBar(toolbar);
 
-        //Sliding section
-        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        SlidingTabsBasicFragment slidingTabsBasicFragment = new SlidingTabsBasicFragment();
-        fragmentTransaction.replace(R.id.sample_content_fragment,slidingTabsBasicFragment);
-        fragmentTransaction.commit();*/
-
         //Pengaturan tab
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new SlidingTabsBasicFragment(getSupportFragmentManager(), this));

@@ -127,6 +127,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabViewTextViewId = textViewId;
     }
 
+
     /**
      * Sets the associated view pager. Note that the assumption here is that the pager content
      * (number of tabs and tab titles) does not change after this call has been made.
