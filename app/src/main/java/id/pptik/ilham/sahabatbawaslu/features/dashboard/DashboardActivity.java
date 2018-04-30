@@ -27,6 +27,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.general.Operation;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
@@ -98,7 +99,7 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
 
     @Override
     public void onBackPressed() {
-
+        Operation.exitApp(DashboardActivity.this,DashboardActivity.this);
     }
 
     @Override
