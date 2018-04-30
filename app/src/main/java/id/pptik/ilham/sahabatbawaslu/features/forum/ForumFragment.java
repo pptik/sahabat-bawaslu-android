@@ -287,7 +287,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Query pencarian materi berdasarkan teks
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences(LoginActivity.SessionPengguna, Context.MODE_PRIVATE);
                 final String access_token = sharedPreferences.getString("accessToken","abcde");
                 searchForumsList(query,access_token,getContext());
                 return false;

@@ -651,7 +651,7 @@ public class NewsFragment extends Fragment {
                         Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.pop_up_log_out_slidingtab:
-                        sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        sharedPreferences = getContext().getSharedPreferences(LoginActivity.SessionPengguna, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
                         editor.commit();
