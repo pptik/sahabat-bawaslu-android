@@ -156,10 +156,6 @@ public class NewsFragment extends Fragment {
                     getNewsListScrolled(access_token, view.getContext(), skip, itemCount);
 
                 }
-                Log.d("SKIP", "SKIP: " + skip);
-                Log.d("ITEMCOUNT", "ITEMCOUNT: " + itemCount);
-                Log.d("POS", "POS: " + pos);
-
             }
 
             @Override

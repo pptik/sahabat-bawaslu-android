@@ -60,6 +60,7 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
         //Pengaturan tab
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new SlidingTabsBasicFragment(getSupportFragmentManager(), this));
+        viewPager.setOffscreenPageLimit(2);
 
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         slidingTabLayout.setDistributeEvenly(true);
