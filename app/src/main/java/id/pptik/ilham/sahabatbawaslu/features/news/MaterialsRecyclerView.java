@@ -103,7 +103,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
         public ImageView ivUserpicture, buttonUpvote,
                 buttonDownvote, buttonFavorite, buttonComment,
-                infoButton, newsMedia;
+                infoButton, newsMedia, ivIconNumbersUpvote, ivIconNumbersDownvote;
         public RelativeLayout relativeLayoutNotNewsContent, relativeLayoutNewsContentNotAdminMedia,
                 relativeLayoutNewsContentNotAdminText, relativeLayoutNewsAdmin;
         public View viewLabelColorNews, viewLabelColorMaterial;
@@ -135,6 +135,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
             ivUserpicture = itemView.findViewById(R.id.user_picture);
             infoButton = itemView.findViewById(R.id.info_button_content_activity);
+            ivIconNumbersUpvote = itemView.findViewById(R.id.icon_numbers_upvote);
+            ivIconNumbersDownvote = itemView.findViewById(R.id.icon_numbers_downvote);
 
             buttonUpvote = itemView.findViewById(R.id.button_upvote);
             buttonDownvote = itemView.findViewById(R.id.button_downvote);
@@ -307,6 +309,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
+                    holder.tvNumberUpvote.setVisibility(View.GONE);
+                    holder.tvNumberDownvote.setVisibility(View.GONE);
+                    holder.buttonUpvote.setVisibility(View.GONE);
+                    holder.buttonDownvote.setVisibility(View.GONE);
+                    holder.ivIconNumbersUpvote.setVisibility(View.GONE);
+                    holder.ivIconNumbersDownvote.setVisibility(View.GONE);
                 }else if (contentType[position].equals("3")) {//Forum
                     holder.relativeLayoutNewsAdmin.setVisibility(View.VISIBLE);
                     holder.tvTitlePostNewsAdmin.setText(titlePost[position]);
@@ -337,6 +345,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         //Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
                     }
                 });
+                holder.tvNumberUpvote.setVisibility(View.GONE);
+                holder.tvNumberDownvote.setVisibility(View.GONE);
+                holder.buttonUpvote.setVisibility(View.GONE);
+                holder.buttonDownvote.setVisibility(View.GONE);
+                holder.ivIconNumbersUpvote.setVisibility(View.GONE);
+                holder.ivIconNumbersDownvote.setVisibility(View.GONE);
                 break;
             case 2://berita dari relawan text
                 holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.VISIBLE);
@@ -354,6 +368,12 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 });
+                holder.tvNumberUpvote.setVisibility(View.GONE);
+                holder.tvNumberDownvote.setVisibility(View.GONE);
+                holder.buttonUpvote.setVisibility(View.GONE);
+                holder.buttonDownvote.setVisibility(View.GONE);
+                holder.ivIconNumbersUpvote.setVisibility(View.GONE);
+                holder.ivIconNumbersDownvote.setVisibility(View.GONE);
                 break;
         }
 
@@ -369,6 +389,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 
         //Gamifikasi hasil respon
+
         holder.tvNumberFavorite.setText(textNumberFavorite[position].toString());
         holder.tvNumberUpvote.setText(textNumberUpvote[position].toString());
         holder.tvNumberDownvote.setText(textNumberDownvote[position].toString());

@@ -59,6 +59,8 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view_komentar)RecyclerView recyclerViewComments;
     @BindView(R.id.fab_tambah_komentar)FloatingActionButton floatingActionButtonTambahKomentar;
     @BindView(R.id.swipeRefreshRecycler)SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.icon_numbers_upvote)ImageView iconNumbersUpvote;
+    @BindView(R.id.icon_numbers_downvote)ImageView iconNumbersDownvote;
     String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
@@ -71,6 +73,13 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     private List<String> username = new ArrayList<String>();
     private List<String> contentPost = new ArrayList<String>();
     private List<String> userProfilePicture = new ArrayList<String>();
+
+    private List<String> datePostSubKomentar = new ArrayList<String>();
+    private List<String> usernameSubKomentar = new ArrayList<String>();
+    private List<String> contentPostSubKomentar = new ArrayList<String>();
+    private List<String> userProfilePictureSubKomentar = new ArrayList<String>();
+
+
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
     public static final String CONTENT_ID = "";
@@ -158,13 +167,15 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 }
 
                 //Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                iconNumbersUpvote.setVisibility(View.GONE);
+                iconNumbersDownvote.setVisibility(View.GONE);
                 textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
                 textViewContentPostNonAdminText.setText(newsPOJO.getResults().getContent());
                 textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
                 textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
                 textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
-                textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
+                textViewNumberUpvote.setVisibility(View.GONE);
+                textViewNumberDownVote.setVisibility(View.GONE);
                 textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment())+" Komentar");
                 textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
                 imageViewUserPicture.setImageDrawable(null);
@@ -177,12 +188,14 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                     imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
                 }
 
+                imageButtonUpvote.setVisibility(View.GONE);
                 if(newsPOJO.getResults().getUpvoted()){
                     imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                 }else{
                     imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
+                imageButtonDownvote.setVisibility(View.GONE);
                 if(newsPOJO.getResults().getDownvoted()){
                     imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
                 }else{
@@ -244,11 +257,20 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                    datePost.add(commentsPOJO.getResults().get(item).getCreatedAtFromNow());
                    contentPost.add(commentsPOJO.getResults().get(item).getComment());
                    userProfilePicture.add(commentsPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
+
+                    for (int subItem = 0;subItem<commentsPOJO.getResults().get(item).getReply().size();subItem++){
+                       usernameSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getPostBy().getUsername());
+                        datePostSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getCreatedAtFromNow());
+                        contentPostSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getComment());
+                        userProfilePictureSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getUserDetail().getDisplayPicture());
+                    }
+
                    commentId.add(commentsPOJO.getResults().get(item).getId());
                    commentNumber.add(commentsPOJO.getResults().get(item).getLevel());
                 }
                 mAdapter = new NewsCommentsRecyclerView(username,datePost,contentPost,
-                        userProfilePicture,commentId,commentNumber);
+                        userProfilePicture,commentId,commentNumber,usernameSubKomentar,datePostSubKomentar,
+                        userProfilePictureSubKomentar,contentPostSubKomentar);
 
                 mAdapter.notifyDataSetChanged();
                 recyclerViewComments.setAdapter(mAdapter);

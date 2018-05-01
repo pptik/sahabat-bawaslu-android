@@ -7,16 +7,19 @@ import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
@@ -30,14 +33,20 @@ import retrofit2.Response;
 
 public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsRecyclerView.ViewHolder> {
     private List<String> usernameList;
+    private List<String> usernameSubKomentarList;
     private List<String> datePostList;
+    private List<String> datePostSubKomentarList;
     private List<String> contentPostList;
+    private List<String> contentPostSubKomentarList;
     private List<String> userPictureProfileList;
+    private List<String> userPictureProfileSubKomentarList;
     private List<Integer> commentNumbersList;
     private List<String> commentIdList;
+    private List<Boolean> statusOpenSubComment = new ArrayList<Boolean>();
 
-    private String[] username, datePost,
-            contentPost, userPictureProfile,
+    private String[] username, usernameSubKomentar, datePost, datePostSubKomentar,
+            contentPost,contentPostSubKomentar,
+            userPictureProfile,userPictureProfileSubKomentar,
             textNumberCommentId;
 
     private Integer[] textNumberCommentNumbers;
@@ -73,12 +82,18 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
 
     public NewsCommentsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                     List<String> contentPostListParam, List<String> userPictureProfileListParam,
-                                    List<String> commentIdListParam, List<Integer> commentNumbersPostListParam) {
+                                    List<String> commentIdListParam, List<Integer> commentNumbersPostListParam,
+                                    List<String> usernameListParam2, List<String> datePostListParam2,
+                                    List<String> userPictureProfileListParam2,List<String> contentPostListParam2) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
         this.contentPostList = contentPostListParam;
         this.userPictureProfileList = userPictureProfileListParam;
+        this.usernameSubKomentarList = usernameListParam2;
+        this.datePostSubKomentarList = datePostListParam2;
+        this.contentPostSubKomentarList = contentPostListParam2;
+        this.userPictureProfileSubKomentarList = userPictureProfileListParam2;
         this.commentNumbersList = commentNumbersPostListParam;
         this.commentIdList = commentIdListParam;
 
@@ -86,6 +101,13 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         datePost = new String[datePostList.size()];
         contentPost = new String[contentPostList.size()];
         userPictureProfile = new String[userPictureProfileList.size()];
+
+        usernameSubKomentar = new String[usernameSubKomentarList.size()];
+        datePostSubKomentar = new String[datePostSubKomentarList.size()];
+        contentPostSubKomentar = new String[contentPostSubKomentarList.size()];
+        userPictureProfileSubKomentar = new String[userPictureProfileSubKomentarList.size()];
+
+
         textNumberCommentId = new String[commentIdList.size()];
         textNumberCommentNumbers = new Integer[commentNumbersList.size()];
 
@@ -94,6 +116,12 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         datePost = datePostList.toArray(datePost);
         contentPost = contentPostList.toArray(contentPost);
         userPictureProfile = userPictureProfileList.toArray(userPictureProfile);
+
+        usernameSubKomentar = usernameSubKomentarList.toArray(usernameSubKomentar);
+        datePostSubKomentar = datePostSubKomentarList.toArray(datePostSubKomentar);
+        contentPostSubKomentar = contentPostSubKomentarList.toArray(contentPostSubKomentar);
+        userPictureProfileSubKomentar = userPictureProfileSubKomentarList.toArray(userPictureProfileSubKomentar);
+
         textNumberCommentId = commentIdList.toArray(textNumberCommentId);
         textNumberCommentNumbers= commentNumbersList.toArray(textNumberCommentNumbers);
     }
@@ -114,6 +142,12 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
+        if (textNumberCommentNumbers[position] > 0){
+            statusOpenSubComment.add(true);
+        }else{
+            statusOpenSubComment.add(false);
+        }
+
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
         holder.tvDatePost.setText(datePost[position]);
@@ -127,7 +161,14 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("STATUS OPEN COMMENT","STATUS: "+statusOpenSubComment.get(position));
+                if (statusOpenSubComment.get(position)){
+                    holder.cardViewCommentLevel1.setVisibility(View.VISIBLE);
+                    statusOpenSubComment.set(position,false);
+                }else if(!statusOpenSubComment.get(position)){
+                    holder.cardViewCommentLevel1.setVisibility(View.GONE);
+                    statusOpenSubComment.set(position,true);
+                }
             }
         });
     }
