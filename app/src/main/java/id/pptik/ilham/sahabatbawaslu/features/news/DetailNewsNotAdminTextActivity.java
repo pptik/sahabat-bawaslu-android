@@ -266,7 +266,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                     }
 
                    commentId.add(commentsPOJO.getResults().get(item).getId());
-                   commentNumber.add(commentsPOJO.getResults().get(item).getLevel());
+                   commentNumber.add(commentsPOJO.getResults().get(item).getReply().size());
                 }
                 mAdapter = new NewsCommentsRecyclerView(username,datePost,contentPost,
                         userProfilePicture,commentId,commentNumber,usernameSubKomentar,datePostSubKomentar,

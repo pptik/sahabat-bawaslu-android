@@ -102,7 +102,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view_comment_level_0"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="65dp"
         card_view:cardCornerRadius="4dp"
         android:visibility="gone"
         >
@@ -114,7 +115,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:id="@+id/main_content_2"
@@ -155,20 +155,6 @@
                         android:text="@string/date_label"
                         android:layout_below="@+id/comment_content_2"
                         android:layout_toRightOf="@+id/user_picture_2"
-                        android:layout_height="wrap_content"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="@color/abu"
-                        android:visibility="visible"
-                        android:layout_marginTop="5dp"
-                        />
-                    <TextView
-                        android:id="@+id/komentari_2"
-                        android:layout_width="wrap_content"
-                        android:text="@string/comment_numbers_label"
-                        android:layout_below="@+id/comment_content_2"
-                        android:layout_toRightOf="@+id/date_post_2"
                         android:layout_height="wrap_content"
                         android:textSize="11sp"
                         android:textStyle="bold"
