@@ -88,13 +88,14 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
     @BindView(R.id.icon_numbers_downvote)ImageView iconNumbersDownvote;
 
     private List<String> datePost = new ArrayList<String>();
-    private List<String> datePostSubKomentar = new ArrayList<String>();
+    private ArrayList<List<String>> datePostSubKomentar = new ArrayList<List<String>>();
     private List<String> username = new ArrayList<String>();
-    private List<String> usernameSubKomentar = new ArrayList<String>();
+    private ArrayList<List<String>> usernameSubKomentar= new ArrayList<List<String>>();
     private List<String> contentPost = new ArrayList<String>();
-    private List<String> contentPostSubKomentar = new ArrayList<String>();
+    private ArrayList<List<String>> contentPostSubKomentar= new ArrayList<List<String>>();
     private List<String> userProfilePicture = new ArrayList<String>();
-    private List<String> userProfilePictureSubKomentar = new ArrayList<String>();
+    private ArrayList<List<String>> userProfilePictureSubKomentar= new ArrayList<List<String>>();
+
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
 
@@ -275,12 +276,27 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
                     contentPost.add(commentsPOJO.getResults().get(item).getComment());
                     userProfilePicture.add(commentsPOJO.getResults().get(item).getUserDetail().getDisplayPicture());
 
+                    ArrayList<String> usernameSingleList = new ArrayList<String>();
+                    ArrayList<String> datePostSingleList = new ArrayList<String>();
+                    ArrayList<String> contentPostSingleList = new ArrayList<String>();
+                    ArrayList<String> userProfileSingleList = new ArrayList<String>();
+
                     for (int subItem = 0;subItem<commentsPOJO.getResults().get(item).getReply().size();subItem++){
-                        usernameSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getPostBy().getUsername());
+                        /*usernameSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getPostBy().getUsername());
                         datePostSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getCreatedAtFromNow());
                         contentPostSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getComment());
-                        userProfilePictureSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getUserDetail().getDisplayPicture());
+                        userProfilePictureSubKomentar.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getUserDetail().getDisplayPicture());*/
+
+                        usernameSingleList.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getPostBy().getUsername());
+                        datePostSingleList.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getCreatedAtFromNow());
+                        contentPostSingleList.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getComment());
+                        userProfileSingleList.add(commentsPOJO.getResults().get(item).getReply().get(subItem).getUserDetail().getDisplayPicture());
                     }
+
+                    usernameSubKomentar.add(usernameSingleList);
+                    datePostSubKomentar.add(datePostSingleList);
+                    contentPostSubKomentar.add(contentPostSingleList);
+                    userProfilePictureSubKomentar.add(userProfileSingleList);
 
                     commentId.add(commentsPOJO.getResults().get(item).getId());
                     commentNumber.add(commentsPOJO.getResults().get(item).getReply().size());

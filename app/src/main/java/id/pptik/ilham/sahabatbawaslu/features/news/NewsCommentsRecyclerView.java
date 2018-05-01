@@ -34,13 +34,13 @@ import retrofit2.Response;
 
 public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsRecyclerView.ViewHolder> {
     private List<String> usernameList;
-    private List<String> usernameSubKomentarList;
+    private ArrayList<List<String>> usernameSubKomentarList;
     private List<String> datePostList;
-    private List<String> datePostSubKomentarList;
+    private ArrayList<List<String>> datePostSubKomentarList;
     private List<String> contentPostList;
-    private List<String> contentPostSubKomentarList;
+    private ArrayList<List<String>> contentPostSubKomentarList;
     private List<String> userPictureProfileList;
-    private List<String> userPictureProfileSubKomentarList;
+    private ArrayList<List<String>> userPictureProfileSubKomentarList;
     private List<Integer> commentNumbersList;
     private List<String> commentIdList;
     private List<Boolean> statusOpenSubComment = new ArrayList<Boolean>();
@@ -91,17 +91,19 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
     public NewsCommentsRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
                                     List<String> contentPostListParam, List<String> userPictureProfileListParam,
                                     List<String> commentIdListParam, List<Integer> commentNumbersPostListParam,
-                                    List<String> usernameListParam2, List<String> datePostListParam2,
-                                    List<String> userPictureProfileListParam2,List<String> contentPostListParam2) {
+                                    ArrayList<List<String>> usernameListParam2, ArrayList<List<String>> datePostListParam2,
+                                    ArrayList<List<String>> userPictureProfileListParam2,ArrayList<List<String>> contentPostListParam2) {
 
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
         this.contentPostList = contentPostListParam;
         this.userPictureProfileList = userPictureProfileListParam;
+
         this.usernameSubKomentarList = usernameListParam2;
         this.datePostSubKomentarList = datePostListParam2;
         this.contentPostSubKomentarList = contentPostListParam2;
         this.userPictureProfileSubKomentarList = userPictureProfileListParam2;
+
         this.commentNumbersList = commentNumbersPostListParam;
         this.commentIdList = commentIdListParam;
 
@@ -125,10 +127,10 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         contentPost = contentPostList.toArray(contentPost);
         userPictureProfile = userPictureProfileList.toArray(userPictureProfile);
 
-        usernameSubKomentar = usernameSubKomentarList.toArray(usernameSubKomentar);
+        /*usernameSubKomentar = usernameSubKomentarList.toArray(usernameSubKomentar);
         datePostSubKomentar = datePostSubKomentarList.toArray(datePostSubKomentar);
         contentPostSubKomentar = contentPostSubKomentarList.toArray(contentPostSubKomentar);
-        userPictureProfileSubKomentar = userPictureProfileSubKomentarList.toArray(userPictureProfileSubKomentar);
+        userPictureProfileSubKomentar = userPictureProfileSubKomentarList.toArray(userPictureProfileSubKomentar);*/
 
         textNumberCommentId = commentIdList.toArray(textNumberCommentId);
         textNumberCommentNumbers= commentNumbersList.toArray(textNumberCommentNumbers);
@@ -171,12 +173,18 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         mLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
         holder.recyclerViewSubComment.setLayoutManager(mLayoutManager);
 
-        mAdapter = new NewsSubCommentsRecyclerView(usernameSubKomentarList,datePostSubKomentarList,
-                contentPostSubKomentarList,userPictureProfileSubKomentarList);
+        mAdapter = new NewsSubCommentsRecyclerView(usernameSubKomentarList.get(position),datePostSubKomentarList.get(position),
+                contentPostSubKomentarList.get(position),userPictureProfileSubKomentarList.get(position));
 
         mAdapter.notifyDataSetChanged();
         holder.recyclerViewSubComment.setAdapter(mAdapter);
 
+        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(holder.tvUsername.getWidth(), 10, 0, 0);
+        holder.recyclerViewSubComment.setLayoutParams(params);*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
