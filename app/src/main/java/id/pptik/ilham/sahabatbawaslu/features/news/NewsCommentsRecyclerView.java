@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,9 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
 
     private Integer[] textNumberCommentNumbers;
 
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
+
     private RestServiceInterface restServiceInterface;
     private SharedPreferences sharedPreferences;
 
@@ -62,6 +66,9 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
 
         public ImageView ivUserpicture,ivUserpicture2;
         public CardView cardViewCommentLevel0,cardViewCommentLevel1;
+        public RecyclerView recyclerViewSubComment;
+
+
         public static Snackbar snackbar;
 
         public ViewHolder(View itemView) {
@@ -77,6 +84,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
             ivUserpicture2 = (ImageView) itemView.findViewById(R.id.user_picture_2);
             tvJumlahKomentar = (TextView) itemView.findViewById(R.id.text_view_jumlah_komentar);
+            recyclerViewSubComment = (RecyclerView) itemView.findViewById(R.id.recycler_view_sub_komentar);
         }
     }
 
@@ -135,6 +143,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         sharedPreferences = parent.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
 
 
+
         return new ViewHolder(view);
     }
 
@@ -158,48 +167,33 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         holder.tvJumlahKomentar.setText("\u2022 "+textNumberCommentNumbers[position]+" Komentar");
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 
+        holder.recyclerViewSubComment.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
+        holder.recyclerViewSubComment.setLayoutManager(mLayoutManager);
+
+        mAdapter = new NewsSubCommentsRecyclerView(usernameSubKomentarList,datePostSubKomentarList,
+                contentPostSubKomentarList,userPictureProfileSubKomentarList);
+
+        mAdapter.notifyDataSetChanged();
+        holder.recyclerViewSubComment.setAdapter(mAdapter);
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("STATUS OPEN COMMENT","STATUS: "+statusOpenSubComment.get(position));
                 if(textNumberCommentNumbers[position] > 0){
                 if (statusOpenSubComment.get(position)){
-                    holder.cardViewCommentLevel1.setVisibility(View.VISIBLE);
+                    holder.recyclerViewSubComment.setVisibility(View.VISIBLE);
                     statusOpenSubComment.set(position,false);
                 }else if(!statusOpenSubComment.get(position)){
-                    holder.cardViewCommentLevel1.setVisibility(View.GONE);
+                    holder.recyclerViewSubComment.setVisibility(View.GONE);
                     statusOpenSubComment.set(position,true);
                 }
                 }
             }
         });
     }
-
-
-
-    /*public void gamifikasiAksiRespon(String contentID,
-                                     final int activityCode, int contentCode,
-                                     String title, String accessToken,
-                                     final ViewHolder viewHolder, int textNumberFavoriteParam,
-                                     int textNumberUpvoteParam, int textNumberDownvoteParam,
-                                     final int position) {
-
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
-                contentCode, title, accessToken);
-        voteAction.enqueue(new Callback<VotePOJO>() {
-            @Override
-            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
-                VotePOJO votePOJO = response.body();
-                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<VotePOJO> call, Throwable t) {
-                Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
 
     @Override
     public int getItemCount() {
