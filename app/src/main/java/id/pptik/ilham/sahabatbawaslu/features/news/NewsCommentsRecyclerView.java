@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,6 +46,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
     private List<Integer> commentNumbersList;
     private List<String> commentIdList;
     private List<Boolean> statusOpenSubComment = new ArrayList<Boolean>();
+    private List<Boolean> statusOpenTextViewSubComment = new ArrayList<Boolean>();
 
     private String[] username, usernameSubKomentar, datePost, datePostSubKomentar,
             contentPost,contentPostSubKomentar,
@@ -65,8 +68,11 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
                 tvDatePost, tvDatePost2, tvJumlahKomentar;
 
         public ImageView ivUserpicture,ivUserpicture2;
-        public CardView cardViewCommentLevel0,cardViewCommentLevel1;
+        public CardView cardViewCommentLevel0,cardViewCommentLevel1,cardViewSubKomentarTextView;
         public RecyclerView recyclerViewSubComment;
+
+        public Button buttonTambahSubKomentar;
+        public EditText editTextTambahSubKomentar;
 
 
         public static Snackbar snackbar;
@@ -81,10 +87,13 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
             tvCommentContent2 = (TextView) itemView.findViewById(R.id.comment_content_2);
             cardViewCommentLevel0 = (CardView) itemView.findViewById(R.id.card_view_comment_level_0);
             cardViewCommentLevel1 = (CardView) itemView.findViewById(R.id.card_view_comment_level_1);
+            cardViewSubKomentarTextView = (CardView) itemView.findViewById(R.id.card_view_sub_komentar_text_view);
             ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
             ivUserpicture2 = (ImageView) itemView.findViewById(R.id.user_picture_2);
             tvJumlahKomentar = (TextView) itemView.findViewById(R.id.text_view_jumlah_komentar);
             recyclerViewSubComment = (RecyclerView) itemView.findViewById(R.id.recycler_view_sub_komentar);
+            buttonTambahSubKomentar = (Button) itemView.findViewById(R.id.button_tambah_sub_komen);
+            editTextTambahSubKomentar = (EditText) itemView.findViewById(R.id.edit_text_tambah_sub_komentar);
         }
     }
 
@@ -159,6 +168,8 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
             statusOpenSubComment.add(false);
         }
 
+        statusOpenTextViewSubComment.add(false);
+
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
         holder.tvDatePost.setText(datePost[position]);
@@ -189,7 +200,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("STATUS OPEN COMMENT","STATUS: "+statusOpenSubComment.get(position));
+
                 if(textNumberCommentNumbers[position] > 0){
                 if (statusOpenSubComment.get(position)){
                     holder.recyclerViewSubComment.setVisibility(View.VISIBLE);
@@ -199,6 +210,21 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
                     statusOpenSubComment.set(position,true);
                 }
                 }
+
+                if(!statusOpenTextViewSubComment.get(position)){
+                    holder.cardViewSubKomentarTextView.setVisibility(View.VISIBLE);
+                    statusOpenTextViewSubComment.set(position,true);
+                }else{
+                    holder.cardViewSubKomentarTextView.setVisibility(View.GONE);
+                    statusOpenTextViewSubComment.set(position,false);
+                }
+            }
+        });
+
+        holder.buttonTambahSubKomentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), holder.editTextTambahSubKomentar.getText(), Toast.LENGTH_SHORT).show();
             }
         });
     }
