@@ -162,12 +162,14 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
             @Override
             public void onClick(View v) {
                 Log.d("STATUS OPEN COMMENT","STATUS: "+statusOpenSubComment.get(position));
+                if(textNumberCommentNumbers[position] > 0){
                 if (statusOpenSubComment.get(position)){
                     holder.cardViewCommentLevel1.setVisibility(View.VISIBLE);
                     statusOpenSubComment.set(position,false);
                 }else if(!statusOpenSubComment.get(position)){
                     holder.cardViewCommentLevel1.setVisibility(View.GONE);
                     statusOpenSubComment.set(position,true);
+                }
                 }
             }
         });
