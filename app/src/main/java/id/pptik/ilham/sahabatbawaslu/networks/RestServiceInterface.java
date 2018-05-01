@@ -7,6 +7,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddSubCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -105,6 +106,8 @@ public interface RestServiceInterface {
                               @Field("Title") String title,
                               @Header("access_token") String access_token);
 
+    //News
+
     @FormUrlEncoded
     @POST("news/create/text")
     Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
@@ -125,6 +128,14 @@ public interface RestServiceInterface {
                                        @Field("ContentID") String contentId,
                                        @Field("Type") int type,
                                        @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("comments/reply")
+    Call<AddSubCommentPOJO> subCommentCreate(@Field("Comment") String comment,
+                                          @Field("CommentID") String commentId,
+                                          @Field("ContentID") String contentId,
+                                          @Field("Type") int type,
+                                          @Header("access_token") String access_token);
     //Forum
     @FormUrlEncoded
     @POST("forums/list")

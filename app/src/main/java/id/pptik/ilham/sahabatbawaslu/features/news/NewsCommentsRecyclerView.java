@@ -28,6 +28,9 @@ import java.util.List;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddAnswerPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddSubCommentPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,19 +38,20 @@ import retrofit2.Response;
 
 
 public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsRecyclerView.ViewHolder> {
-    private List<String> usernameList;
-    private ArrayList<List<String>> usernameSubKomentarList;
-    private List<String> datePostList;
-    private ArrayList<List<String>> datePostSubKomentarList;
-    private List<String> contentPostList;
-    private ArrayList<List<String>> contentPostSubKomentarList;
-    private List<String> userPictureProfileList;
-    private ArrayList<List<String>> userPictureProfileSubKomentarList;
-    private List<Integer> commentNumbersList;
-    private List<String> commentIdList;
-    private List<Boolean> statusOpenSubComment = new ArrayList<Boolean>();
-    private List<Boolean> statusOpenTextViewSubComment = new ArrayList<Boolean>();
+    public static List<String> usernameList = new ArrayList<String>();
+    public static ArrayList<List<String>> usernameSubKomentarList = new ArrayList<List<String>>();
+    public static List<String> datePostList= new ArrayList<String>();
+    public static ArrayList<List<String>> datePostSubKomentarList= new ArrayList<List<String>>();
+    public static List<String> contentPostList= new ArrayList<String>();
+    public static ArrayList<List<String>> contentPostSubKomentarList= new ArrayList<List<String>>();
+    public static List<String> userPictureProfileList= new ArrayList<String>();
+    public static ArrayList<List<String>> userPictureProfileSubKomentarList= new ArrayList<List<String>>();
+    public static List<Integer> commentNumbersList= new ArrayList<Integer>();
+    public static List<String> commentIdList= new ArrayList<String>();
+    public static List<Boolean> statusOpenSubComment = new ArrayList<Boolean>();
+    public static List<Boolean> statusOpenTextViewSubComment = new ArrayList<Boolean>();
 
+    private String contentId;
     private String[] username, usernameSubKomentar, datePost, datePostSubKomentar,
             contentPost,contentPostSubKomentar,
             userPictureProfile,userPictureProfileSubKomentar,
@@ -74,6 +78,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         public Button buttonTambahSubKomentar;
         public EditText editTextTambahSubKomentar;
 
+        private RestServiceInterface restServiceInterface;
 
         public static Snackbar snackbar;
 
@@ -101,8 +106,9 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
                                     List<String> contentPostListParam, List<String> userPictureProfileListParam,
                                     List<String> commentIdListParam, List<Integer> commentNumbersPostListParam,
                                     ArrayList<List<String>> usernameListParam2, ArrayList<List<String>> datePostListParam2,
-                                    ArrayList<List<String>> userPictureProfileListParam2,ArrayList<List<String>> contentPostListParam2) {
-
+                                    ArrayList<List<String>> userPictureProfileListParam2,ArrayList<List<String>> contentPostListParam2,
+                                    String contentId) {
+        this.contentId = contentId;
         this.usernameList = usernameListParam;
         this.datePostList = datePostListParam;
         this.contentPostList = contentPostListParam;
@@ -224,7 +230,35 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
         holder.buttonTambahSubKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), holder.editTextTambahSubKomentar.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), holder.editTextTambahSubKomentar.getText(), Toast.LENGTH_SHORT).show();
+                addSubComment(v,holder.editTextTambahSubKomentar.getText().toString(),
+                        textNumberCommentId[position].toString(),contentId);
+            }
+        });
+    }
+
+    private void addSubComment(final View v, String comment, String commentId, String contentId){
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
+
+        Call<AddSubCommentPOJO> addSubCommentPOJOCall = restServiceInterface.subCommentCreate(
+                comment, commentId, contentId, 2, access_token);
+
+        addSubCommentPOJOCall.enqueue(new Callback<AddSubCommentPOJO>() {
+            @Override
+            public void onResponse(Call<AddSubCommentPOJO> call, Response<AddSubCommentPOJO> response) {
+                AddSubCommentPOJO addSubCommentPOJO = response.body();
+                if(addSubCommentPOJO.getSuccess()){
+                    Toast.makeText(v.getContext(), addSubCommentPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(v.getContext(), addSubCommentPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddSubCommentPOJO> call, Throwable t) {
+
             }
         });
     }

@@ -141,7 +141,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         });
 
         //Menampilkan daftar komentar
-        commentList(contentId,access_token);
+        //commentList(contentId,access_token);
 
     }
 
@@ -234,8 +234,10 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                     }
                 });
 
+                commentList(contentId, access_token);
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
+
             }
 
             @Override
@@ -244,6 +246,8 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+
+
     }
 
     private void commentList(final String contentId, String accessToken){
@@ -252,6 +256,32 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         commentsList.enqueue(new Callback<CommentsPOJO>() {
             @Override
             public void onResponse(Call<CommentsPOJO> call, Response<CommentsPOJO> response) {
+                //Adapter
+                NewsCommentsRecyclerView.usernameList.clear();
+                NewsCommentsRecyclerView.usernameSubKomentarList.clear();
+                NewsCommentsRecyclerView.datePostList.clear();
+                NewsCommentsRecyclerView.datePostSubKomentarList.clear();
+                NewsCommentsRecyclerView.contentPostList.clear();
+                NewsCommentsRecyclerView.contentPostSubKomentarList.clear();
+                NewsCommentsRecyclerView.userPictureProfileList.clear();
+                NewsCommentsRecyclerView.userPictureProfileSubKomentarList.clear();
+                NewsCommentsRecyclerView.commentNumbersList.clear();
+                NewsCommentsRecyclerView.commentIdList.clear();
+                NewsCommentsRecyclerView.statusOpenSubComment.clear();
+                NewsCommentsRecyclerView.statusOpenTextViewSubComment.clear();
+
+                //Fragment
+                datePost.clear();
+                datePostSubKomentar.clear();
+                username.clear();
+                usernameSubKomentar.clear();
+                contentPost.clear();
+                contentPostSubKomentar.clear();
+                userProfilePicture.clear();
+                userProfilePictureSubKomentar.clear();
+                commentId.clear();
+                commentNumber.clear();
+
                 CommentsPOJO commentsPOJO = response.body();
                 for (int item = 0 ; item < commentsPOJO.getResults().size(); item++){
                    username.add(commentsPOJO.getResults().get(item).getPostBy().getUsername());
@@ -283,7 +313,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                 }
                 mAdapter = new NewsCommentsRecyclerView(username,datePost,contentPost,
                         userProfilePicture,commentId,commentNumber,usernameSubKomentar,datePostSubKomentar,
-                        userProfilePictureSubKomentar,contentPostSubKomentar);
+                        userProfilePictureSubKomentar,contentPostSubKomentar,contentId);
 
                 mAdapter.notifyDataSetChanged();
                 recyclerViewComments.setAdapter(mAdapter);
@@ -391,7 +421,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
             sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
             final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-            commentList(contentId,access_token);
+            contentRequest(contentId);
         }
         counterRefreshDataOnResume++;
     }
