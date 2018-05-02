@@ -9,6 +9,7 @@
     <string name="email_label">E-mail</string>
     <string name="password_label">Password</string>
     <string name="masuk_label">Masuk</string>
+    <string name="error_youtube_label">There was an error initializing the YouTube Player</string>
     <string name="submit_label">Submit</string>
     <string name="belum_punya_akun_label">Belum punya akun?</string>
     <string name="daftar_label">Daftar</string>

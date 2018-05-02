@@ -22,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -37,6 +40,7 @@ import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsCommentsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.YoutubeConfig;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
@@ -165,8 +169,65 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
         //Menampilkan daftar komentar
         //commentList(contentId, access_token);
 
+        YouTubePlayerView youTubePlayerView = (YouTubePlayerView)findViewById(R.id.material_video);
+        youTubePlayerView.initialize(YoutubeConfig.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                if(null== youTubePlayer) return;
+
+                // Start buffering
+                if (!b) {
+                    youTubePlayer.cueVideo(YoutubeConfig.VIDEO_CODE);
+                }
+
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                if (youTubeInitializationResult.isUserRecoverableError()) {
+                    //youTubeInitializationResult.getErrorDialog(VideoMaterialDetailRevisedActivity.this, RECOVERY_DIALOG_REQUEST).show();
+                }else{
+                    String error = String.format(getString(R.string.error_youtube_label));
+                    Toast.makeText(VideoMaterialDetailRevisedActivity.this, error, Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
+    private final class EventListener implements YouTubePlayer.PlaybackEventListener{
+
+        @Override
+        public void onPlaying() {
+
+        }
+
+        @Override
+        public void onPaused() {
+
+        }
+
+        @Override
+        public void onStopped() {
+
+        }
+
+        @Override
+        public void onBuffering(boolean b) {
+
+        }
+
+        @Override
+        public void onSeekTo(int i) {
+
+        }
+    }
     private void contentRequest(final String contentId) {
         //Ambil Data dari Networking REST
         progressDialog = new ProgressDialog(this);

@@ -27,6 +27,7 @@ import id.pptik.ilham.sahabatbawaslu.features.forum.DetailForumActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailActivity;
+import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailRevisedActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
@@ -278,7 +279,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
         int test = newsType[position];
-
+        holder.relativeLayoutNotNewsContent.setVisibility(View.GONE);
+        holder.relativeLayoutNewsAdmin.setVisibility(View.GONE);
+        holder.relativeLayoutNewsContentNotAdminText.setVisibility(View.GONE);
+        holder.relativeLayoutNewsContentNotAdminMedia.setVisibility(View.GONE);
         //Khusus berita
         switch (test) {
             case 0://konten admin
@@ -649,7 +653,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 Log.d("XYZ","tipe materi: "+materialDetailPOJO.getResults().getType());
                 switch (materialDetailPOJO.getResults().getType()){
                     case 0://video
-                        Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
+                        Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
                         intentVideo.putExtra(MATERIAL_ID,content_id);
                         activity.startActivity(intentVideo);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

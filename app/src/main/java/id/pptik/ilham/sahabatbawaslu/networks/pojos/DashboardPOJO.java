@@ -287,8 +287,4 @@ public class DashboardPOJO {
             return dashboard;
         }
     }
-
-
-
-
 }

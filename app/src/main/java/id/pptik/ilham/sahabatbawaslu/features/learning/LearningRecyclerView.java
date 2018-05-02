@@ -160,7 +160,7 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 v.getContext().startActivity(intent);*/
                 switch (materialType[position]) {
                     case 0://video
-                        Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
+                        Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
                         intentVideo.putExtra(MATERIAL_ID,materialId[position]);
                         activity.startActivity(intentVideo);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
