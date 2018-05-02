@@ -646,7 +646,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             @Override
             public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
                 MaterialDetailPOJO materialDetailPOJO = response.body();
-
+                Log.d("XYZ","tipe materi: "+materialDetailPOJO.getResults().getType());
                 switch (materialDetailPOJO.getResults().getType()){
                     case 0://video
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailActivity.class);
