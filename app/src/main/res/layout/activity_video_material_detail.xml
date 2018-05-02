@@ -49,7 +49,6 @@
                     android:layout_below="@+id/title_post"
                     android:textColor="@color/abu"
                     android:layout_height="75dp"
-                    android:layout_marginBottom="20dp"
                     />
                 <Button
                     android:id="@+id/button_unduh_materi"
@@ -67,7 +66,7 @@
                     android:textStyle="bold"
                     android:textSize="12sp"
                     android:textColor="@color/abu"
-                    android:visibility="invisible"/>
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/material_author"
@@ -80,7 +79,7 @@
                     android:textSize="12sp"
                     android:layout_toRightOf="@id/material_type"
                     android:textColor="@color/abu"
-                    android:visibility="invisible"/>
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/date_post"
                     android:layout_width="120dp"
@@ -93,7 +92,7 @@
                     android:layout_alignParentRight="true"
                     android:gravity="right"
                     android:textColor="@color/abu"
-                    android:visibility="invisible"/>
+                    android:visibility="gone"/>
 
             </RelativeLayout>
             <LinearLayout
