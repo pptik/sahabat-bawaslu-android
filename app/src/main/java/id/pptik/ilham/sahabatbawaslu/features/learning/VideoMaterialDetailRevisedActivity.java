@@ -257,13 +257,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
                     imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                        /*String contentID,
-                        final int activityCode, int contentCode,
-                        String title, String accessToken,
-                        int textNumberFavoriteParam,
-                        int textNumberUpvoteParam, int textNumberDownvoteParam,
-                        final int position*/
-
                             gamifikasiAksiRespon(materialId,4,1,title,access_token);
                         }
                     });
@@ -271,7 +264,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
                     imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
                             gamifikasiAksiRespon(materialId,2,1,title,access_token);
                         }
                     });
@@ -279,7 +271,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
                     imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
                             gamifikasiAksiRespon(materialId,3,1,title,access_token);
                         }
                     });

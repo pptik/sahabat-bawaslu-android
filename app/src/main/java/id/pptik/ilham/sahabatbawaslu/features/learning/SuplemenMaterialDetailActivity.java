@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,8 +48,14 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.text_numbers_upvote)TextView textNumbersUpvote;
     @BindView(R.id.text_numbers_downvote)TextView textNumbersDownvote;
     @BindView(R.id.button_unduh_materi)Button buttonUnduhMateri;
+    @BindView(R.id.button_favorite_suplemen)
+    ImageView imageButtonFavorite;
+    @BindView(R.id.button_upvote_suplemen)
+    ImageView imageButtonUpvote;
+    @BindView(R.id.button_downvote_suplemen)
+    ImageView imageButtonDownvote;
     Bundle bundle;
-    String materialId, accessToken;
+    String materialId, accessToken, title;
     RestServiceInterface restServiceInterface;
     SharedPreferences sharedPreferences;
     Intent intent;
@@ -71,8 +79,9 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         intent = getIntent();
-        materialId = intent.getStringExtra(MaterialsRecyclerView.MATERIAL_ID);
-
+        Bundle bundle = intent.getExtras();
+        materialId = bundle.getString(MaterialsRecyclerView.MATERIAL_ID);
+        title = bundle.getString(MaterialsRecyclerView.TITLE);
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         accessToken = sharedPreferences.getString("accessToken", "abcde");
 
@@ -88,6 +97,29 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                 textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
                 textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
                 textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));
+
+                //Gamifikasi event handler
+                imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(SuplemenMaterialDetailActivity.this, "ABCDE", Toast.LENGTH_SHORT).show();
+                        gamifikasiAksiRespon(materialId,4,1,title,accessToken);
+                    }
+                });
+
+                imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gamifikasiAksiRespon(materialId,2,1,title,accessToken);
+                    }
+                });
+
+                imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gamifikasiAksiRespon(materialId,3,1,title,accessToken);
+                    }
+                });
 
                 buttonUnduhMateri.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -169,6 +201,58 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void gamifikasiAksiRespon(final String contentID,
+                                     final int activityCode, final int contentCode,
+                                     final String title, final String accessToken) {
+
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
+                contentCode, title, accessToken);
+        voteAction.enqueue(new Callback<VotePOJO>() {
+
+            @Override
+            public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                VotePOJO votePOJO = response.body();
+                Toast.makeText(SuplemenMaterialDetailActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                if (!votePOJO.getRc().equals("0050")) {
+                    Log.d("RP ContentID",contentID);
+                    Log.d("RP ActCode",Integer.toString(activityCode));
+                    Log.d("RP ContCode",Integer.toString(contentCode));
+                    Log.d("RP Title",title);
+                    Log.d("RP AccToken",accessToken);
+                    Log.d("RP",votePOJO.getRm());
+                    switch (activityCode) {
+                        case 2:
+                            textNumbersUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            textNumbersDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);*/
+                            ;
+                            break;
+                        case 3:
+                            textNumbersUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            textNumbersDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);*/
+                            ;
+                            break;
+                        case 4:
+                            //imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                            //imageButtonFavorite.setClickable(false);
+                            textNumbersFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                            ;
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VotePOJO> call, Throwable t) {
+                Toast.makeText(SuplemenMaterialDetailActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showNotification(String title, String content) {

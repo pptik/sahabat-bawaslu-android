@@ -162,25 +162,23 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 v.getContext().startActivity(intent);*/
                 switch (materialType[position]) {
                     case 0://video
-                        /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(CONTENT_ID,contentId[position]);
-                        bundle.putString(TITLE,titlePost[position]);
-                        intent.putExtras(bundle);
-                        v.getContext().startActivity(intent);*/
-
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString(MATERIAL_ID,materialId[position]);
-                        bundle.putString(TITLE,title[position]);
-                        intentVideo.putExtras(bundle);
+                        Bundle bundleVideo = new Bundle();
+                        bundleVideo.putString(MATERIAL_ID,materialId[position]);
+                        bundleVideo.putString(TITLE,title[position]);
+                        intentVideo.putExtras(bundleVideo);
 
                         activity.startActivity(intentVideo);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 1://suplemen
+
                         Intent intentSuplemen = new Intent(activity , SuplemenMaterialDetailActivity.class);
-                        intentSuplemen.putExtra(MATERIAL_ID,materialId[position]);
+                        Bundle bundleSuplemen = new Bundle();
+                        bundleSuplemen.putString(MATERIAL_ID,materialId[position]);
+                        bundleSuplemen.putString(TITLE,title[position]);
+                        intentSuplemen.putExtras(bundleSuplemen);
+
                         activity.startActivity(intentSuplemen);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
