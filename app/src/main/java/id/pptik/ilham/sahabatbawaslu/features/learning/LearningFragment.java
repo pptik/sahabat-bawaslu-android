@@ -65,6 +65,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> comments = new ArrayList<Integer>();
     SharedPreferences sharedPreferences;
     ProgressDialog progressDialog;
+    private int skip = 5;
+    private boolean loadMore = true;
 
     public LearningFragment() {
         setHasOptionsMenu(true);
@@ -74,7 +76,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_learning, container, false);
+        final View view = inflater.inflate(R.layout.fragment_learning, container, false);
         progressDialog = new ProgressDialog(view.getContext());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
@@ -98,10 +100,60 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 swipeRefreshRecycler.setRefreshing(false);
             }
         });
+
+        //Content when scrolling
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
+
+
+                int itemCount = mLayoutManager.getItemCount();
+                int pos = layoutManager.findLastCompletelyVisibleItemPosition();
+                if (itemCount - pos == 1) {
+                    getMaterialsListScrolled(access_token, view.getContext(), skip, itemCount);
+
+                }
+            }
+
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return super.equals(obj);
+            }
+
+            @Override
+            protected Object clone() throws CloneNotSupportedException {
+                return super.clone();
+            }
+
+            @Override
+            public String toString() {
+                return super.toString();
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+            }
+        });
+
         return view;
     }
 
     private void getMaterialsList(String accessToken){
+        skip = 5;
+        loadMore = true;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -179,7 +231,95 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    private void getMaterialsListScrolled(String accessToken, final Context context, final int skipParam, final int itemCount){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
+        if(RestServiceClass.isNetworkAvailable(getContext())){
+            if (loadMore) {
+            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
+            callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
+                @Override
+                public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    //Adapter
+                    LearningRecyclerView.materialTypeList.clear();
+                    LearningRecyclerView.datePostList.clear();
+                    LearningRecyclerView.materialIdList.clear();
+                    LearningRecyclerView.descList.clear();
+                    LearningRecyclerView.titleList.clear();
+                    LearningRecyclerView.upVoteNumbersList.clear();
+                    LearningRecyclerView.downVoteNumbersList.clear();
+                    LearningRecyclerView.commentNumbersList.clear();
+                    LearningRecyclerView.favoriteNumbersList.clear();
+
+                    //Fragment
+                    authors.clear();
+                    datePosts.clear();
+                    descs.clear();
+                    titles.clear();
+                    upVotes.clear();
+                    downVotes.clear();
+                    comments.clear();
+                    favorites.clear();
+                    materialIds.clear();
+
+                    MaterialsListPOJO materialsListPOJO = response.body();
+                    for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
+                        authors.add(materialsListPOJO.getResults().get(materi).getType());
+                        datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
+                        descs.add(materialsListPOJO.getResults().get(materi).getDesc());
+                        titles.add(materialsListPOJO.getResults().get(materi).getTitle());
+                        upVotes.add(materialsListPOJO.getResults().get(materi).getUpvote());
+                        downVotes.add(materialsListPOJO.getResults().get(materi).getDownvote());
+                        comments.add(materialsListPOJO.getResults().get(materi).getComment());
+                        favorites.add(materialsListPOJO.getResults().get(materi).getFavorite());
+                        materialIds.add(materialsListPOJO.getResults().get(materi).getId());
+                        //contentId.add(materialsListPOJO.getResults().get(materi).getId());
+                    }
+                    mAdapter = new LearningRecyclerView(authors,datePosts,descs,titles,
+                            favorites,upVotes,downVotes,comments,materialIds,getActivity());
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    mRecyclerView.scrollToPosition(itemCount - 1);
+
+                    skip = skip + 5;
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<MaterialsListPOJO> call, Throwable t) {
+                    Log.d("RETROFIT ERROR","ERROR: "+t.toString());
+                }
+            });
+            }else {
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
+            }
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
+    }
+
     private void searchMaterialsList(String query, String accessToken){
+        skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);

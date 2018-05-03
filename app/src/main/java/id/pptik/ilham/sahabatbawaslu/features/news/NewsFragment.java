@@ -334,26 +334,6 @@ public class NewsFragment extends Fragment {
                         } else {
                             for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
 
-                                /*MaterialsRecyclerView.usernameList.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
-                                MaterialsRecyclerView.datePostList.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
-                                MaterialsRecyclerView.titlePostList.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
-                                MaterialsRecyclerView.contentPostList.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
-                                MaterialsRecyclerView.userPictureProfileList.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
-                                MaterialsRecyclerView.newsMediaList.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
-                                MaterialsRecyclerView.textNumberFavoriteList.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
-                                MaterialsRecyclerView.textNumberDownvoteList.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
-                                MaterialsRecyclerView.textNumberCommentList.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
-                                MaterialsRecyclerView.textNumberUpvoteList.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
-                                MaterialsRecyclerView.newsTypeList.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                                MaterialsRecyclerView.activityCodeList.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
-                                MaterialsRecyclerView.contentIdList.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                                MaterialsRecyclerView.contentTypeList.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
-                                MaterialsRecyclerView.contentTextList.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
-                                MaterialsRecyclerView.activityTextList.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
-                                MaterialsRecyclerView.statusUpvoteList.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
-                                MaterialsRecyclerView.statusDownvoteList.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
-                                MaterialsRecyclerView.statusFavoriteList.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());*/
-
                                 username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
                                 datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
                                 titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
@@ -375,25 +355,6 @@ public class NewsFragment extends Fragment {
                                 contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                                 newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
 
-                                /*Collections.reverse(username);
-                                Collections.reverse(datePost);
-                                Collections.reverse(titlePost);
-                                Collections.reverse(contentPost);
-                                Collections.reverse(userPicturePost);
-                                Collections.reverse(contentLabel);
-                                Collections.reverse(activityLabel);
-                                Collections.reverse(contentType);
-                                Collections.reverse(activityType);
-                                Collections.reverse(numberFavorite);
-                                Collections.reverse(numberUpvote);
-                                Collections.reverse(numberDownvote);
-                                Collections.reverse(numberComments);
-                                Collections.reverse(upvoteStatus);
-                                Collections.reverse(downvoteStatus);
-                                Collections.reverse(favoriteStatus);
-                                Collections.reverse(newsType);
-                                Collections.reverse(contentId);
-                                Collections.reverse(newsMedia);*/
                             }
 
 
@@ -405,30 +366,7 @@ public class NewsFragment extends Fragment {
                             );
 
                             mRecyclerView.setAdapter(mAdapter);
-                            //mAdapter.notifyItemInserted(username.size()-1);
-                            //mRecyclerView.setAdapter(null);
 
-                            /*MaterialsRecyclerView.usernameList.addAll(username);
-                            MaterialsRecyclerView.datePostList.addAll(datePost);
-                            MaterialsRecyclerView.titlePostList.addAll(titlePost);
-                            MaterialsRecyclerView.contentPostList.addAll(contentPost);
-                            MaterialsRecyclerView.userPictureProfileList.addAll(userPicturePost);
-                            MaterialsRecyclerView.newsMediaList.addAll(newsMedia);
-                            MaterialsRecyclerView.textNumberFavoriteList.addAll(numberFavorite);
-                            MaterialsRecyclerView.textNumberDownvoteList.addAll(numberDownvote);
-                            MaterialsRecyclerView.textNumberCommentList.addAll(numberComments);
-                            MaterialsRecyclerView.textNumberUpvoteList.addAll(numberUpvote);
-                            MaterialsRecyclerView.newsTypeList.addAll(newsType);
-                            MaterialsRecyclerView.activityCodeList.addAll(activityType);
-                            MaterialsRecyclerView.contentIdList.addAll(contentId);
-                            MaterialsRecyclerView.contentTypeList.addAll(contentType);
-                            MaterialsRecyclerView.contentTextList.addAll(contentPost);
-                            MaterialsRecyclerView.activityTextList.addAll(activityLabel);
-                            MaterialsRecyclerView.statusUpvoteList.addAll(upvoteStatus);
-                            MaterialsRecyclerView.statusDownvoteList.addAll(downvoteStatus);
-                            MaterialsRecyclerView.statusFavoriteList.addAll(favoriteStatus);*/
-
-                            //mAdapter.notifyDataSetChanged();
 
                             mRecyclerView.scrollToPosition(itemCount - 1);
 
