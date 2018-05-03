@@ -15,6 +15,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailGeneralPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
@@ -63,6 +64,10 @@ public interface RestServiceInterface {
     @FormUrlEncoded
     @POST("material/list")
     Call<MaterialsListPOJO> materialsList(@Field("Skip") int skip, @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("material/detail")
+    Call<MaterialDetailGeneralPOJO> materialDetailGeneral(@Field("MaterialID") String materialId, @Header("access_token") String access_token);
 
     @FormUrlEncoded
     @POST("material/detail")

@@ -30,6 +30,7 @@ import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailActivi
 import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailRevisedActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailGeneralPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
@@ -649,13 +650,14 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         Log.d("XYZ","Content Id: "+content_id);
         Log.d("XYZ","Akses Token: "+access_token);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(content_id,access_token);
-        materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
+        retrofit2.Call<MaterialDetailGeneralPOJO> materialDetail = restServiceInterface.materialDetailGeneral(content_id,access_token);
+
+        materialDetail.enqueue(new Callback<MaterialDetailGeneralPOJO>() {
             @Override
-            public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
-                MaterialDetailPOJO materialDetailPOJO = response.body();
-                Log.d("XYZ","tipe materi di response: "+materialDetailPOJO.getResults().getType());
-                switch (materialDetailPOJO.getResults().getType()){
+            public void onResponse(Call<MaterialDetailGeneralPOJO> call, Response<MaterialDetailGeneralPOJO> response) {
+                MaterialDetailGeneralPOJO materialDetailGeneralPOJO = response.body();
+                Log.d("XYZ","tipe materi di response: "+materialDetailGeneralPOJO.getResults().getType());
+                switch (materialDetailGeneralPOJO.getResults().getType()){
                     case 0://video
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
                         intentVideo.putExtra(MATERIAL_ID,content_id);
@@ -674,7 +676,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             }
 
             @Override
-            public void onFailure(retrofit2.Call<MaterialDetailPOJO> call, Throwable t) {
+            public void onFailure(Call<MaterialDetailGeneralPOJO> call, Throwable t) {
                 Log.e("ERROR",t.getLocalizedMessage());
             }
         });

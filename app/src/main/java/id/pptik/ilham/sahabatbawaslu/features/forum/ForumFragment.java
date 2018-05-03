@@ -322,19 +322,19 @@ public class ForumFragment extends android.support.v4.app.Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.pop_up_notifikasi:
+                    /*case R.id.pop_up_notifikasi:
                         Intent intent = new Intent(getContext(), NotificationActivity.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        return true;
+                        return true;*/
                     case R.id.pop_up_leaderboard:
                         Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
                         startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    case R.id.pop_up_edit_profile_slidingtab:
+                    /*case R.id.pop_up_edit_profile_slidingtab:
                         Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
-                        return true;
+                        return true;*/
                     case R.id.pop_up_log_out_slidingtab:
                         sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();

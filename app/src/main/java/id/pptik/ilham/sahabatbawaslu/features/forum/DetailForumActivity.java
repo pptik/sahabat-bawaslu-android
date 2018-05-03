@@ -189,7 +189,6 @@ public class DetailForumActivity extends AppCompatActivity {
                 mAdapter = new ForumAnswersRecyclerView(username,datePost,contentPost,
                         userProfilePicture,answerId,answerReplyCounter,answerLevel);
 
-                mAdapter.notifyDataSetChanged();
                 recyclerViewAnswers.setAdapter(mAdapter);
             }
 

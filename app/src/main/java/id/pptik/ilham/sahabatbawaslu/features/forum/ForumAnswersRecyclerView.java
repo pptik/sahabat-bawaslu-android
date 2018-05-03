@@ -112,7 +112,7 @@ public class ForumAnswersRecyclerView extends RecyclerView.Adapter<ForumAnswersR
         holder.tvDatePost.setText(datePost[position]);
         holder.tvAnswerContent.setText(contentPost[position]);
         holder.tvDatePost.setText(datePost[position]);
-        holder.tvSubAnswer.setText("\u2022 "+textNumberAnswerNumbers[position]+" Jawaban");
+        //holder.tvSubAnswer.setText("\u2022 "+textNumberAnswerNumbers[position]+" Jawaban");
 
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
