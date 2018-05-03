@@ -134,8 +134,14 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
+        /*intent = getIntent();
+        materialId = intent.getStringExtra(MaterialsRecyclerView.MATERIAL_ID);*/
+
         intent = getIntent();
-        materialId = intent.getStringExtra(MaterialsRecyclerView.MATERIAL_ID);
+        Bundle bundle = intent.getExtras();
+        materialId = bundle.getString(MaterialsRecyclerView.MATERIAL_ID);
+        title = bundle.getString(MaterialsRecyclerView.TITLE);
+
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -220,10 +226,64 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
 
                     textViewTitlePost.setText(materialDetailVideoPOJO.getResults().getTitle());
                     textViewContentPost.setText(materialDetailVideoPOJO.getResults().getDesc());
+                    textViewUsername.setText(materialDetailVideoPOJO.getResults().getPostBy().getUsername());
+                    textViewDatePost.setText(materialDetailVideoPOJO.getResults().getCreatedAtFromNow());
+                    textViewNumberUpvote.setText(Integer.toString(materialDetailVideoPOJO.getResults().getUpvote()));
+                    textViewNumberDownVote.setText(Integer.toString(materialDetailVideoPOJO.getResults().getDownvote()));
+                    textViewNumberFavorite.setText(Integer.toString(materialDetailVideoPOJO.getResults().getFavorite()));
 
-                    /*textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
-                    textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
-                    textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));*/
+                    //Gamifikasi status awal
+                    /*if(materialDetailVideoPOJO.getResults().getFavorited()){
+                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                    }else{
+                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                    }
+
+                    imageButtonUpvote.setVisibility(View.GONE);
+                    if(newsPOJO.getResults().getUpvoted()){
+                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    }else{
+                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    }
+
+                    imageButtonDownvote.setVisibility(View.GONE);
+                    if(newsPOJO.getResults().getDownvoted()){
+                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                    }else{
+                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }*/
+
+                    //Gamifikasi event handler
+                    imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        /*String contentID,
+                        final int activityCode, int contentCode,
+                        String title, String accessToken,
+                        int textNumberFavoriteParam,
+                        int textNumberUpvoteParam, int textNumberDownvoteParam,
+                        final int position*/
+
+                            gamifikasiAksiRespon(materialId,4,1,title,access_token);
+                        }
+                    });
+
+                    imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
+                            gamifikasiAksiRespon(materialId,2,1,title,access_token);
+                        }
+                    });
+
+                    imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
+                            gamifikasiAksiRespon(materialId,3,1,title,access_token);
+                        }
+                    });
+
                 }
             }
 
@@ -315,36 +375,43 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
         });
     }
 
-    public void gamifikasiAksiRespon(String contentID,
-                                     final int activityCode, int contentCode,
-                                     String title, String accessToken) {
+    public void gamifikasiAksiRespon(final String contentID,
+                                     final int activityCode, final int contentCode,
+                                     final String title, final String accessToken) {
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentID, activityCode,
                 contentCode, title, accessToken);
         voteAction.enqueue(new Callback<VotePOJO>() {
+
             @Override
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 VotePOJO votePOJO = response.body();
                 Toast.makeText(VideoMaterialDetailRevisedActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                 if (!votePOJO.getRc().equals("0050")) {
+                    Log.d("RP ContentID",contentID);
+                    Log.d("RP ActCode",Integer.toString(activityCode));
+                    Log.d("RP ContCode",Integer.toString(contentCode));
+                    Log.d("RP Title",title);
+                    Log.d("RP AccToken",accessToken);
+                    Log.d("RP",votePOJO.getRm());
                     switch (activityCode) {
                         case 2:
                             textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
                             textViewNumberDownVote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                            /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);*/
                             ;
                             break;
                         case 3:
                             textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
                             textViewNumberDownVote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                            /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);*/
                             ;
                             break;
                         case 4:
-                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                            //imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
                             imageButtonFavorite.setClickable(false);
                             textViewNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
                             ;

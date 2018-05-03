@@ -17,7 +17,9 @@ import java.util.List;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity;
 
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.CONTENT_ID;
 import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.MATERIAL_ID;
+import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.TITLE;
 
 /**
  * Created by Ilham on 15/03/18.
@@ -160,8 +162,19 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                 v.getContext().startActivity(intent);*/
                 switch (materialType[position]) {
                     case 0://video
+                        /*Intent intent = new Intent(v.getContext(), DetailNewsNotAdminTextActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CONTENT_ID,contentId[position]);
+                        bundle.putString(TITLE,titlePost[position]);
+                        intent.putExtras(bundle);
+                        v.getContext().startActivity(intent);*/
+
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
-                        intentVideo.putExtra(MATERIAL_ID,materialId[position]);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(MATERIAL_ID,materialId[position]);
+                        bundle.putString(TITLE,title[position]);
+                        intentVideo.putExtras(bundle);
+
                         activity.startActivity(intentVideo);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
