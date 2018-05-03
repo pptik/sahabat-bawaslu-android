@@ -37,6 +37,7 @@
         <activity android:name=".features.news.DetailNewsNotAdminTextActivity" />
         <activity android:name=".features.news.DetailNewsAdminActivity" />
         <activity android:name=".features.news.AddNewsCommentActivity" />
+        <activity android:name=".features.learning.AddMaterialCommentActivity" />
         <activity android:name=".features.learning.QuizListActivity" />
         <activity android:name=".features.learning.QuizDetailActivity" />
         <activity android:name=".features.learning.MaterialAdapter" />

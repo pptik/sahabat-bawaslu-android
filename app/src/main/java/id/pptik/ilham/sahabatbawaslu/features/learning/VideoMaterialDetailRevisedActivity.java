@@ -174,10 +174,10 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
-                intent.putExtra(CONTENT_ID, contentId);
+                Intent intent = new Intent(getApplicationContext(), AddMaterialCommentActivity.class);
+                intent.putExtra(CONTENT_ID,materialId);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -275,6 +275,7 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
                         }
                     });
 
+                    commentList(materialId, access_token);
                 }
             }
 
