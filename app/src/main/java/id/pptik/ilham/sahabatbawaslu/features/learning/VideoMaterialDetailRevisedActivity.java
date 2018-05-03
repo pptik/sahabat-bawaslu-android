@@ -58,8 +58,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
     Toolbar toolbar;
     @BindView(R.id.username)
     TextView textViewUsername;
-    @BindView(R.id.activity_username)
-    TextView textViewUsernameActivity;
     @BindView(R.id.date_post)
     TextView textViewDatePost;
     @BindView(R.id.text_number_favorite)
@@ -70,6 +68,10 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
     TextView textViewNumberDownVote;
     @BindView(R.id.text_comments)
     TextView textViewNumberKomentar;
+    @BindView(R.id.title_post)
+    TextView textViewTitlePost;
+    @BindView(R.id.content_post)
+    TextView textViewContentPost;
     @BindView(R.id.user_picture)
     ImageView imageViewUserPicture;
     @BindView(R.id.button_favorite)
@@ -83,9 +85,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
     RecyclerView recyclerViewComments;
     @BindView(R.id.fab_tambah_komentar)
     FloatingActionButton floatingActionButtonTambahKomentar;
-
-
-
 
 
     String contentId, title, materialId;
@@ -151,9 +150,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Log.d("MATERIAL ID", materialId);
-        //contentRequest(contentId);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -167,7 +163,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
         recyclerViewComments.setLayoutManager(mLayoutManager);
 
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
         //Tambah Komentar
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
@@ -180,15 +175,7 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
             }
         });
 
-        youTubePlayerFragment = (YouTubePlayerFragment)getFragmentManager()
-                .findFragmentById(R.id.youtubeplayerfragment);
-        youTubePlayerFragment.initialize(YoutubeConfig.YOUTUBE_API_KEY, this);
-
         contentRequest(materialId);
-
-
-
-
     }
 
     @Override
@@ -198,25 +185,6 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
 
         }
     }
-
-   /* @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        if (!b) {
-            youTubePlayer.cueVideo(videoCode);
-        }
-    }*/
-
-    /*@Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        if (youTubeInitializationResult.isUserRecoverableError()) {
-            youTubeInitializationResult.getErrorDialog(this, YoutubeConfig.RECOVERY_DIALOG_REQUEST).show();
-        } else {
-            String errorMessage = String.format(
-                    "There was an error initializing the YouTubePlayer (%1$s)",
-                    youTubeInitializationResult.toString());
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        }
-    }*/
 
     private void contentRequest(final String materialId) {
         //Ambil Data dari Networking REST
@@ -236,14 +204,24 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
             @Override
             public void onResponse(Call<MaterialDetailVideoPOJO> call, Response<MaterialDetailVideoPOJO> response) {
                 MaterialDetailVideoPOJO materialDetailVideoPOJO = response.body();
-
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
                 if (!materialDetailVideoPOJO.getSuccess()){
                     Toast.makeText(VideoMaterialDetailRevisedActivity.this, materialDetailVideoPOJO.getRm(), Toast.LENGTH_SHORT).show();
                 }else{
-                    videoCode = materialDetailVideoPOJO.getResults().getFiles().get(0);
-                    Log.d("VC","VIDEOCODE: "+videoCode);
-                    /*contentPost.setText(materialDetailPOJO.getResults().getDesc());
-                    textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
+                    String videoCodeRaw = materialDetailVideoPOJO.getResults().getFiles().get(0);
+                    String[] videoCodeSplitter = videoCodeRaw.split("v=");
+
+                    videoCode = videoCodeSplitter[1];
+
+                    youTubePlayerFragment = (YouTubePlayerFragment)getFragmentManager()
+                            .findFragmentById(R.id.youtubeplayerfragment);
+                    youTubePlayerFragment.initialize(YoutubeConfig.YOUTUBE_API_KEY, VideoMaterialDetailRevisedActivity.this);
+
+                    textViewTitlePost.setText(materialDetailVideoPOJO.getResults().getTitle());
+                    textViewContentPost.setText(materialDetailVideoPOJO.getResults().getDesc());
+
+                    /*textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
                     textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
                     textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));*/
                 }
@@ -426,12 +404,12 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         youTubePlayerGeneral = youTubePlayer;
 
-        Toast.makeText(getApplicationContext(),
+        /*Toast.makeText(getApplicationContext(),
                 "YouTubePlayer.onInitializationSuccess()",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG).show();*/
 
         if (!b) {
-            youTubePlayer.cueVideo(YoutubeConfig.VIDEO_CODE);
+            youTubePlayer.cueVideo(videoCode);
         }
     }
 
