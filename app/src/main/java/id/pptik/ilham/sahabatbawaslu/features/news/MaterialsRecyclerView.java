@@ -293,6 +293,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Log.d("XYZ","CONTENT ID: "+contentId[position]);
+                            Log.d("XYZ","CONTENT TYPE: "+contentType[position]);
                             materialAdapter(contentId[position], access_token, activity);
                         }
                     });
@@ -644,13 +646,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
     }
 
     private void materialAdapter(final String content_id, final String access_token, final Activity activity){
+        Log.d("XYZ","Content Id: "+content_id);
+        Log.d("XYZ","Akses Token: "+access_token);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(content_id,access_token);
         materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
             @Override
             public void onResponse(retrofit2.Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
                 MaterialDetailPOJO materialDetailPOJO = response.body();
-                Log.d("XYZ","tipe materi: "+materialDetailPOJO.getResults().getType());
+                Log.d("XYZ","tipe materi di response: "+materialDetailPOJO.getResults().getType());
                 switch (materialDetailPOJO.getResults().getType()){
                     case 0://video
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);

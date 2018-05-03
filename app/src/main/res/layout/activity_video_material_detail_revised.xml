@@ -11,6 +11,7 @@
         android:orientation="vertical"
         tools:context="id.pptik.ilham.sahabatbawaslu.features.news.DetailNewsNotAdminTextActivity">
 
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -180,11 +181,17 @@
 
                                         />-->
 
-                                    <com.google.android.youtube.player.YouTubePlayerView
+                                    <!--<com.google.android.youtube.player.YouTubePlayerView
                                         android:id="@+id/material_video"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
-                                    </com.google.android.youtube.player.YouTubePlayerView>
+                                    </com.google.android.youtube.player.YouTubePlayerView>-->
+
+                                    <fragment
+                                        android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+                                        android:id="@+id/youtubeplayerfragment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
 
                                 </RelativeLayout>
                             </RelativeLayout>

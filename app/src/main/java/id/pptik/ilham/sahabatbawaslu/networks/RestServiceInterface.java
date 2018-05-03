@@ -16,6 +16,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
@@ -68,6 +69,10 @@ public interface RestServiceInterface {
     Call<MaterialDetailPOJO> materialDetail(@Field("MaterialID") String materialId, @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("material/detail")
+    Call<MaterialDetailVideoPOJO> materialDetailVideo(@Field("MaterialID") String materialId, @Header("access_token") String access_token);
+
+    @FormUrlEncoded
     @POST("material/search/title")
     Call<MaterialsListPOJO> materialsSearchTitle(@Field("Skip") int skip,
                                                  @Field("SearchString") String search_string, @Header("access_token") String access_token);
@@ -116,6 +121,7 @@ public interface RestServiceInterface {
     @POST("news/detail")
     Call<NewsPOJO> newsDetail(@Field("NewsID") String newsID,
                               @Header("access_token") String access_token);
+
 
     @FormUrlEncoded
     @POST("comments/list")

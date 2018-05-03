@@ -10,5 +10,5 @@ public class YoutubeConfig {
 
     public static final String YOUTUBE_API_KEY = "AIzaSyCGVTDjbdv-tAi9FoYZ01TeGaeOUBfzcZs";
     public static final String VIDEO_CODE = "_oEA18Y8gM0";
-
+    public static final int RECOVERY_DIALOG_REQUEST = 1;
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,8 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
@@ -42,13 +45,15 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.YoutubeConfig;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
+public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.username)
@@ -78,9 +83,12 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
     RecyclerView recyclerViewComments;
     @BindView(R.id.fab_tambah_komentar)
     FloatingActionButton floatingActionButtonTambahKomentar;
-    @BindView(R.id.html_text)
-    HtmlTextView htmlTextView;
-    String contentId, title;
+
+
+
+
+
+    String contentId, title, materialId;
     Intent intent;
     RestServiceInterface restServiceInterface;
     RecyclerView.LayoutManager mLayoutManager;
@@ -104,14 +112,21 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
 
+    private YouTubePlayer youTubePlayerGeneral;
+    private YouTubePlayerFragment youTubePlayerFragment;
+
     /*usernameSubKomentar,
     datePostSubKomentar, userProfilePictureSubKomentar,
     contentPostSubKomentar);*/
 
     public static final String CONTENT_ID = "";
+    private String videoCode;
     //public static final String TITLE = "";
     private int counterRefreshDataOnResume = 0;
+    private static final int RQS_ErrorDialog = 1;
     //private String access_token;
+
+    YouTubePlayerFragment myYouTubePlayerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +136,7 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
         intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        contentId = bundle.getString(MaterialsRecyclerView.CONTENT_ID);
-        title = bundle.getString(MaterialsRecyclerView.TITLE);
+        materialId = intent.getStringExtra(MaterialsRecyclerView.MATERIAL_ID);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -133,17 +146,18 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         toolbar.setTitle(getResources().getString(R.string.detail_berita_label));
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Log.d("PRE CONTENT ID", contentId);
-        contentRequest(contentId);
+        Log.d("MATERIAL ID", materialId);
+        //contentRequest(contentId);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                contentRequest(contentId);
+                contentRequest(materialId);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -159,76 +173,52 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
         floatingActionButtonTambahKomentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
+                /*Intent intent = new Intent(getApplicationContext(), AddNewsCommentActivity.class);
                 intent.putExtra(CONTENT_ID, contentId);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
             }
         });
 
-        //Menampilkan daftar komentar
-        //commentList(contentId, access_token);
+        youTubePlayerFragment = (YouTubePlayerFragment)getFragmentManager()
+                .findFragmentById(R.id.youtubeplayerfragment);
+        youTubePlayerFragment.initialize(YoutubeConfig.YOUTUBE_API_KEY, this);
 
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView)findViewById(R.id.material_video);
-        youTubePlayerView.initialize(YoutubeConfig.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                if(null== youTubePlayer) return;
+        contentRequest(materialId);
 
-                // Start buffering
-                if (!b) {
-                    youTubePlayer.cueVideo(YoutubeConfig.VIDEO_CODE);
-                }
 
-            }
 
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                if (youTubeInitializationResult.isUserRecoverableError()) {
-                    //youTubeInitializationResult.getErrorDialog(VideoMaterialDetailRevisedActivity.this, RECOVERY_DIALOG_REQUEST).show();
-                }else{
-                    String error = String.format(getString(R.string.error_youtube_label));
-                    Toast.makeText(VideoMaterialDetailRevisedActivity.this, error, Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-    }
-
-    private final class EventListener implements YouTubePlayer.PlaybackEventListener{
-
-        @Override
-        public void onPlaying() {
-
-        }
-
-        @Override
-        public void onPaused() {
-
-        }
-
-        @Override
-        public void onStopped() {
-
-        }
-
-        @Override
-        public void onBuffering(boolean b) {
-
-        }
-
-        @Override
-        public void onSeekTo(int i) {
+        if (requestCode == YoutubeConfig.RECOVERY_DIALOG_REQUEST) {
+            // Retry initialization if user performed a recovery action
 
         }
     }
-    private void contentRequest(final String contentId) {
+
+   /* @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        if (!b) {
+            youTubePlayer.cueVideo(videoCode);
+        }
+    }*/
+
+    /*@Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, YoutubeConfig.RECOVERY_DIALOG_REQUEST).show();
+        } else {
+            String errorMessage = String.format(
+                    "There was an error initializing the YouTubePlayer (%1$s)",
+                    youTubeInitializationResult.toString());
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        }
+    }*/
+
+    private void contentRequest(final String materialId) {
         //Ambil Data dari Networking REST
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
@@ -240,92 +230,30 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
-        Log.d("POST CONTENT ID", contentId);
-        Call<NewsPOJO> newsDetailCall = restServiceInterface.newsDetail(contentId, access_token);
-        newsDetailCall.enqueue(new Callback<NewsPOJO>() {
+        Log.d("POST CONTENT ID", materialId);
+        Call<MaterialDetailVideoPOJO> materialDetailVideoPOJOCall = restServiceInterface.materialDetailVideo(materialId, access_token);
+        materialDetailVideoPOJOCall.enqueue(new Callback<MaterialDetailVideoPOJO>() {
             @Override
-            public void onResponse(Call<NewsPOJO> call, Response<NewsPOJO> response) {
-                NewsPOJO newsPOJO = response.body();
+            public void onResponse(Call<MaterialDetailVideoPOJO> call, Response<MaterialDetailVideoPOJO> response) {
+                MaterialDetailVideoPOJO materialDetailVideoPOJO = response.body();
 
-                if (!newsPOJO.getSuccess()) {
-                    Toast.makeText(VideoMaterialDetailRevisedActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                } else {
-                    iconNumbersUpvote.setVisibility(View.GONE);
-                    iconNumbersDownvote.setVisibility(View.GONE);
-                    textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
-                    htmlTextView.setHtml(newsPOJO.getResults().getContent(), new HtmlHttpImageGetter(htmlTextView));
-                    Log.e("HTML", "HTML:" + newsPOJO.getResults().getContent());
-                    textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                    textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
-                    textViewNumberUpvote.setVisibility(View.GONE);
-                    textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
-                    textViewNumberDownVote.setVisibility(View.GONE);
-                    textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                    textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
-                    textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()) + " Komentar");
-                    textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
-                    imageViewUserPicture.setImageDrawable(null);
-                    Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
-
-                    //Gamifikasi status awal
-                    if (newsPOJO.getResults().getFavorited()) {
-                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-                    } else {
-                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-                    }
-
-                    imageButtonUpvote.setVisibility(View.GONE);
-                    if (newsPOJO.getResults().getUpvoted()) {
-                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-                    } else {
-                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                    }
-
-                    imageButtonDownvote.setVisibility(View.GONE);
-                    if (newsPOJO.getResults().getDownvoted()) {
-                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
-                    } else {
-                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    }
-
-                    //Gamifikasi event handler
-                    imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            gamifikasiAksiRespon(contentId, 4, 2, title, access_token);
-                        }
-                    });
-
-                    imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
-                            gamifikasiAksiRespon(contentId, 2, 2, title, access_token);
-                        }
-                    });
-
-                    imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
-                            gamifikasiAksiRespon(contentId, 3, 2, title, access_token);
-                        }
-                    });
+                if (!materialDetailVideoPOJO.getSuccess()){
+                    Toast.makeText(VideoMaterialDetailRevisedActivity.this, materialDetailVideoPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                }else{
+                    videoCode = materialDetailVideoPOJO.getResults().getFiles().get(0);
+                    Log.d("VC","VIDEOCODE: "+videoCode);
+                    /*contentPost.setText(materialDetailPOJO.getResults().getDesc());
+                    textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
+                    textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
+                    textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));*/
                 }
-                commentList(contentId, access_token);
-                progressDialog.setProgress(100);
-                progressDialog.dismiss();
             }
 
             @Override
-            public void onFailure(Call<NewsPOJO> call, Throwable t) {
-                Toast.makeText(VideoMaterialDetailRevisedActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.setProgress(100);
-                progressDialog.dismiss();
+            public void onFailure(Call<MaterialDetailVideoPOJO> call, Throwable t) {
+
             }
         });
-
-
     }
 
     private void commentList(final String contentId, String accessToken) {
@@ -483,14 +411,38 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity {
             commentId.clear();
             commentNumber.clear();
 
-            intent = getIntent();
-            contentId = intent.getStringExtra(MaterialsRecyclerView.CONTENT_ID);
+            //intent = getIntent();
+            //contentId = intent.getStringExtra(MaterialsRecyclerView.CONTENT_ID);
 
-            sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
-            final String access_token = sharedPreferences.getString("accessToken", "abcde");
+            /*sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+            final String access_token = sharedPreferences.getString("accessToken", "abcde");*/
 
-            contentRequest(contentId);
+            contentRequest(materialId);
         }
         counterRefreshDataOnResume++;
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        youTubePlayerGeneral = youTubePlayer;
+
+        Toast.makeText(getApplicationContext(),
+                "YouTubePlayer.onInitializationSuccess()",
+                Toast.LENGTH_LONG).show();
+
+        if (!b) {
+            youTubePlayer.cueVideo(YoutubeConfig.VIDEO_CODE);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, RQS_ErrorDialog).show();
+        } else {
+            Toast.makeText(this,
+                    "YouTubePlayer.onInitializationFailure(): " + youTubeInitializationResult.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
