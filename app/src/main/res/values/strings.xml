@@ -9,6 +9,9 @@
     <string name="email_label">E-mail</string>
     <string name="password_label">Password</string>
     <string name="masuk_label">Masuk</string>
+    <string name="take_quiz_label">Mulai Kuis</string>
+    <string name="quiz_score_label">Skor Anda di kuis ini: </string>
+    <string name="quiz_total_score_label">Total skor kuis ini: </string>
     <string name="error_youtube_label">There was an error initializing the YouTube Player</string>
     <string name="submit_label">Submit</string>
     <string name="belum_punya_akun_label">Belum punya akun?</string>
@@ -25,6 +28,7 @@
     <string name="dashboard_label">Dashboard</string>
     <string name="pastikan_internet_label">Mohon pastikan anda terhubung dengan Internet</string>
     <string name="exit_app_label">Apakah anda ingin keluar dari aplikasi ini?</string>
+    <string name="ensure_quiz_label">Apakah anda ingin mulai mengerjakan kuis ini?</string>
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
@@ -74,6 +78,7 @@
     <string name="menu_list_quiz">Daftar Kuis</string>
     <string name="quiz_title">tes kuis 12</string>
     <string name="peringkat">#1</string>
+    <string name="level">Tingkat Kesulitan</string>
     <string name="poin">100</string>
     <string name="poin_label">poin</string>
     <string name="tambah_hashtag_label">Tambah hashtag (opsional)</string>

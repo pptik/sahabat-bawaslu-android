@@ -21,6 +21,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
@@ -180,4 +181,10 @@ public interface RestServiceInterface {
     Call<AnswersListPOJO> answersListForum(@Field("ForumID") String forumId,
                                            @Field("Skip") int skip,
                                            @Header("access_token") String access_token);
+
+    //Quiz
+    @FormUrlEncoded
+    @POST("quizzes/list/for/user")
+    Call<QuizzessListPOJO> quizzessList(@Field("Dummy") String dummy,
+                                            @Header("access_token") String access_token);
 }

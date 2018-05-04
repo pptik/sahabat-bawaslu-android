@@ -1,9 +1,11 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,9 +13,12 @@ import android.view.WindowManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 
 public class QuizDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
+    Intent intent;
+    private String quizTitle, quizId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,20 @@ public class QuizDetailActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
 
         ButterKnife.bind(this);
-        toolbar.setTitle(getResources().getString(R.string.quiz_title));
+
+        intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        quizId = bundle.getString(QuizListActivity.QUIZ_ID);
+
+        Log.d("QUIZDETAIL","QUIZ ID: "+quizId);
+
+        //toolbar.setTitle("Kuis Id"+quizId);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
     }
 
     @Override

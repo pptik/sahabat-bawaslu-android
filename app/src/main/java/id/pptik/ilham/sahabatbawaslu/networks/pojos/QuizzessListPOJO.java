@@ -87,6 +87,9 @@ public class QuizzessListPOJO {
         @SerializedName("UserScore")
         @Expose
         private Integer userScore;
+        @SerializedName("TotalScore")
+        @Expose
+        private Integer totalScore;
 
         public String getId() {
             return id;
@@ -162,6 +165,10 @@ public class QuizzessListPOJO {
 
         public Integer getUserScore() {
             return userScore;
+        }
+
+        public Integer getTotalScore() {
+            return totalScore;
         }
 
         public void setUserScore(Integer userScore) {
