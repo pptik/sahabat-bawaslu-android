@@ -80,6 +80,14 @@ public class QuizListActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
 
         getQuizzessList(accessToken);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getQuizzessList(accessToken);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void getQuizzessList(String accessToken){

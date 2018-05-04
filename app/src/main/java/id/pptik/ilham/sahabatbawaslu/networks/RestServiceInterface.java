@@ -21,6 +21,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
@@ -187,4 +188,9 @@ public interface RestServiceInterface {
     @POST("quizzes/list/for/user")
     Call<QuizzessListPOJO> quizzessList(@Field("Dummy") String dummy,
                                             @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("quizzes/detail")
+    Call<QuizzDetailPOJO> quizDetail(@Field("QuizID") String quizId,
+                                     @Header("access_token") String access_token);
 }
