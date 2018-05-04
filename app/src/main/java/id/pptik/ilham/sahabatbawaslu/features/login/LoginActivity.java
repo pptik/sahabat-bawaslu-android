@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("accessToken", loginPOJO.getResults().getAccess_token().toString());
                         editor.putString("userId", loginPOJO.getResults().getId().toString());
-                        editor.putString(FlagPengguna, loginPOJO.getResults().getUsername());
+                        editor.putString("role", Integer.toString(loginPOJO.getResults().getRole()));
                         editor.commit();
 
                         progressDialog.setProgress(100);

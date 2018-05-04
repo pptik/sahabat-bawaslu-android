@@ -84,6 +84,10 @@ public class LoginPOJO {
         @Expose
         private String username;
 
+        @SerializedName("role")
+        @Expose
+        private int role;
+
         @SerializedName("access_token")
         @Expose
         private String access_token;
@@ -102,6 +106,10 @@ public class LoginPOJO {
 
         public String getAccess_token() {
             return access_token;
+        }
+
+        public int getRole() {
+            return role;
         }
     }
 }

@@ -65,8 +65,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> comments = new ArrayList<Integer>();
     SharedPreferences sharedPreferences;
     ProgressDialog progressDialog;
-    private int skip = 5;
-    private boolean loadMore = true;
+    /*private int skip = 5;
+    private boolean loadMore = true;*/
 
     public LearningFragment() {
         setHasOptionsMenu(true);
@@ -90,13 +90,13 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
-        getMaterialsList(access_token);
+        getMaterialsList(access_token,view.getContext(), 0);
 
         swipeRefreshRecycler = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshRecycler);
         swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getMaterialsList(access_token);
+                getMaterialsList(access_token,view.getContext(), 0);
                 swipeRefreshRecycler.setRefreshing(false);
             }
         });
@@ -117,7 +117,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
                 if (itemCount - pos == 1) {
-                    getMaterialsListScrolled(access_token, view.getContext(), skip, itemCount);
+                    //getMaterialsListScrolled(access_token, view.getContext(), 0, itemCount);
 
                 }
             }
@@ -151,16 +151,16 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-    private void getMaterialsList(String accessToken){
-        skip = 5;
-        loadMore = true;
+    private void getMaterialsList(String accessToken,final Context context, int skipParam){
+        //skip = 5;
+        //loadMore = true;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        if(RestServiceClass.isNetworkAvailable(getContext())){
-            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
+        if(RestServiceClass.isNetworkAvailable(context)){
+            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(skipParam,accessToken);
             callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
@@ -238,7 +238,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         progressDialog.show();
 
         if(RestServiceClass.isNetworkAvailable(getContext())){
-            if (loadMore) {
+            //if (loadMore) {
             Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
             callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
@@ -285,7 +285,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
 
                     mRecyclerView.scrollToPosition(itemCount - 1);
 
-                    skip = skip + 5;
+                    //skip = skip + 5;
 
                     progressDialog.setProgress(100);
                     progressDialog.dismiss();
@@ -296,10 +296,10 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     Log.d("RETROFIT ERROR","ERROR: "+t.toString());
                 }
             });
-            }else {
+            /*}else {
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
-            }
+            }*/
         }else{
             progressDialog.setProgress(100);
             progressDialog.dismiss();
@@ -319,7 +319,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void searchMaterialsList(String query, String accessToken){
-        skip = 5;
+        //skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -444,7 +444,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     public void popUpMoreMenu(View view){
         PopupMenu popupMenu = new PopupMenu(getContext(),view);
         MenuInflater menuInflater = popupMenu.getMenuInflater();
+
         menuInflater.inflate(R.menu.popupslidinglearning,popupMenu.getMenu());
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -510,6 +512,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void sortByCategoryREST(int code) {
+        //skip = 5;
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
