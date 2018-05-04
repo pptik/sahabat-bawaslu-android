@@ -63,6 +63,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private List<Integer> upVotes = new ArrayList<Integer>();
     private List<Integer> downVotes = new ArrayList<Integer>();
     private List<Integer> comments = new ArrayList<Integer>();
+    private String roleUser;
     SharedPreferences sharedPreferences;
     ProgressDialog progressDialog;
     /*private int skip = 5;
@@ -89,6 +90,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
+        roleUser = sharedPreferences.getString("role","3");
 
         getMaterialsList(access_token,view.getContext(), 0);
 
@@ -442,15 +444,16 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     public void popUpMoreMenu(View view){
-        PopupMenu popupMenu = new PopupMenu(getContext(),view);
-        MenuInflater menuInflater = popupMenu.getMenuInflater();
-
-        menuInflater.inflate(R.menu.popupslidinglearning,popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+        Log.d("ROLE","ROLE: "+roleUser);
+        if(roleUser.equals("1")){//sebagai leader/partisipan didikan BAWASLU
+            Log.d("ROLE","ROLE: MASUK KE LEADER");
+            PopupMenu popupMenuLearningLeader = new PopupMenu(getContext(),view);
+            MenuInflater menuInflaterLearningLeader = popupMenuLearningLeader.getMenuInflater();
+            menuInflaterLearningLeader.inflate(R.menu.popupslidinglearningleader,popupMenuLearningLeader.getMenu());
+            popupMenuLearningLeader.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()){
                     /*case R.id.pop_up_notifikasi:
                         Intent intent = new Intent(getContext(), NotificationActivity.class);
                         startActivity(intent);
@@ -461,11 +464,12 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    /*case R.id.pop_up_quiz:
-                        Intent intentQuiz = new Intent(getContext(), QuizDetailActivity.class);
+                    case R.id.pop_up_quiz:
+                        Intent intentQuiz = new Intent(getContext(), QuizListActivity.class);
                         startActivity(intentQuiz);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
+                        /*
                     case R.id.pop_up_edit_profile_slidingtab:
                         Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
                         return true;*/
@@ -481,10 +485,53 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                         getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         return true;
                     default:return false;
+                    }
                 }
-            }
-        });
-        popupMenu.show();
+            });
+            popupMenuLearningLeader.show();
+        }else if(roleUser.equals("2")){//sebagai partisipan dibawah didikan BAWASLU
+            PopupMenu popupMenu = new PopupMenu(getContext(),view);
+            MenuInflater menuInflater = popupMenu.getMenuInflater();
+            menuInflater.inflate(R.menu.popupslidinglearning,popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()){
+                    /*case R.id.pop_up_notifikasi:
+                        Intent intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;*/
+                        case R.id.pop_up_leaderboard:
+                            Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
+                            startActivity(intentLeaderboard);
+                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            return true;
+                    /*case R.id.pop_up_quiz:
+                        Intent intentQuiz = new Intent(getContext(), QuizDetailActivity.class);
+                        startActivity(intentQuiz);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.pop_up_edit_profile_slidingtab:
+                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
+                        return true;*/
+                        case R.id.pop_up_log_out_slidingtab:
+                            sharedPreferences = getContext().getSharedPreferences(LoginActivity.SessionPengguna, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.commit();
+
+                            Intent intent2 = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent2);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            return true;
+                        default:return false;
+                    }
+                }
+            });
+            popupMenu.show();
+        }
     }
 
     public void popUpSortMenu(View view){
