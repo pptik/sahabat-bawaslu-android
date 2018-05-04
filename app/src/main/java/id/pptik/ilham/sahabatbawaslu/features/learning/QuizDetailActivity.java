@@ -121,16 +121,21 @@ public class QuizDetailActivity extends AppCompatActivity {
 
                 }
 
-                mAdapter = new QuizDetailRecyclerView();
+                mAdapter = new QuizDetailRecyclerView(quizQuestionsArrayList);
 
                 mAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(mAdapter);
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
 
             }
 
             @Override
             public void onFailure(Call<QuizzDetailPOJO> call, Throwable t) {
-
+                Log.e("DETAIL ACTIVITY",t.getLocalizedMessage());
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
             }
         });
     }

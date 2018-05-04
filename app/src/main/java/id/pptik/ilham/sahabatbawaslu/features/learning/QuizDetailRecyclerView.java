@@ -50,15 +50,9 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
     public static final String CONTENT_ID = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvUsername, tvUsername2, tvCommentContent, tvCommentContent2,
-                tvDatePost, tvDatePost2, tvJumlahKomentar;
+        public TextView textViewSoal;
 
-        public ImageView ivUserpicture,ivUserpicture2;
-        public CardView cardViewCommentLevel0,cardViewCommentLevel1,cardViewSubKomentarTextView;
-        public RecyclerView recyclerViewSubComment;
-
-        public Button buttonTambahSubKomentar;
-        public EditText editTextTambahSubKomentar;
+        public Button buttonSubmitAnswers;
 
         private RestServiceInterface restServiceInterface;
 
@@ -66,71 +60,33 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvUsername = (TextView) itemView.findViewById(R.id.username);
-            tvUsername2 = (TextView) itemView.findViewById(R.id.username_2);
-            tvDatePost = (TextView) itemView.findViewById(R.id.date_post);
-            tvDatePost2 = (TextView) itemView.findViewById(R.id.date_post_2);
-            tvCommentContent = (TextView) itemView.findViewById(R.id.comment_content);
-            tvCommentContent2 = (TextView) itemView.findViewById(R.id.comment_content_2);
-            cardViewCommentLevel0 = (CardView) itemView.findViewById(R.id.card_view_comment_level_0);
-            cardViewCommentLevel1 = (CardView) itemView.findViewById(R.id.card_view_comment_level_1);
-            cardViewSubKomentarTextView = (CardView) itemView.findViewById(R.id.card_view_sub_komentar_text_view);
-            ivUserpicture = (ImageView) itemView.findViewById(R.id.user_picture);
-            ivUserpicture2 = (ImageView) itemView.findViewById(R.id.user_picture_2);
-            tvJumlahKomentar = (TextView) itemView.findViewById(R.id.text_view_jumlah_komentar);
-            recyclerViewSubComment = (RecyclerView) itemView.findViewById(R.id.recycler_view_sub_komentar);
-            buttonTambahSubKomentar = (Button) itemView.findViewById(R.id.button_tambah_sub_komen);
-            editTextTambahSubKomentar = (EditText) itemView.findViewById(R.id.edit_text_tambah_sub_komentar);
+            textViewSoal = (TextView) itemView.findViewById(R.id.text_view_soal);
         }
     }
 
-    public QuizDetailRecyclerView(List<String> usernameListParam, List<String> datePostListParam,
-                                  List<String> contentPostListParam, List<String> userPictureProfileListParam,
-                                  List<String> commentIdListParam, List<Integer> commentNumbersPostListParam,
-                                  ArrayList<List<String>> usernameListParam2, ArrayList<List<String>> datePostListParam2,
-                                  ArrayList<List<String>> userPictureProfileListParam2, ArrayList<List<String>> contentPostListParam2,
-                                  String contentId) {
-        this.contentId = contentId;
-        this.usernameList = usernameListParam;
-        this.datePostList = datePostListParam;
-        this.contentPostList = contentPostListParam;
-        this.userPictureProfileList = userPictureProfileListParam;
+    public QuizDetailRecyclerView(List<String> questionsListParam) {
+        this.questionsList = questionsListParam;
 
-        this.usernameSubKomentarList = usernameListParam2;
+        /*this.usernameSubKomentarList = usernameListParam2;
         this.datePostSubKomentarList = datePostListParam2;
         this.contentPostSubKomentarList = contentPostListParam2;
-        this.userPictureProfileSubKomentarList = userPictureProfileListParam2;
+        this.userPictureProfileSubKomentarList = userPictureProfileListParam2;*/
 
-        this.commentNumbersList = commentNumbersPostListParam;
-        this.commentIdList = commentIdListParam;
+        questionsArray = new String[questionsList.size()];
 
-        username = new String[usernameList.size()];
-        datePost = new String[datePostList.size()];
-        contentPost = new String[contentPostList.size()];
-        userPictureProfile = new String[userPictureProfileList.size()];
-
-        usernameSubKomentar = new String[usernameSubKomentarList.size()];
+        /*usernameSubKomentar = new String[usernameSubKomentarList.size()];
         datePostSubKomentar = new String[datePostSubKomentarList.size()];
         contentPostSubKomentar = new String[contentPostSubKomentarList.size()];
-        userPictureProfileSubKomentar = new String[userPictureProfileSubKomentarList.size()];
+        userPictureProfileSubKomentar = new String[userPictureProfileSubKomentarList.size()];*/
 
 
-        textNumberCommentId = new String[commentIdList.size()];
-        textNumberCommentNumbers = new Integer[commentNumbersList.size()];
-
-
-        username = usernameList.toArray(username);
-        datePost = datePostList.toArray(datePost);
-        contentPost = contentPostList.toArray(contentPost);
-        userPictureProfile = userPictureProfileList.toArray(userPictureProfile);
+        questionsArray = questionsList.toArray(questionsArray);
 
         /*usernameSubKomentar = usernameSubKomentarList.toArray(usernameSubKomentar);
         datePostSubKomentar = datePostSubKomentarList.toArray(datePostSubKomentar);
         contentPostSubKomentar = contentPostSubKomentarList.toArray(contentPostSubKomentar);
         userPictureProfileSubKomentar = userPictureProfileSubKomentarList.toArray(userPictureProfileSubKomentar);*/
 
-        textNumberCommentId = commentIdList.toArray(textNumberCommentId);
-        textNumberCommentNumbers= commentNumbersList.toArray(textNumberCommentNumbers);
     }
 
     @Override
@@ -148,90 +104,12 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final String access_token = sharedPreferences.getString("accessToken", "abcde");
-
-
-        holder.tvUsername.setText(username[position]);
-        holder.tvDatePost.setText(datePost[position]);
-        holder.tvCommentContent.setText(contentPost[position]);
-        holder.tvDatePost.setText(datePost[position]);
-
-        holder.ivUserpicture.setImageDrawable(null);
-        holder.tvJumlahKomentar.setText("\u2022 "+textNumberCommentNumbers[position]+" Komentar");
-        Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
-
-        holder.recyclerViewSubComment.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(holder.itemView.getContext());
-        holder.recyclerViewSubComment.setLayoutManager(mLayoutManager);
-
-        mAdapter = new NewsSubCommentsRecyclerView(usernameSubKomentarList.get(position),datePostSubKomentarList.get(position),
-                contentPostSubKomentarList.get(position),userPictureProfileSubKomentarList.get(position));
-
-        mAdapter.notifyDataSetChanged();
-        holder.recyclerViewSubComment.setAdapter(mAdapter);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(textNumberCommentNumbers[position] > 0){
-                if (statusOpenSubComment.get(position)){
-                    holder.recyclerViewSubComment.setVisibility(View.VISIBLE);
-                    statusOpenSubComment.set(position,false);
-                }else if(!statusOpenSubComment.get(position)){
-                    holder.recyclerViewSubComment.setVisibility(View.GONE);
-                    statusOpenSubComment.set(position,true);
-                }
-                }
-
-                if(!statusOpenTextViewSubComment.get(position)){
-                    holder.cardViewSubKomentarTextView.setVisibility(View.VISIBLE);
-                    statusOpenTextViewSubComment.set(position,true);
-                }else{
-                    holder.cardViewSubKomentarTextView.setVisibility(View.GONE);
-                    statusOpenTextViewSubComment.set(position,false);
-                }
-            }
-        });
-
-        holder.buttonTambahSubKomentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(v.getContext(), holder.editTextTambahSubKomentar.getText(), Toast.LENGTH_SHORT).show();
-                addSubComment(v,holder.editTextTambahSubKomentar.getText().toString(),
-                        textNumberCommentId[position].toString(),contentId);
-            }
-        });
-    }
-
-    private void addSubComment(final View v, String comment, String commentId, String contentId){
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        SharedPreferences sharedPreferences = v.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken", "abcde");
-
-        Call<AddSubCommentPOJO> addSubCommentPOJOCall = restServiceInterface.subCommentCreate(
-                comment, commentId, contentId, 2, access_token);
-
-        addSubCommentPOJOCall.enqueue(new Callback<AddSubCommentPOJO>() {
-            @Override
-            public void onResponse(Call<AddSubCommentPOJO> call, Response<AddSubCommentPOJO> response) {
-                AddSubCommentPOJO addSubCommentPOJO = response.body();
-                if(addSubCommentPOJO.getSuccess()){
-                    Toast.makeText(v.getContext(), addSubCommentPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(v.getContext(), addSubCommentPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AddSubCommentPOJO> call, Throwable t) {
-
-            }
-        });
+        //final String access_token = sharedPreferences.getString("accessToken", "abcde");
+        holder.textViewSoal.setText(questionsArray[position]);
     }
 
     @Override
     public int getItemCount() {
-        return username.length;
+        return questionsArray.length;
     }
 }
