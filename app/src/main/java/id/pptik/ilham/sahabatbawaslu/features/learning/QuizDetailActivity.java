@@ -7,16 +7,22 @@ import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
+import id.pptik.ilham.sahabatbawaslu.features.news.NewsCommentsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
@@ -27,11 +33,20 @@ import retrofit2.Response;
 
 public class QuizDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
+    @BindView(R.id.recycler_view)RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     private Intent intent;
     private SharedPreferences sharedPreferences;
     private String quizTitle, quizId;
     private RestServiceInterface restServiceInterface;
     private ProgressDialog progressDialog;
+
+    private List<String> quizQuestionsArrayList = new ArrayList<String>();
+    private List<Integer> quizQuestionsPointArrayList = new ArrayList<Integer>();
+    private ArrayList<List<String>> quizTextQuestionMultipleChoice = new ArrayList<List<String>>();
+    private ArrayList<List<Boolean>> quizCorrectQuestionMultipleChoice = new ArrayList<List<Boolean>>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +70,10 @@ public class QuizDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        recyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(QuizDetailActivity.this);
+        recyclerView.setLayoutManager(mLayoutManager);
+
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         contentRequest(quizId);
     }
@@ -76,6 +95,36 @@ public class QuizDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuizzDetailPOJO> call, Response<QuizzDetailPOJO> response) {
                 QuizzDetailPOJO quizzDetailPOJO = response.body();
+                for (int item = 0;item<quizzDetailPOJO.getResults().getQuestionList().size();item++){
+                    quizQuestionsArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(0).getQuestion());
+                    quizQuestionsPointArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(0).getPoin());
+
+                    ArrayList<String> quizQuestionMultipleChoiceTextSingleList = new ArrayList<String>();
+                    ArrayList<Boolean> quizQuestionMultipleChoiceCorrectSingleList = new ArrayList<Boolean>();
+
+                    for (int multipleChoice = 0;
+                         multipleChoice<quizzDetailPOJO.getResults().getQuestionList().get(item).getMultipleChoice().size();
+                         multipleChoice++){
+
+                        quizQuestionMultipleChoiceTextSingleList
+                                .add(quizzDetailPOJO.getResults().getQuestionList()
+                                .get(item).getMultipleChoice().get(multipleChoice)
+                                .getText());
+                        quizQuestionMultipleChoiceCorrectSingleList
+                                .add(quizzDetailPOJO.getResults().getQuestionList()
+                                .get(item).getMultipleChoice().get(multipleChoice)
+                                .getCorrect());
+                    }
+
+                    quizTextQuestionMultipleChoice.add(quizQuestionMultipleChoiceTextSingleList);
+                    quizCorrectQuestionMultipleChoice.add(quizQuestionMultipleChoiceCorrectSingleList);
+
+                }
+
+                mAdapter = new QuizDetailRecyclerView();
+
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(mAdapter);
 
             }
 

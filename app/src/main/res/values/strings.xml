@@ -10,6 +10,7 @@
     <string name="password_label">Password</string>
     <string name="masuk_label">Masuk</string>
     <string name="take_quiz_label">Mulai Kuis</string>
+    <string name="send_quiz_label">Kirim Jawaban</string>
     <string name="quiz_score_label">Skor Anda di kuis ini: </string>
     <string name="quiz_total_score_label">Total skor kuis ini: </string>
     <string name="error_youtube_label">There was an error initializing the YouTube Player</string>
@@ -77,6 +78,7 @@
     <string name="menu_leaderboard">Papan Pemenang</string>
     <string name="menu_list_quiz">Daftar Kuis</string>
     <string name="quiz_title">tes kuis 12</string>
+    <string name="example_question">1. Ini contoh pertanyaan</string>
     <string name="peringkat">#1</string>
     <string name="level">Tingkat Kesulitan</string>
     <string name="poin">100</string>
