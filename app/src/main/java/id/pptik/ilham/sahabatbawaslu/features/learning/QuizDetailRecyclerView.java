@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,7 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewSoal;
+        public RadioGroup radioGroup;
 
         public Button buttonSubmitAnswers;
 
@@ -61,6 +65,7 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
         public ViewHolder(View itemView) {
             super(itemView);
             textViewSoal = (TextView) itemView.findViewById(R.id.text_view_soal);
+            radioGroup = (RadioGroup) itemView.findViewById(R.id.radio_group_question);
         }
     }
 
@@ -102,10 +107,20 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //final String access_token = sharedPreferences.getString("accessToken", "abcde");
         holder.textViewSoal.setText(questionsArray[position]);
+
+
+        RadioButton radioButton = new RadioButton(holder.itemView.getContext());
+        radioButton.setText("Tess");
+        radioButton.setId(3000);//set radiobutton id and store it somewhere
+        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams
+                (RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+        holder.radioGroup.addView(radioButton, params);
+
     }
 
     @Override

@@ -34,13 +34,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_option_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/answer_caption_label"
-                         />
                 </RadioGroup>
             </LinearLayout>
 

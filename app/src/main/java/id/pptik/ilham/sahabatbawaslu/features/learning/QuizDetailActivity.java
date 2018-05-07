@@ -65,10 +65,11 @@ public class QuizDetailActivity extends AppCompatActivity {
 
         quizId = bundle.getString(QuizListActivity.QUIZ_ID);
 
-        //toolbar.setTitle("Kuis Id"+quizId);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(QuizDetailActivity.this);
@@ -118,6 +119,8 @@ public class QuizDetailActivity extends AppCompatActivity {
 
                     quizTextQuestionMultipleChoice.add(quizQuestionMultipleChoiceTextSingleList);
                     quizCorrectQuestionMultipleChoice.add(quizQuestionMultipleChoiceCorrectSingleList);
+                    quizTitle = quizzDetailPOJO.getResults().getTitle();
+                    toolbar.setTitle("Kuis "+quizTitle);
 
                 }
 
