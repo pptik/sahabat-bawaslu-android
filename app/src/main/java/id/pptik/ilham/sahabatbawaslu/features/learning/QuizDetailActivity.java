@@ -12,8 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ import retrofit2.Response;
 public class QuizDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.recycler_view)RecyclerView recyclerView;
+    @BindView(R.id.button_submit_answers)Button buttonSubmitAnswers;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Intent intent;
@@ -77,6 +81,13 @@ public class QuizDetailActivity extends AppCompatActivity {
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         contentRequest(quizId);
+
+        buttonSubmitAnswers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(QuizDetailActivity.this, "Yuhuuu", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void contentRequest(final String quizId) {

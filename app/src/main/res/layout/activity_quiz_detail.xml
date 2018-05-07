@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
             <Button
-                android:id="@+id/button_take_quiz"
+                android:id="@+id/button_submit_answers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_view_quiz_desc"
