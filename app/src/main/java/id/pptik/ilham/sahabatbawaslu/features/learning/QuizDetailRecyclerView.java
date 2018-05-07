@@ -34,15 +34,17 @@ import retrofit2.Response;
 
 
 public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyclerView.ViewHolder> {
-    public static List<String> questionsList = new ArrayList<String>();
-    public static List<Integer> pointsList = new ArrayList<Integer>();
-    public static ArrayList<List<String>> quizTextQuestionMultipleChoiceArrayList= new ArrayList<List<String>>();
-    public static ArrayList<List<Boolean>> quizCorrectQuestionMultipleChoiceArrayList= new ArrayList<List<Boolean>>();
+    private List<String> questionsList = new ArrayList<String>();
+    private List<Integer> pointsList = new ArrayList<Integer>();
+    private ArrayList<List<String>> quizTextQuestionMultipleChoiceArrayList= new ArrayList<List<String>>();
+    private ArrayList<List<Boolean>> quizCorrectQuestionMultipleChoiceArrayList= new ArrayList<List<Boolean>>();
+
+    private ArrayList<List<String>> multipleChoiceTextMultipleArrayList = new ArrayList<List<String>>();
+    private ArrayList<List<Boolean>> multipleChoiceCorrectMultipleArrayList = new ArrayList<List<Boolean>>();
 
     private String contentId;
     private String[] questionsArray;
-    private Boolean[] pointsArray;
-
+    private Integer[] pointsArray;
 
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
@@ -53,10 +55,11 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
     public static final String CONTENT_ID = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewSoal;
-        public RadioGroup radioGroup;
-
-        public Button buttonSubmitAnswers;
+        private TextView textViewSoal;
+        private RadioGroup radioGroup;
+        private ArrayList<List<String>> quizMultipleChoicesArrayList = new ArrayList<List<String>>();
+        private ArrayList<List<String>> quizPointArrayList = new ArrayList<List<String>>();
+        private Button buttonSubmitAnswers;
 
         private RestServiceInterface restServiceInterface;
 
@@ -69,29 +72,36 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
         }
     }
 
-    public QuizDetailRecyclerView(List<String> questionsListParam) {
-        this.questionsList = questionsListParam;
+    public QuizDetailRecyclerView(List<String> questionsListParam, List<Integer> pointsListParam,
+                                  ArrayList<List<String>> multipleChoiceTextListParam,
+                                  ArrayList<List<Boolean>> multipleChoiceCorrectListParam) {
 
-        /*this.usernameSubKomentarList = usernameListParam2;
-        this.datePostSubKomentarList = datePostListParam2;
-        this.contentPostSubKomentarList = contentPostListParam2;
-        this.userPictureProfileSubKomentarList = userPictureProfileListParam2;*/
+        this.questionsList = questionsListParam;
+        this.pointsList = pointsListParam;
+        this.quizTextQuestionMultipleChoiceArrayList = multipleChoiceTextListParam;
+        this.quizCorrectQuestionMultipleChoiceArrayList = multipleChoiceCorrectListParam;
 
         questionsArray = new String[questionsList.size()];
-
-        /*usernameSubKomentar = new String[usernameSubKomentarList.size()];
-        datePostSubKomentar = new String[datePostSubKomentarList.size()];
-        contentPostSubKomentar = new String[contentPostSubKomentarList.size()];
-        userPictureProfileSubKomentar = new String[userPictureProfileSubKomentarList.size()];*/
-
+        pointsArray = new Integer[pointsList.size()];
 
         questionsArray = questionsList.toArray(questionsArray);
+        pointsArray = pointsList.toArray(pointsArray);
 
-        /*usernameSubKomentar = usernameSubKomentarList.toArray(usernameSubKomentar);
-        datePostSubKomentar = datePostSubKomentarList.toArray(datePostSubKomentar);
-        contentPostSubKomentar = contentPostSubKomentarList.toArray(contentPostSubKomentar);
-        userPictureProfileSubKomentar = userPictureProfileSubKomentarList.toArray(userPictureProfileSubKomentar);*/
+        for (int multipleChoiceItem = 0;
+             multipleChoiceItem < quizTextQuestionMultipleChoiceArrayList.size();
+             multipleChoiceItem++){
 
+            for (int nestedMultipleChoiceItem = 0;
+                 nestedMultipleChoiceItem < quizTextQuestionMultipleChoiceArrayList.size();
+                 nestedMultipleChoiceItem++){
+
+                multipleChoiceTextMultipleArrayList.
+                        add(quizTextQuestionMultipleChoiceArrayList.get(nestedMultipleChoiceItem));
+
+                /*multipleChoiceCorrectMultipleArrayList.
+                        add(multipleChoiceCorrectMultipleArrayList.get(nestedMultipleChoiceItem));*/
+            }
+        }
     }
 
     @Override
@@ -114,12 +124,22 @@ public class QuizDetailRecyclerView extends RecyclerView.Adapter<QuizDetailRecyc
         holder.textViewSoal.setText(questionsArray[position]);
 
 
-        RadioButton radioButton = new RadioButton(holder.itemView.getContext());
-        radioButton.setText("Tess");
-        radioButton.setId(3000);//set radiobutton id and store it somewhere
-        RadioGroup.LayoutParams params = new RadioGroup.LayoutParams
-                (RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-        holder.radioGroup.addView(radioButton, params);
+        List<String> multipleChoiceQuestionTextSingleArrayList = new ArrayList<String>();
+        String[] multipleChoiceQuestionTextSingleArray = new String[0];
+
+        multipleChoiceQuestionTextSingleArrayList = multipleChoiceTextMultipleArrayList.get(position);
+        multipleChoiceQuestionTextSingleArray = multipleChoiceQuestionTextSingleArrayList.toArray(multipleChoiceQuestionTextSingleArray);
+
+        for (int multipleChoice = 0; multipleChoice < multipleChoiceQuestionTextSingleArrayList.size();multipleChoice++){
+            RadioButton radioButton = new RadioButton(holder.itemView.getContext());
+            radioButton.setText(multipleChoiceQuestionTextSingleArray[multipleChoice]);
+            //radioButton.setId(position+multipleChoice);//set radiobutton id and store it somewhere
+            RadioGroup.LayoutParams params = new RadioGroup.LayoutParams
+                    (RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            holder.radioGroup.addView(radioButton, params);
+        }
+
+
 
     }
 

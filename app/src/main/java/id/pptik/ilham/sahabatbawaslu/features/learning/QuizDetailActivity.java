@@ -124,7 +124,8 @@ public class QuizDetailActivity extends AppCompatActivity {
 
                 }
 
-                mAdapter = new QuizDetailRecyclerView(quizQuestionsArrayList);
+                mAdapter = new QuizDetailRecyclerView(quizQuestionsArrayList,quizQuestionsPointArrayList,
+                        quizTextQuestionMultipleChoice,quizCorrectQuestionMultipleChoice);
 
                 mAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(mAdapter);
