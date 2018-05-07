@@ -97,8 +97,8 @@ public class QuizDetailActivity extends AppCompatActivity {
             public void onResponse(Call<QuizzDetailPOJO> call, Response<QuizzDetailPOJO> response) {
                 QuizzDetailPOJO quizzDetailPOJO = response.body();
                 for (int item = 0;item<quizzDetailPOJO.getResults().getQuestionList().size();item++){
-                    quizQuestionsArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(0).getQuestion());
-                    quizQuestionsPointArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(0).getPoin());
+                    quizQuestionsArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(item).getQuestion());
+                    quizQuestionsPointArrayList.add(quizzDetailPOJO.getResults().getQuestionList().get(item).getPoin());
 
                     ArrayList<String> quizQuestionMultipleChoiceTextSingleList = new ArrayList<String>();
                     ArrayList<Boolean> quizQuestionMultipleChoiceCorrectSingleList = new ArrayList<Boolean>();
