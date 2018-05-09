@@ -196,10 +196,10 @@ public class QuizDetailActivity extends AppCompatActivity implements SendQuizDat
             public void onResponse(Call<QuizzesUserAnswerPOJO> call, Response<QuizzesUserAnswerPOJO> response) {
                 QuizzesUserAnswerPOJO quizzesUserAnswerPOJO = response.body();
                 //Toast.makeText(QuizDetailActivity.this, quizzesUserAnswerPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(QuizDetailActivity.this, "Data quiz anda berhasil direkam.", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(QuizDetailActivity.this, "Data jawaban Kuis anda berhasil direkam.", Toast.LENGTH_SHORT).show();
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
+                finish();
             }
 
             @Override
