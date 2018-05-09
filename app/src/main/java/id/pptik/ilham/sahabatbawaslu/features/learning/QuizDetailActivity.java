@@ -30,11 +30,12 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzesUserAnswerPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuizDetailActivity extends AppCompatActivity {
+public class QuizDetailActivity extends AppCompatActivity implements SendQuizData {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.recycler_view)RecyclerView recyclerView;
     @BindView(R.id.button_submit_answers)Button buttonSubmitAnswers;
@@ -51,6 +52,14 @@ public class QuizDetailActivity extends AppCompatActivity {
     private ArrayList<List<String>> quizTextQuestionMultipleChoice = new ArrayList<List<String>>();
     private ArrayList<List<Boolean>> quizCorrectQuestionMultipleChoice = new ArrayList<List<Boolean>>();
 
+    /*private long startTime = System.currentTimeMillis();
+    private long endTime = System.currentTimeMillis();
+    private long seconds = (endTime - startTime) / 1000;*/
+
+    private long startTime = System.currentTimeMillis();
+    private int totalQuestion, correctAnswer,
+            wrongAnswer, noAnswer, score, userBiggestScore;
+    QuizDetailRecyclerView quizDetailRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +77,7 @@ public class QuizDetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         quizId = bundle.getString(QuizListActivity.QUIZ_ID);
-
+        userBiggestScore = bundle.getInt(QuizListActivity.USER_BIGGEST_SCORE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,17 +89,33 @@ public class QuizDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        contentRequest(quizId);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken","abcde");
+
+        contentRequest(quizId,access_token);
 
         buttonSubmitAnswers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(QuizDetailActivity.this, "Yuhuuu", Toast.LENGTH_SHORT).show();
+                long endTime = System.currentTimeMillis();
+                long seconds = (endTime - startTime) / 1000;
+
+                submitAnswer(access_token,quizId,score,Math.round(seconds),totalQuestion,correctAnswer,
+                        wrongAnswer,noAnswer,userBiggestScore);
+                /*Log.d("DATA",
+                        "TOTALPERTANYAAN: "+totalQuestion+" " +
+                        "CORRECTANSWER: "+correctAnswer+" " +
+                        "WRONGANSWER: "+wrongAnswer+" " +
+                        "NOANSWER: "+noAnswer+" " +
+                        "USERBIGGESTSCORE: "+userBiggestScore+" " +
+                                ",SCORE: "+score);*/
             }
         });
+
+
     }
 
-    private void contentRequest(final String quizId) {
+    private void contentRequest(final String quizId, String accessToken) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -98,11 +123,7 @@ public class QuizDetailActivity extends AppCompatActivity {
         progressDialog.setProgress(0);
         progressDialog.show();
 
-        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
-        final String access_token = sharedPreferences.getString("accessToken","abcde");
-
-        Call<QuizzDetailPOJO> quizzDetailPOJOCall = restServiceInterface.quizDetail(quizId,access_token);
+        Call<QuizzDetailPOJO> quizzDetailPOJOCall = restServiceInterface.quizDetail(quizId,accessToken);
         quizzDetailPOJOCall.enqueue(new Callback<QuizzDetailPOJO>() {
             @Override
             public void onResponse(Call<QuizzDetailPOJO> call, Response<QuizzDetailPOJO> response) {
@@ -133,10 +154,12 @@ public class QuizDetailActivity extends AppCompatActivity {
                     quizTitle = quizzDetailPOJO.getResults().getTitle();
                     toolbar.setTitle("Kuis "+quizTitle);
 
+
                 }
 
                 mAdapter = new QuizDetailRecyclerView(quizQuestionsArrayList,quizQuestionsPointArrayList,
-                        quizTextQuestionMultipleChoice,quizCorrectQuestionMultipleChoice);
+                        quizTextQuestionMultipleChoice,quizCorrectQuestionMultipleChoice,
+                        QuizDetailActivity.this,0,0,0,0);
 
                 mAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(mAdapter);
@@ -149,6 +172,41 @@ public class QuizDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<QuizzDetailPOJO> call, Throwable t) {
                 Log.e("DETAIL ACTIVITY",t.getLocalizedMessage());
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    private void submitAnswer(String accessToken, String quizId, Integer score, Integer attemptDuration,
+                              Integer totalQuestion, Integer correctAnswer, Integer wrongAnswer,
+                              Integer noAnswer, Integer userBiggestScore){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
+        Call<QuizzesUserAnswerPOJO> quizzesUserAnswerPOJOCall =
+                restServiceInterface.quizUserAnswer(quizId,score,attemptDuration,
+                        totalQuestion,correctAnswer,wrongAnswer,noAnswer,userBiggestScore, accessToken);
+        quizzesUserAnswerPOJOCall.enqueue(new Callback<QuizzesUserAnswerPOJO>() {
+            @Override
+            public void onResponse(Call<QuizzesUserAnswerPOJO> call, Response<QuizzesUserAnswerPOJO> response) {
+                QuizzesUserAnswerPOJO quizzesUserAnswerPOJO = response.body();
+                //Toast.makeText(QuizDetailActivity.this, quizzesUserAnswerPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizDetailActivity.this, "Data quiz anda berhasil direkam.", Toast.LENGTH_SHORT).show();
+
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<QuizzesUserAnswerPOJO> call, Throwable t) {
+
+                Toast.makeText(QuizDetailActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
             }
@@ -170,5 +228,16 @@ public class QuizDetailActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
+    @Override
+    public void onSubmitAnswers(int scoreTotal, int questionsTotal, int correctAnswerTotal,
+                                int wrongAnswerTotal, int noAnswerTotal) {
+        score = scoreTotal;
+        totalQuestion = questionsTotal;
+        correctAnswer = correctAnswerTotal;
+        wrongAnswer = wrongAnswerTotal;
+        noAnswer = noAnswerTotal;
     }
 }

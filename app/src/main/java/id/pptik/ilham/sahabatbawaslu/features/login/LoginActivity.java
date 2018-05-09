@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Toast.makeText(LoginActivity.this, "Maaf terjadi gangguan pada koneksi ke server.", Toast.LENGTH_LONG).show();
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
-                snackbar = Snackbar.make(linearLayout,"Maaf terjadi gangguan pada koneksi ke server.",Snackbar.LENGTH_LONG);
+                snackbar = Snackbar.make(linearLayout,t.getLocalizedMessage(),Snackbar.LENGTH_LONG);
                 snackbar.show();
                 call.cancel();
             }

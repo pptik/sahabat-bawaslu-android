@@ -52,6 +52,7 @@ public class QuizListActivity extends AppCompatActivity {
     private List<String> quizUserScoreArrayList = new ArrayList<String>();
     public static final String QUIZ_ID = "";
     public static final String QUIZ_TITLE = "";
+    public static final String USER_BIGGEST_SCORE = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
