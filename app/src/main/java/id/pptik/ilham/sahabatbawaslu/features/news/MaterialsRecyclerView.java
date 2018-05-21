@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.forum.DetailForumActivity;
+import id.pptik.ilham.sahabatbawaslu.features.learning.CaseMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.MaterialAdapter;
 import id.pptik.ilham.sahabatbawaslu.features.learning.SuplemenMaterialDetailActivity;
 import id.pptik.ilham.sahabatbawaslu.features.learning.VideoMaterialDetailActivity;
@@ -671,6 +672,10 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 2://kasus
+                        Intent intentKasus = new Intent(activity , CaseMaterialDetailActivity.class);
+                        intentKasus.putExtra(MATERIAL_ID,content_id);
+                        activity.startActivity(intentKasus);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                 }
             }

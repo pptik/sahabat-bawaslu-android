@@ -183,7 +183,14 @@ public class LearningRecyclerView extends RecyclerView.Adapter<LearningRecyclerV
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 2://kasus
+                        Intent intentKasus = new Intent(activity , CaseMaterialDetailActivity.class);
+                        Bundle bundleKasus = new Bundle();
+                        bundleKasus.putString(MATERIAL_ID,materialId[position]);
+                        bundleKasus.putString(TITLE,title[position]);
+                        intentKasus.putExtras(bundleKasus);
 
+                        activity.startActivity(intentKasus);
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                 }
                 /*Intent intent = new Intent(v.getContext(), MaterialAdapter.class);

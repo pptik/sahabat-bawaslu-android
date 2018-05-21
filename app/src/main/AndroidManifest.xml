@@ -32,6 +32,7 @@
         <activity android:name=".features.notification.NotificationActivity" />
         <activity android:name=".features.forum.AddForumActivity" />
         <activity android:name=".features.learning.SuplemenMaterialDetailActivity" />
+        <activity android:name=".features.learning.CaseMaterialDetailActivity" />
         <activity android:name=".features.news.AddNewsActivity" />
         <activity android:name=".features.gamification.LeaderboardActivity" />
         <activity android:name=".features.news.DetailNewsNotAdminTextActivity" />

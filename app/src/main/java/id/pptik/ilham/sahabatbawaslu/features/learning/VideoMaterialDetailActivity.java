@@ -1,5 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.features.learning;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import id.pptik.ilham.sahabatbawaslu.R;
 public class VideoMaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -155,7 +155,7 @@ public class NewsCommentsRecyclerView extends RecyclerView.Adapter<NewsCommentsR
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_news_comments_content, parent, false);
+                .inflate(R.layout.fragment_case_learning_comments_content, parent, false);
 
         sharedPreferences = parent.getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
 
