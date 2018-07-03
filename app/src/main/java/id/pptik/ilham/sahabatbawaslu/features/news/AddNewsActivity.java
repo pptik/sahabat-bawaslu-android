@@ -3,14 +3,20 @@ package id.pptik.ilham.sahabatbawaslu.features.news;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -41,7 +47,15 @@ public class AddNewsActivity extends AppCompatActivity {
     private RestServiceInterface restServiceInterface;
     SharedPreferences sharedPreferences;
     String access_token;
+    @BindView(R.id.linearLayoutFlexibleEditText)
+    LinearLayout linearLayoutFlexibleEditText;
+    @BindView(R.id.text_view_tambah_foto)
+    TextView textViewTambahFoto;
+    @BindView(R.id.imageButtonAddPhotos)
+    ImageButton imageButtonAddPhotos;
+    private int hashTagCounter = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +68,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         access_token = sharedPreferences.getString("accessToken","abcde");
+
 
         activityAddNewsBinding.setNews(userViewModel);
         activityAddNewsBinding.setAddnewsevent(new NewsInterface() {
@@ -94,6 +109,22 @@ public class AddNewsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        imageButtonAddPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addHashtagEditText(hashTagCounter,v.getContext());
+                hashTagCounter++;
+            }
+        });
+
+        textViewTambahFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addHashtagEditText(hashTagCounter,v.getContext());
+                hashTagCounter++;
+            }
+        });
     }
 
     @Override
@@ -111,5 +142,12 @@ public class AddNewsActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    private void addHashtagEditText(final int hashTagCounter, Context context) {
+        final EditText editTextHashtag = new EditText(context);
+        editTextHashtag.setId(hashTagCounter);
+        editTextHashtag.setHint(R.string.tuliskan_hashtag_label);
+        linearLayoutFlexibleEditText.addView(editTextHashtag);
     }
 }

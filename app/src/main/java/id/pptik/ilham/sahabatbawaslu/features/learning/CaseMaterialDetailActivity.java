@@ -176,21 +176,21 @@ public class CaseMaterialDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(CaseMaterialDetailActivity.this, "ABCDE", Toast.LENGTH_SHORT).show();
-                        gamifikasiAksiRespon(materialId,4,1,title,accessToken);
+                        gamifikasiAksiRespon(materialId,4,1,materialDetailPOJO.getResults().getTitle(),accessToken);
                     }
                 });
 
                 imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gamifikasiAksiRespon(materialId,2,1,title,accessToken);
+                        gamifikasiAksiRespon(materialId,2,1,materialDetailPOJO.getResults().getTitle(),accessToken);
                     }
                 });
 
                 imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gamifikasiAksiRespon(materialId,3,1,title,accessToken);
+                        gamifikasiAksiRespon(materialId,3,1,materialDetailPOJO.getResults().getTitle(),accessToken);
                     }
                 });
 

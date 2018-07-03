@@ -84,6 +84,7 @@
     <string name="poin">100</string>
     <string name="poin_label">poin</string>
     <string name="tambah_hashtag_label">Tambah hashtag (opsional)</string>
+    <string name="tambah_foto_label">Tambah foto (opsional)</string>
     <string name="tuliskan_hashtag_label">Tuliskan hashtag disini (tanpa #)</string>
     <string name="menu_quiz">Kuis</string>
     <string name="menu_settings">Settings</string>
