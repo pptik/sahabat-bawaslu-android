@@ -59,6 +59,8 @@
     <string name="skip">OKE</string>
     <string name="start">LOGIN</string>
     <string name="slide_title_berita">Berita</string>
+    <string name="slide_title_profile">Profil</string>
+    <string name="slide_title_log_user">Log Kegiatan</string>
     <string name="slide_title_diskusi">Forum</string>
     <string name="slide_title_tugas">Tugas</string>
     <string name="slide_title_materi">Materi</string>

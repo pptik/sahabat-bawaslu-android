@@ -20,11 +20,13 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialDetailVideoPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProfilePOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ProvincesPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzesUserAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.UserLogsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -206,4 +208,15 @@ public interface RestServiceInterface {
                                            @Field("NoAnswer") Integer NoAnswer,
                                            @Field("UserBiggestScore") Integer UserBiggestScore,
                                            @Header("access_token") String accessToken);
+
+    //user profile
+    @FormUrlEncoded
+    @POST("users/profile")
+    Call<ProfilePOJO> profile(@Header("access_token") String access_token,@Field("sembarangajaapa") String test);
+
+     //user profile
+    @FormUrlEncoded
+    @POST("users/personal/logactivity")
+    Call<UserLogsPOJO> userlogs(@Header("access_token") String access_token, @Field("sembarangajaapa") String test);
+
 }

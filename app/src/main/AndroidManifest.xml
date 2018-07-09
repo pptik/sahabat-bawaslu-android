@@ -47,6 +47,7 @@
         <activity android:name=".features.learning.VideoMaterialDetailRevisedActivity" />
         <activity android:name=".features.forum.DetailForumActivity" />
         <activity android:name=".features.forum.AddAnswerActivity"></activity>
+        <activity android:name=".features.profile.ProfileUserActivity"></activity>
     </application>
 
 </manifest>
