@@ -50,7 +50,7 @@ import id.pptik.ilham.sahabatbawaslu.features.profile.ProfileUserFragment;
 public class SlidingTabsBasicProfileUserFragment extends FragmentPagerAdapter {
 
     private Context context;
-    public int[] titleIcon = {R.drawable.ic_news,R.drawable.ic_news};
+    public int[] titleIcon = {R.drawable.baseline_face_white_18dp,R.drawable.baseline_history_white_18dp};
     private int tinggiIcon;
 
     public SlidingTabsBasicProfileUserFragment(FragmentManager fm, Context c) {
