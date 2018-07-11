@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class ProfileActivitiesLogFragment extends Fragment {
     private List<String> activitiesLog = new ArrayList<String>();
     private List<String> activitiesLogDate = new ArrayList<String>();
     private List<Integer> contentCode = new ArrayList<Integer>();
+    private SwipeRefreshLayout swipeRefreshRecycler;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
     public RestServiceInterface restServiceInterface;
@@ -70,6 +72,15 @@ public class ProfileActivitiesLogFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
         getListActivitiesLog(access_token,view.getContext());
+
+        swipeRefreshRecycler = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshRecycler.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getListActivitiesLog(access_token,view.getContext());
+                swipeRefreshRecycler.setRefreshing(false);
+            }
+        });
         return view;
     }
 
@@ -99,8 +110,8 @@ public class ProfileActivitiesLogFragment extends Fragment {
                     UserLogsPOJO UserLogsPOJO = response.body();
                     for (int item = 0; item < UserLogsPOJO.getResults().size(); item++) {
                        activitiesLog.add(UserLogsPOJO.getResults().get(item).getActivityText()+" "+UserLogsPOJO.getResults().get(item).getTitle());
-                        activitiesLogDate.add(UserLogsPOJO.getResults().get(item).getCreatedAtFromNow());
-                        contentCode.add(UserLogsPOJO.getResults().get(item).getContentCode());
+                       activitiesLogDate.add(UserLogsPOJO.getResults().get(item).getCreatedAtFromNow());
+                       contentCode.add(UserLogsPOJO.getResults().get(item).getContentCode());
                     }
                     mAdapter = new UserLogRecyclerView(activitiesLog, activitiesLogDate,contentCode,getActivity());
                     //mAdapter.notifyDataSetChanged();
@@ -137,4 +148,5 @@ public class ProfileActivitiesLogFragment extends Fragment {
                     }).show();
         }
     }
+
 }

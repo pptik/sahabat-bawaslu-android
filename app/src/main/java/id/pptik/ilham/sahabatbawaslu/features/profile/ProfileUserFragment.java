@@ -63,6 +63,7 @@ public class ProfileUserFragment extends Fragment {
     @BindView(R.id.user_profile_email)TextView textViewEmail;
     @BindView(R.id.user_profile_name)TextView textViewUsername;
     @BindView(R.id.user_profile_phone)TextView textViewPhone;
+    @BindView(R.id.profile_poin)TextView textViewPoin;
     @BindView(R.id.user_profile_photo)ImageButton IButtonPhoto;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
@@ -82,12 +83,13 @@ public class ProfileUserFragment extends Fragment {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
-        getProfileDetail(access_token,view.getContext());
+        final String role=sharedPreferences.getString("role","2");
+        getProfileDetail(access_token,view.getContext(),role);
 
         return view;
     }
 
-    private void getProfileDetail(String accessToken, final Context context) {
+    private void getProfileDetail(String accessToken, final Context context, final String role) {
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -100,9 +102,15 @@ public class ProfileUserFragment extends Fragment {
                 @Override
                 public void onResponse(Call<ProfilePOJO> call, Response<ProfilePOJO> response) {
                     ProfilePOJO profilePOJO = response.body();
+                    if (Integer.parseInt(role)==2){
+                        textViewPoin.setText(profilePOJO.getResults().getPoin().toString());
+                    }else {
+                        textViewPoin.setText(profilePOJO.getResults().getLeaderPoin().toString());
+                    }
                     textViewEmail.setText(profilePOJO.getResults().getEmail());
                     textViewUsername.setText(profilePOJO.getResults().getUsername());
                     textViewPhone.setText(profilePOJO.getResults().getPhoneNumber());
+
                     IButtonPhoto.setImageDrawable(null);
                     Glide.with(IButtonPhoto.getContext()).load(profilePOJO.getResults().getDisplayPicture()).into(IButtonPhoto);
                     progressDialog.setProgress(100);

@@ -73,9 +73,11 @@ public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 switch (position){
                     case 0:
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         getSupportActionBar().setTitle(R.string.slide_title_profile);
                         break;
                     case 1:
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         getSupportActionBar().setTitle("Log Aktivitas");
                 }
             }
@@ -94,10 +96,21 @@ public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.
     }
 
     @Override
-    public void onBackPressed() {
-        Operation.exitApp(ProfileUserActivity.this,ProfileUserActivity.this);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -106,11 +119,6 @@ public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
