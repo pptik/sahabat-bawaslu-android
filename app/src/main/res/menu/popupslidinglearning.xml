@@ -10,7 +10,7 @@
         android:title="@string/menu_quiz"/>-->
     <item android:id="@+id/pop_up_leaderboard"
         android:title="@string/menu_leaderboard"/>
-    <item android:id="@+id/pop_up_edit_profile_slidingtab"
+    <item android:id="@+id/pop_up_profile_user"
         android:title="@string/menu_profile"/>
     <item android:id="@+id/pop_up_log_out_slidingtab"
         android:title="@string/menu_log_out"/>

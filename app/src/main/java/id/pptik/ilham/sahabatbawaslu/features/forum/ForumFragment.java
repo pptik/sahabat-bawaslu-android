@@ -35,6 +35,7 @@ import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsActivity;
 import id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
+import id.pptik.ilham.sahabatbawaslu.features.profile.ProfileUserActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
@@ -332,9 +333,11 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                         startActivity(intentLeaderboard);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    /*case R.id.pop_up_edit_profile_slidingtab:
-                        Toast.makeText(getContext(), "Edit Profile menu clicked", Toast.LENGTH_SHORT).show();
-                        return true;*/
+                    case R.id.pop_up_profile_user:
+                        Intent intentProfileUser = new Intent(getContext(), ProfileUserActivity.class);
+                        startActivity(intentProfileUser);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
                     case R.id.pop_up_log_out_slidingtab:
                         sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
