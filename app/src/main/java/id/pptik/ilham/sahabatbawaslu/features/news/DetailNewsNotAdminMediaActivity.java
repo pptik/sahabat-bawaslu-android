@@ -4,13 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
-import android.support.annotation.ArrayRes;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,15 +34,13 @@ import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
-import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
-import id.pptik.ilham.sahabatbawaslu.networks.pojos.LoginPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
+public class DetailNewsNotAdminMediaActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.content_post_nonadmin_text)TextView textViewContentPostNonAdminText;
     @BindView(R.id.username)TextView textViewUsername;
@@ -62,6 +60,8 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.swipeRefreshRecycler)SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.icon_numbers_upvote)ImageView iconNumbersUpvote;
     @BindView(R.id.icon_numbers_downvote)ImageView iconNumbersDownvote;
+    @BindView(R.id.linearLayoutFlexibleEditText)LinearLayout linearLayoutFlexibleEditText;
+
     String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
@@ -91,7 +91,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_news_not_admin_text);
+        setContentView(R.layout.activity_detail_news_not_admin_media);
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
 
@@ -143,6 +143,8 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         //Menampilkan daftar komentar
         //commentList(contentId,access_token);
 
+
+
     }
 
     private void contentRequest(final String contentId){
@@ -164,7 +166,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
             public void onResponse(Call<NewsPOJO> call, Response<NewsPOJO> response) {
                 NewsPOJO newsPOJO = response.body();
                 if (newsPOJO.getSuccess() != true){
-                    Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailNewsNotAdminMediaActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
                 }
 
                 //Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
@@ -238,6 +240,24 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
                         gamifikasiAksiRespon(contentId,3,2,title,access_token);
                     }
                 });
+
+                //Menampilkan gambar
+                linearLayoutFlexibleEditText.removeAllViews();
+                for(int counter=0;counter<newsPOJO.getResults().getFiles().size();counter++){
+                    /*final EditText editTextHashtag = new EditText(DetailNewsNotAdminMediaActivity.this);
+                    editTextHashtag.setId(0);
+                    editTextHashtag.setHint(R.string.tuliskan_hashtag_label);*/
+
+                    final ImageView imageView = new ImageView(DetailNewsNotAdminMediaActivity.this);
+                    imageView.setId(counter);
+                    imageView.setImageDrawable(null);
+                    imageView.setMaxHeight(600);
+                    imageView.setMinimumHeight(550);
+                    imageView.setMaxWidth(450);
+                    imageView.setMinimumWidth(400);
+                    Glide.with(imageView.getContext()).load(newsPOJO.getResults().getFiles().get(counter).getHttpPath()).into(imageView);
+                    linearLayoutFlexibleEditText.addView(imageView);
+                }
 
                 commentList(contentId, access_token);
                 progressDialog.setProgress(100);
@@ -360,7 +380,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 VotePOJO votePOJO = response.body();
-                Toast.makeText(DetailNewsNotAdminTextActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailNewsNotAdminMediaActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                 if (!votePOJO.getRc().equals("0050")){
                     switch(activityCode){
                         case 2:
@@ -386,7 +406,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<VotePOJO> call, Throwable t) {
-                Toast.makeText(DetailNewsNotAdminTextActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailNewsNotAdminMediaActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

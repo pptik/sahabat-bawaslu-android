@@ -47,4 +47,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'org.sufficientlysecure:html-textview:3.5'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+
 }

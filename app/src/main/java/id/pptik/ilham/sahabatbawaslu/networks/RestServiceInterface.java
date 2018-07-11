@@ -1,16 +1,21 @@
 package id.pptik.ilham.sahabatbawaslu.networks;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsMediaPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddSubCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardV2POJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumsListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.LeaderboardPOJO;
@@ -25,7 +30,10 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzesUserAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.UploadImagePOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -33,7 +41,10 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import com.google.gson.JsonObject;
 
 /**
  * Created by Ilham on 01/03/18.
@@ -125,6 +136,23 @@ public interface RestServiceInterface {
     @POST("news/create/text")
     Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
                                      @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("news/create/activities2")
+    Call<AddNewsMediaPOJO> newsCreateMedia(@Field("Content") String content,
+                                           @Field ("Files") String files,
+                                           @Header("access_token") String access_token);
+
+    /*@FormUrlEncoded
+    @POST("news/create/activities2")
+    Call<AddNewsMediaPOJO> newsCreateMedia(@Field("Content") String content,
+                                           @FieldMap Map<String, JsonObject> files,
+                                           @Header("access_token") String access_token);*/
+
+    /*Call<AddForumPojo> createForum(@Field("Title") String title,
+                                   @FieldMap Map<String, String> hashtags,
+                                   @Header("access_token") String access_token);*/
+
     @FormUrlEncoded
     @POST("news/detail")
     Call<NewsPOJO> newsDetail(@Field("NewsID") String newsID,
@@ -206,4 +234,9 @@ public interface RestServiceInterface {
                                            @Field("NoAnswer") Integer NoAnswer,
                                            @Field("UserBiggestScore") Integer UserBiggestScore,
                                            @Header("access_token") String accessToken);
+
+    @Multipart
+    @POST("files/upload/image")
+    Call<UploadImagePOJO> uploadMedia(@Part MultipartBody.Part file);
+
 }

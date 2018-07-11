@@ -347,10 +347,13 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*Intent intent = new Intent(v.getContext(), SuplemenMaterialDetailActivity.class);
+                        Intent intent = new Intent(v.getContext(), DetailNewsNotAdminMediaActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(CONTENT_ID,contentId[position]);
+                        bundle.putString(TITLE,titlePost[position]);
+                        intent.putExtras(bundle);
                         v.getContext().startActivity(intent);
-                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
-                        //Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
+                        activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 });
                 holder.tvNumberUpvote.setVisibility(View.GONE);
@@ -390,9 +393,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
         holder.tvDatePost.setText(datePost[position]);
         holder.tvContentCode.setText(contentType[position]);
         holder.tvContentLabel.setText(contentText[position]);
+        if(contentText[position].equals("Forum")){
+            Log.d("FORUM TAG","TELAH TERJADI PENYESUAIAN FORUM");
+            holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase());
+        }else{
+            holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() + " " + contentText[position].toString().toLowerCase());
+        }
         holder.tvActivityLabel.setText(activityText[position]);
         //holder.tvActivityUsername.setText("Dummy");
-        holder.tvActivityUsername.setText(activityText[position].toString().toLowerCase() + " " + contentText[position].toString().toLowerCase());
+
         holder.ivUserpicture.setImageDrawable(null);
         Glide.with(holder.ivUserpicture.getContext()).load(userPictureProfile[position]).into(holder.ivUserpicture);
 

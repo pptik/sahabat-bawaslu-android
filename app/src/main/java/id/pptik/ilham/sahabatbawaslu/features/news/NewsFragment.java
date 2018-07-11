@@ -41,6 +41,7 @@ import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardV2POJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -267,9 +268,12 @@ public class NewsFragment extends Fragment {
                         downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                         favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                         newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                        //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        }else{
+                            newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        }
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
                             userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
@@ -351,9 +355,12 @@ public class NewsFragment extends Fragment {
                                 downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
                                 favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                                 newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                                //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
                                 contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                                newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                                if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                                    newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                                }else{
+                                    newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                                }
 
                             }
 
@@ -381,6 +388,8 @@ public class NewsFragment extends Fragment {
                     public void onFailure(Call<DashboardPOJO> call, Throwable t) {
 
                     }
+
+
                 });
             } else {
                 progressDialog.setProgress(100);
@@ -487,7 +496,11 @@ public class NewsFragment extends Fragment {
                         favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
                         newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                         //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
-                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        }else{
+                            newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        }
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
@@ -734,7 +747,8 @@ public class NewsFragment extends Fragment {
                         newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                         //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        //newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
                             userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
@@ -854,7 +868,7 @@ public class NewsFragment extends Fragment {
                         newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                         //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
                             userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,

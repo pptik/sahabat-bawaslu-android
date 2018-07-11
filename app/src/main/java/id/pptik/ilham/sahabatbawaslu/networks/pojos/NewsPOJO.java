@@ -48,6 +48,10 @@ public class NewsPOJO {
         @Expose
         private String createdAtFromNow;
 
+        @SerializedName("files")
+        @Expose
+        private List<File> files = null;
+
         @SerializedName("post_by")
         @Expose
         private PostBy postBy;
@@ -111,6 +115,74 @@ public class NewsPOJO {
             public String getDisplayPicture() {
                 return displayPicture;
             }
+        }
+
+        public class File {
+
+            @SerializedName("originalname")
+            @Expose
+            private String originalname;
+            @SerializedName("filename")
+            @Expose
+            private String filename;
+            @SerializedName("http_path")
+            @Expose
+            private String httpPath;
+            @SerializedName("type")
+            @Expose
+            private String type;
+            @SerializedName("size")
+            @Expose
+            private Integer size;
+
+            public String getOriginalname() {
+                return originalname;
+            }
+
+            public void setOriginalname(String originalname) {
+                this.originalname = originalname;
+            }
+
+            public String getFilename() {
+                return filename;
+            }
+
+            public void setFilename(String filename) {
+                this.filename = filename;
+            }
+
+            public String getHttpPath() {
+                return httpPath;
+            }
+
+            public void setHttpPath(String httpPath) {
+                this.httpPath = httpPath;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public Integer getSize() {
+                return size;
+            }
+
+            public void setSize(Integer size) {
+                this.size = size;
+            }
+
+        }
+
+        public List<File> getFiles() {
+            return files;
+        }
+
+        public void setFiles(List<File> files) {
+            this.files = files;
         }
 
         public String getContent() {
