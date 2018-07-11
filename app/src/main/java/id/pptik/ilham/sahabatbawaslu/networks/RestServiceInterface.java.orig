@@ -31,8 +31,11 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzesUserAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+<<<<<<< HEAD
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.UploadImagePOJO;
+=======
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.UserLogsPOJO;
+>>>>>>> ca79b12b93a9d5fd48fe28a4de2be189aeb20b55
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -237,11 +240,11 @@ public interface RestServiceInterface {
                                            @Field("UserBiggestScore") Integer UserBiggestScore,
                                            @Header("access_token") String accessToken);
 
+<<<<<<< HEAD
     @Multipart
     @POST("files/upload/image")
     Call<UploadImagePOJO> uploadMedia(@Part MultipartBody.Part file);
-
-
+=======
     //user profile
     @FormUrlEncoded
     @POST("users/profile")
@@ -251,5 +254,6 @@ public interface RestServiceInterface {
     @FormUrlEncoded
     @POST("users/personal/logactivity")
     Call<UserLogsPOJO> userlogs(@Header("access_token") String access_token, @Field("sembarangajaapa") String test);
+>>>>>>> ca79b12b93a9d5fd48fe28a4de2be189aeb20b55
 
 }

@@ -5,13 +5,11 @@
     <!--<item android:id="@+id/pop_up_sort"
         android:title="@string/menu_sort"/>-->
     <!--<item android:id="@+id/pop_up_notifikasi"
-        android:title="@string/menu_notification"/>
-    <item android:id="@+id/pop_up_quiz"
-        android:title="@string/menu_quiz"/>-->
+        android:title="@string/menu_notification"/>-->
     <item android:id="@+id/pop_up_leaderboard"
         android:title="@string/menu_leaderboard"/>
-    <item android:id="@+id/pop_up_edit_profile_slidingtab"
-        android:title="@string/menu_profile"/>
+    <!--<item android:id="@+id/pop_up_edit_profile_slidingtab"
+        android:title="@string/menu_profile"/>-->
     <item android:id="@+id/pop_up_log_out_slidingtab"
         android:title="@string/menu_log_out"/>
 
