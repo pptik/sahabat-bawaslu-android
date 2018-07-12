@@ -27,16 +27,22 @@ public class NotificationService extends FirebaseMessagingService {
     private final String TAG = this.getClass().getSimpleName();
     private Context context;
     private NotificationUtils mNotificationUtils;
-    BroadcastManager broadcastManager = new BroadcastManager(App.getContext());
+    //BroadcastManager broadcastManager = new BroadcastManager(App.getContext());
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        //Log.i(TAG, remoteMessage.getNotification().getBody());
+        Log.i(TAG, remoteMessage.getNotification().getTitle());
         Log.i(TAG, remoteMessage.getNotification().getBody());
-        broadcastManager.sendBroadcastToUI(App.ACTION_NOTIF_INFO,
+        //Log.i(TAG, remoteMessage.getNotification().getTag());
+        //Log.i(TAG, remoteMessage.getMessageType());
+        //Log.i(TAG, Integer.toString(remoteMessage.getTtl()));
+
+        /*broadcastManager.sendBroadcastToUI(App.ACTION_NOTIF_INFO,
                 remoteMessage.getData().get("trip_id"));
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.putExtra(App.INTENT_ITEM_ID, remoteMessage.getData().get("task_id"));
-        /*
+
         switch (remoteMessage.getData().get("type")) {
             case Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_STATUS:
                 broadcastManager.sendBroadcastToUI(Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_STATUS,
@@ -54,11 +60,11 @@ public class NotificationService extends FirebaseMessagingService {
         }*/
 
 
-        if (App.getTinyDB().getBoolean(App.IS_LOGGED_IN)) {
+        /*if (App.getTinyDB().getBoolean(App.IS_LOGGED_IN)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 oreoNotif(remoteMessage, intent);
             } else showNotification(remoteMessage, intent);
-        } else Log.i("FCM SERVICE", "USER IS NOT LOGGED IN");
+        } else Log.i("FCM SERVICE", "USER IS NOT LOGGED IN");*/
 
     }
 
