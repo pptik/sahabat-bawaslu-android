@@ -67,8 +67,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private String roleUser;
     SharedPreferences sharedPreferences;
     ProgressDialog progressDialog;
-    /*private int skip = 5;
-    private boolean loadMore = true;*/
+    private int skip = 5;
+    private boolean loadMore = true;
 
     public LearningFragment() {
         setHasOptionsMenu(true);
@@ -116,12 +116,10 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
 
-
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
                 if (itemCount - pos == 1) {
-                    //getMaterialsListScrolled(access_token, view.getContext(), 0, itemCount);
-
+                    getMaterialsListScrolled(access_token, view.getContext(), skip, itemCount);
                 }
             }
 
@@ -155,10 +153,11 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void getMaterialsList(String accessToken,final Context context, int skipParam){
-        //skip = 5;
-        //loadMore = true;
+        skip = 5;
+        loadMore = true;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setProgress(0);
         progressDialog.show();
 
@@ -237,17 +236,25 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     private void getMaterialsListScrolled(String accessToken, final Context context, final int skipParam, final int itemCount){
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setProgress(0);
         progressDialog.show();
 
         if(RestServiceClass.isNetworkAvailable(getContext())){
-            //if (loadMore) {
-            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(0,accessToken);
+            if (loadMore) {
+            Call<MaterialsListPOJO> callMaterialsList = restServiceInterface.materialsList(skipParam,accessToken);
             callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+
+                    MaterialsListPOJO materialsListPOJO = response.body();
+
+                    if(materialsListPOJO.getResults().size() == 0){
+                        loadMore = false;
+                    }else{
+
                     //Adapter
-                    LearningRecyclerView.materialTypeList.clear();
+                    /*LearningRecyclerView.materialTypeList.clear();
                     LearningRecyclerView.datePostList.clear();
                     LearningRecyclerView.materialIdList.clear();
                     LearningRecyclerView.descList.clear();
@@ -256,9 +263,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     LearningRecyclerView.downVoteNumbersList.clear();
                     LearningRecyclerView.commentNumbersList.clear();
                     LearningRecyclerView.favoriteNumbersList.clear();
-
+*/
                     //Fragment
-                    authors.clear();
+                   /* authors.clear();
                     datePosts.clear();
                     descs.clear();
                     titles.clear();
@@ -266,9 +273,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     downVotes.clear();
                     comments.clear();
                     favorites.clear();
-                    materialIds.clear();
+                    materialIds.clear();*/
 
-                    MaterialsListPOJO materialsListPOJO = response.body();
+
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                         authors.add(materialsListPOJO.getResults().get(materi).getType());
                         datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
@@ -288,8 +295,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
 
                     mRecyclerView.scrollToPosition(itemCount - 1);
 
-                    //skip = skip + 5;
+                    skip = skip + 5;
 
+                    }
                     progressDialog.setProgress(100);
                     progressDialog.dismiss();
                 }
@@ -299,10 +307,10 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     Log.d("RETROFIT ERROR","ERROR: "+t.toString());
                 }
             });
-            /*}else {
+            }else {
                 progressDialog.setProgress(100);
                 progressDialog.dismiss();
-            }*/
+            }
         }else{
             progressDialog.setProgress(100);
             progressDialog.dismiss();
@@ -322,7 +330,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void searchMaterialsList(String query, String accessToken){
-        //skip = 5;
+        skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -567,7 +575,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
     }
 
     private void sortByCategoryREST(int code) {
-        //skip = 5;
+        skip = 5;
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);

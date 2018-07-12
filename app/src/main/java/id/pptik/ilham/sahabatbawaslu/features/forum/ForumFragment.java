@@ -70,6 +70,8 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     private SwipeRefreshLayout swipeRefreshRecycler;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
+    private int skip = 5;
+    private boolean loadMore = true;
 
     public ForumFragment() {
         setHasOptionsMenu(true);
@@ -78,7 +80,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_forum, container, false);
+        final View view = inflater.inflate(R.layout.fragment_forum, container, false);
         progressDialog = new ProgressDialog(view.getContext());
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab_tambah_forum);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -113,11 +115,57 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                 swipeRefreshRecycler.setRefreshing(false);
             }
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
+
+                int itemCount = mLayoutManager.getItemCount();
+                int pos = layoutManager.findLastCompletelyVisibleItemPosition();
+                if (itemCount - pos == 1) {
+                    getForumsListScrolled(access_token, skip, itemCount);
+                }
+            }
+
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                return super.equals(obj);
+            }
+
+            @Override
+            protected Object clone() throws CloneNotSupportedException {
+                return super.clone();
+            }
+
+            @Override
+            public String toString() {
+                return super.toString();
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+            }
+        });
         return view;
 
     }
 
     private void getForumsList(String accessToken){
+        skip = 5;
+        loadMore = true;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
@@ -196,7 +244,105 @@ public class ForumFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    private void getForumsListScrolled(String accessToken,final int skipParam, final int itemCount){
+        progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgress(0);
+        progressDialog.show();
+
+        if(RestServiceClass.isNetworkAvailable(getContext())){
+            if (loadMore) {
+
+            Call<ForumsListPOJO> callForumsList = restServiceInterface.forumsList(skipParam,accessToken);
+            callForumsList.enqueue(new Callback<ForumsListPOJO>() {
+                @Override
+                public void onResponse(Call<ForumsListPOJO> call, Response<ForumsListPOJO> response) {
+                    //Fragment
+                    /*datePosts.clear();
+                    hashtag.clear();
+                    titles.clear();
+                    upVotes.clear();
+                    downVotes.clear();
+                    favorites.clear();
+                    forumId.clear();*/
+
+                    //Adapter
+                    /*ForumRecyclerView.materialTypeList.clear();
+                    ForumRecyclerView.datePostList.clear();
+                    ForumRecyclerView.hashtagList.clear();
+                    ForumRecyclerView.titleList.clear();
+                    ForumRecyclerView.forumIdList.clear();
+                    ForumRecyclerView.upVoteNumbersList.clear();
+                    ForumRecyclerView.downVoteNumbersList.clear();
+                    ForumRecyclerView.commentNumbersList.clear();
+                    ForumRecyclerView.favoriteNumbersList.clear();*/
+
+                    ForumsListPOJO forumsListPOJO = response.body();
+
+                    if(forumsListPOJO.getResults().size() == 0){
+                        loadMore = false;
+                    }else{
+
+
+                    for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
+                        datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
+                        for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getTags().size();hashtag++){
+                            hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getTags().get(hashtag)+" ");
+                        }
+                        hashtag.add(hashtagStringBuilder.toString());
+                        titles.add(forumsListPOJO.getResults().get(forum).getTitle());
+                        upVotes.add(forumsListPOJO.getResults().get(forum).getUpvote());
+                        downVotes.add(forumsListPOJO.getResults().get(forum).getDownvote());
+                        comments.add(forumsListPOJO.getResults().get(forum).getComment());
+                        favorites.add(forumsListPOJO.getResults().get(forum).getFavorite());
+                        forumId.add(forumsListPOJO.getResults().get(forum).getId());
+                        //Clear String hashtag Builder
+                        hashtagStringBuilder = new StringBuilder();
+                    }
+
+                    mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,favorites,upVotes,downVotes,comments,getActivity());
+                    mAdapter.notifyDataSetChanged();
+                    mRecyclerView.setAdapter(mAdapter);
+
+                    mRecyclerView.scrollToPosition(itemCount - 1);
+
+                    skip = skip + 5;
+                    }
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure(Call<ForumsListPOJO> call, Throwable t) {
+
+                }
+            });
+            }else {
+                progressDialog.setProgress(100);
+                progressDialog.dismiss();
+            }
+        }else{
+            progressDialog.setProgress(100);
+            progressDialog.dismiss();
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            alertDialog.setMessage(R.string.pastikan_internet_label)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        }
+                    }).show();
+        }
+    }
+
     private void searchForumsList(String query,String accessToken, Context context){
+        skip = 5;
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setProgress(0);
