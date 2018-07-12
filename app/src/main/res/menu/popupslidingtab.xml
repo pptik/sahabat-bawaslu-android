@@ -8,12 +8,7 @@
         android:title="@string/menu_notification"/>-->
     <item android:id="@+id/pop_up_leaderboard"
         android:title="@string/menu_leaderboard"/>
-<<<<<<< HEAD
-    <item android:id="@+id/pop_up_edit_profile_slidingtab"
-=======
-    <item android:id="@+id/pop_up_profile_user"
->>>>>>> ca79b12b93a9d5fd48fe28a4de2be189aeb20b55
-        android:title="@string/menu_profile"/>
+
     <item android:id="@+id/pop_up_log_out_slidingtab"
         android:title="@string/menu_log_out"/>
 

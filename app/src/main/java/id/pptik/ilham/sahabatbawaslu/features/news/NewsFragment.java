@@ -128,6 +128,10 @@ public class NewsFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
+        final String fcmId = sharedPreferences.getString("fcmId", "abcde");
+
+        Log.d("User",fcmId);
+
         getNewsList(access_token, view.getContext(), 0);
 
         swipeRefreshRecycler = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshRecycler);

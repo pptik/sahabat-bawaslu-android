@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "298350047241",
+    "firebase_url": "https://braapp-1f824.firebaseio.com",
+    "project_id": "braapp-1f824",
+    "storage_bucket": "braapp-1f824.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298350047241:android:a776da349028ad6f",
+        "android_client_info": {
+          "package_name": "id.pptik.ilham.sahabatbawaslu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298350047241-oob5gtd591nm7misa0cinrv5tp4rrpfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.pptik.ilham.sahabatbawaslu",
+            "certificate_hash": "93080c4d8847d949f29f645a817eba285ac7e87b"
+          }
+        },
+        {
+          "client_id": "298350047241-ebo2rq9nv4es3q6r1emh5o0qf8gnknho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIElFnCN5IhHNRFxJCWWMVahukH7y-DbI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298350047241-ebo2rq9nv4es3q6r1emh5o0qf8gnknho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
