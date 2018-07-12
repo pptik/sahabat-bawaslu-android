@@ -15,6 +15,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,12 +34,19 @@ import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicFragment;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
+import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.UpdateFCMIdPOJO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     @BindView(R.id.toolbar)Toolbar toolbar;
     SlidingTabLayout slidingTabLayout;
     ViewPager viewPager;
     SharedPreferences sharedPreferences;
+    public RestServiceInterface restServiceInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +103,28 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
             }
         });
 
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
+        final String access_token = sharedPreferences.getString("accessToken", "abcde");
+
+        //Update FCM to DB
+        final String fcmId = sharedPreferences.getString("fcmId", "abcde");
+        Log.d("FCM on News Fragment",fcmId);
+
+        restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+        Call<UpdateFCMIdPOJO> updateFCMIdPOJOCall = restServiceInterface.updateFCMId(access_token,fcmId);
+        updateFCMIdPOJOCall.enqueue(new Callback<UpdateFCMIdPOJO>() {
+            @Override
+            public void onResponse(Call<UpdateFCMIdPOJO> call, Response<UpdateFCMIdPOJO> response) {
+                UpdateFCMIdPOJO updateFCMIdPOJO = response.body();
+                Log.d("UPDATE FCM RESPONSE",updateFCMIdPOJO.getRm());
+            }
+
+            @Override
+            public void onFailure(Call<UpdateFCMIdPOJO> call, Throwable t) {
+                Log.e("UPDATE FCM RESPONSE",t.getLocalizedMessage());
+            }
+        });
     }
 
 

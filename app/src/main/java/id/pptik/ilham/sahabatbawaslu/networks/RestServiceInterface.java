@@ -31,6 +31,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzesUserAnswerPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.QuizzessListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.SignUpPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.UpdateFCMIdPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.UploadImagePOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.UserLogsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
@@ -251,5 +252,10 @@ public interface RestServiceInterface {
     @FormUrlEncoded
     @POST("users/personal/logactivity")
     Call<UserLogsPOJO> userlogs(@Header("access_token") String access_token, @Field("sembarangajaapa") String test);
+
+    //user profile
+    @FormUrlEncoded
+    @POST("users/update/fcmid")
+    Call<UpdateFCMIdPOJO> updateFCMId(@Header("access_token") String access_token, @Field("FCM_ID") String fcmId);
 
 }

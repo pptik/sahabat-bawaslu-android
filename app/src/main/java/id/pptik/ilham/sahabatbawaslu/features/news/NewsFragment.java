@@ -44,6 +44,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardV2POJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.MaterialsListPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.UpdateFCMIdPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,9 +129,7 @@ public class NewsFragment extends Fragment {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken", "abcde");
 
-        final String fcmId = sharedPreferences.getString("fcmId", "abcde");
 
-        Log.d("User",fcmId);
 
         getNewsList(access_token, view.getContext(), 0);
 
@@ -637,6 +636,11 @@ public class NewsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.pop_up_profile_user:
+                        Intent intentProfileUser = new Intent(getContext(), ProfileUserActivity.class);
+                        startActivity(intentProfileUser);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
                     /*case R.id.pop_up_notifikasi:
                         Intent intent = new Intent(getContext(), NotificationActivity.class);
                         startActivity(intent);
@@ -645,11 +649,6 @@ public class NewsFragment extends Fragment {
                     case R.id.pop_up_leaderboard:
                         Intent intentLeaderboard = new Intent(getContext(), LeaderboardActivity.class);
                         startActivity(intentLeaderboard);
-                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        return true;
-                    case R.id.pop_up_profile_user:
-                        Intent intentProfileUser = new Intent(getContext(), ProfileUserActivity.class);
-                        startActivity(intentProfileUser);
                         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
                     case R.id.pop_up_log_out_slidingtab:
