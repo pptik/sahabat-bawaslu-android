@@ -1,6 +1,7 @@
 package id.pptik.ilham.sahabatbawaslu.networks.firebase;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -14,6 +15,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 
+import id.pptik.ilham.sahabatbawaslu.features.dashboard.DashboardActivity;
+import id.pptik.ilham.sahabatbawaslu.features.learning.FileManagerDownloadActivity;
 import id.pptik.ilham.sahabatbawaslu.networks.firebase.App;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
@@ -32,61 +35,41 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //Log.i(TAG, remoteMessage.getNotification().getBody());
-        Log.i(TAG, remoteMessage.getNotification().getTitle());
-        Log.i(TAG, remoteMessage.getNotification().getBody());
-        //Log.i(TAG, remoteMessage.getNotification().getTag());
-        //Log.i(TAG, remoteMessage.getMessageType());
-        //Log.i(TAG, Integer.toString(remoteMessage.getTtl()));
-
-        /*broadcastManager.sendBroadcastToUI(App.ACTION_NOTIF_INFO,
-                remoteMessage.getData().get("trip_id"));
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        intent.putExtra(App.INTENT_ITEM_ID, remoteMessage.getData().get("task_id"));
-
-        switch (remoteMessage.getData().get("type")) {
-            case Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_STATUS:
-                broadcastManager.sendBroadcastToUI(Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_STATUS,
-                        remoteMessage.getData().get("trip_id"));
-                intent = new Intent(getApplicationContext(), DetailImageActivity.class);
-                intent.putExtra(Prefs.INTENT_TRIP_ID, remoteMessage.getData().get("trip_id"));
-                break;
-            case Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_MESSAGE:
-                broadcastManager.sendBroadcastToUI(Prefs.NOTIFICATION_TYPE_ANGKOT_CHARTER_MESSAGE,
-                        remoteMessage.getData().get("trip_id"));
-                intent = new Intent(getApplicationContext(), DetailImageActivity.class);
-                //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra(Prefs.INTENT_TRIP_ID, remoteMessage.getData().get("trip_id"));
-                intent.putExtra(Prefs.INTENT_ANGKOT_TRIP_WITH_MESSAGE, true);
-        }*/
-
-
-        /*if (App.getTinyDB().getBoolean(App.IS_LOGGED_IN)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                oreoNotif(remoteMessage, intent);
-            } else showNotification(remoteMessage, intent);
-        } else Log.i("FCM SERVICE", "USER IS NOT LOGGED IN");*/
+        Log.i("Tipe notif", remoteMessage.getData().get("type"));
+        showNotification(remoteMessage.getNotification().getTitle(),
+                remoteMessage.getNotification().getBody(),
+                remoteMessage.getData().get("type"));
 
     }
 
 
-    private void showNotification(RemoteMessage remoteMessage, Intent intent) {
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addNextIntentWithParentStack(intent);
-        PendingIntent contentIntent = stackBuilder
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder b = new NotificationCompat.Builder(getApplicationContext());
-        b.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setTicker("Bin Client")
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getBody())
-                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                .setContentIntent(contentIntent)
-                .setContentInfo("Notif");
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify((int) Math.random(), b.build());
+    private void showNotification(String title, String content, String type) {
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("default",
+                    "YOUR_CHANNEL_NAME",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DISCRIPTION");
+            mNotificationManager.createNotificationChannel(channel);
+        }
+
+        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+        //mBuilder.setContentIntent(pi);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
+                .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+                .setContentTitle(title) // title for notification
+                .setContentText(content)// message for notification
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setContentIntent(pi)
+                .setAutoCancel(true); // clear notification after click
+
+        mNotificationManager.notify(0, mBuilder.build());
+
     }
 
 

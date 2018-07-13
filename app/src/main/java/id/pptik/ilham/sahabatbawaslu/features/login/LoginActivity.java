@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Snackbar snackbar;
     public static final String SessionPengguna = "User";
-    public static final String FlagPengguna = "FlagPengguna";
+    public static final String FlagPengguna = "flag";
     private SharedPreferences sharedPreferences;
 
     @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
@@ -46,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences(SessionPengguna, MODE_PRIVATE);
-
-
 
         Intent intent = null;
         if(sharedPreferences.contains(FlagPengguna)){
@@ -118,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("accessToken", loginPOJO.getResults().getAccess_token().toString());
                         editor.putString("userId", loginPOJO.getResults().getId().toString());
                         editor.putString("role", Integer.toString(loginPOJO.getResults().getRole()));
+                        editor.putString("flag", "existing");
                         editor.commit();
 
                         progressDialog.setProgress(100);
