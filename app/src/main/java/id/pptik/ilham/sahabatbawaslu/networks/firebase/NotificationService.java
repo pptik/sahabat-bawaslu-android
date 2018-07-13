@@ -54,10 +54,22 @@ public class NotificationService extends FirebaseMessagingService {
             channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DISCRIPTION");
             mNotificationManager.createNotificationChannel(channel);
         }
+        PendingIntent pi = null;
 
-        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
-        //mBuilder.setContentIntent(pi);
+        if(type.equals("Berita")){
+            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+            intent.putExtra("tabPosition", 0); //tab position to open
+            pi = PendingIntent.getActivity(this, 0, intent, 0);
+        }else if(type.equals("Materi")){
+            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+            intent.putExtra("tabPosition", 1); //tab position to open
+            pi = PendingIntent.getActivity(this, 0, intent, 0);
+        }else if(type.equals("Forum")){
+            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+            intent.putExtra("tabPosition", 2); //tab position to open
+            pi = PendingIntent.getActivity(this, 0, intent, 0);
+        }
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
                 .setSmallIcon(R.mipmap.ic_launcher) // notification icon

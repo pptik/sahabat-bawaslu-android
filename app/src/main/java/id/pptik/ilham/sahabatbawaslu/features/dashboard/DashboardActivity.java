@@ -125,6 +125,20 @@ public class DashboardActivity extends AppCompatActivity implements PopupMenu.On
                 Log.e("UPDATE FCM RESPONSE",t.getLocalizedMessage());
             }
         });
+
+        //If there is any tabPosition putExtra
+        int i = -1;
+        if(getIntent() != null) {
+            i = getIntent().getIntExtra("tabPosition", -1);
+        }
+        if(i == 0) {
+            viewPager.setCurrentItem(0);
+        }else if(i == 1){
+            viewPager.setCurrentItem(1);
+        }else if(i == 2){
+            viewPager.setCurrentItem(2);
+        }
+
     }
 
 
