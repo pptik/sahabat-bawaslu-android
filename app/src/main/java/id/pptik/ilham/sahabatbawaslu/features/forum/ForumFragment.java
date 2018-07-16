@@ -196,7 +196,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                     ForumRecyclerView.commentNumbersList.clear();
                     ForumRecyclerView.favoriteNumbersList.clear();
 
-                    ForumsListPOJO forumsListPOJO = response.body();
+                   /* ForumsListPOJO forumsListPOJO = response.body();
                     for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
                         datePosts.add(forumsListPOJO.getResults().get(forum).getCreatedAtFromNow());
                         for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getTags().size();hashtag++){
@@ -215,7 +215,7 @@ public class ForumFragment extends android.support.v4.app.Fragment {
 
                     mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,favorites,upVotes,downVotes,comments,getActivity());
                     mAdapter.notifyDataSetChanged();
-                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setAdapter(mAdapter);*/
 
                     progressDialog.setProgress(100);
                     progressDialog.dismiss();
