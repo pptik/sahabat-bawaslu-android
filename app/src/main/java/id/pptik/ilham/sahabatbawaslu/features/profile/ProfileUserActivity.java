@@ -79,6 +79,11 @@ public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.
                     case 1:
                         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                         getSupportActionBar().setTitle("Log Aktivitas");
+                        break;
+                    case 2:
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                        getSupportActionBar().setTitle("Log Aktivitas");
+                        break;
                 }
             }
 
