@@ -50,7 +50,6 @@ public class UserLogRecyclerView extends RecyclerView.Adapter<UserLogRecyclerVie
     }
 
     public UserLogRecyclerView(List<String> useractivitieslogParam, List<String> dateuseractivitieslogParam,List<Integer> contentcodeparam,Activity activity) {
-        Log.d("disini","boy");
         this.activity = activity;
         userActivitiesList = useractivitieslogParam;
         dateuseractivitiesList = dateuseractivitieslogParam;

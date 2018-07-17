@@ -44,13 +44,14 @@ import id.pptik.ilham.sahabatbawaslu.features.forum.ForumFragment;
 import id.pptik.ilham.sahabatbawaslu.features.learning.LearningFragment;
 import id.pptik.ilham.sahabatbawaslu.features.news.NewsFragment;
 import id.pptik.ilham.sahabatbawaslu.features.profile.ProfileActivitiesLogFragment;
+import id.pptik.ilham.sahabatbawaslu.features.profile.ProfileTeamListFragment;
 import id.pptik.ilham.sahabatbawaslu.features.profile.ProfileUserFragment;
 
 
 public class SlidingTabsBasicProfileUserFragment extends FragmentPagerAdapter {
 
     private Context context;
-    public int[] titleIcon = {R.drawable.baseline_face_white_18dp,R.drawable.baseline_history_white_18dp};
+    public int[] titleIcon = {R.drawable.baseline_face_white_18dp,R.drawable.baseline_history_white_18dp,R.drawable.baseline_group_white_18dp};
     private int tinggiIcon;
 
     public SlidingTabsBasicProfileUserFragment(FragmentManager fm, Context c) {
@@ -70,6 +71,8 @@ public class SlidingTabsBasicProfileUserFragment extends FragmentPagerAdapter {
             fragment = new ProfileUserFragment();
         }else if (position==1){
             fragment=new ProfileActivitiesLogFragment();
+        } else if (position==2){
+            fragment=new ProfileTeamListFragment();
         }
 
         //Bundle b = new Bundle();
