@@ -45,8 +45,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import android.Manifest;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.NewsInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddNewsBinding;
@@ -77,6 +84,7 @@ public class ProfileUserFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private static final int PICK_IMAGE = 7458;
     @BindView(R.id.user_profile_email)TextView textViewEmail;
     @BindView(R.id.user_profile_name)TextView textViewUsername;
     @BindView(R.id.user_profile_phone)TextView textViewPhone;
@@ -105,15 +113,37 @@ public class ProfileUserFragment extends Fragment {
         IButtonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), 100);
+            pickGalery();
 
             }
         });
         return view;
     }
+    void pickGalery() {
+        Dexter.withActivity(getActivity())
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).withListener(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if (report.areAllPermissionsGranted()) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), 100);
+                } else
+                    Toast.makeText(getActivity(), "Permisi dibutuhkan", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).check();
+    }
+
+
     private void getProfileDetail(String accessToken, final Context context, final String role) {
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
