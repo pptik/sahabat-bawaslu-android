@@ -5,6 +5,15 @@ android {
     defaultConfig {
         applicationId "id.pptik.ilham.sahabatbawaslu"
         minSdkVersion 19
+<<<<<<< HEAD
+        targetSdkVersion 26
+        versionCode 5
+        versionName "5"
+=======
+        targetSdkVersion 27
+        versionCode 4
+        versionName "4"
+>>>>>>> a63be02275f2353b0933bf2545fd27f11bf4aa74
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
