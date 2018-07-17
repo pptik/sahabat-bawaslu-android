@@ -754,7 +754,11 @@ public class NewsFragment extends Fragment {
                         //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
                         //newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
-                        newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        }else{
+                            newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        }
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
                             userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
@@ -874,7 +878,11 @@ public class NewsFragment extends Fragment {
                         newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
                         //newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(item).getHttpPath());
                         contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                        }else{
+                            newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                        }
                     }
                     mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
                             userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,

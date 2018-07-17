@@ -39,6 +39,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.ForumDetailPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.NewsPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.VotePOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +59,9 @@ public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.user_picture)ImageView imageViewUserPicture;
     @BindView(R.id.fab_tambah_answer)FloatingActionButton floatingActionButtonTambahAnswer;
     @BindView(R.id.recycler_view_answer)RecyclerView recyclerViewAnswers;
+    @BindView(R.id.button_favorite)ImageView buttonFavorite;
+    @BindView(R.id.button_upvote)ImageView buttonUpvote;
+    @BindView(R.id.button_downvote)ImageView buttonDownvote;
 
     Intent intent;
     String contentId, accessToken;
@@ -122,28 +126,139 @@ public class DetailForumActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                contentRequest(contentId,accessToken);
                 answersList(contentId,accessToken);
                 swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        buttonFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId, 4,
+                        3, textViewContentForum.getText().toString(), accessToken);
+                voteAction.enqueue(new Callback<VotePOJO>() {
+                    @Override
+                    public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                        VotePOJO votePOJO = response.body();
+                        Toast.makeText(DetailForumActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                        if(votePOJO.getRc().equals("0000")){
+                            textViewNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                            //Log.d("JUMLAH FAV",Integer.toString(votePOJO.getResults().getFavorite()));
+                            gamifikasiAksiRespon(4, Integer.toString(votePOJO.getResults().getFavorite()),
+                                    textViewNumberUpvote.getText().toString(),textViewNumberDownvote.getText().toString());
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<VotePOJO> call, Throwable t) {
+                        Toast.makeText(DetailForumActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
+        buttonUpvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId, 2,
+                        3, textViewContentForum.getText().toString(), accessToken);
+                voteAction.enqueue(new Callback<VotePOJO>() {
+                    @Override
+                    public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                        VotePOJO votePOJO = response.body();
+                        Toast.makeText(DetailForumActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                        if(votePOJO.getRc().equals("0000")){
+                            textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                            //Log.d("JUMLAH FAV",Integer.toString(votePOJO.getResults().getFavorite()));
+                            gamifikasiAksiRespon(2, textViewNumberFavorite.getText().toString(),
+                                    Integer.toString(votePOJO.getResults().getUpvote()),textViewNumberDownvote.getText().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<VotePOJO> call, Throwable t) {
+                        Toast.makeText(DetailForumActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        buttonDownvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId, 3,
+                        3, textViewContentForum.getText().toString(), accessToken);
+                voteAction.enqueue(new Callback<VotePOJO>() {
+                    @Override
+                    public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
+                        VotePOJO votePOJO = response.body();
+                        Toast.makeText(DetailForumActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                        if(votePOJO.getRc().equals("0000")){
+                            textViewNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            //Log.d("JUMLAH FAV",Integer.toString(votePOJO.getResults().getFavorite()));
+                            gamifikasiAksiRespon(3, textViewNumberFavorite.getText().toString(),
+                                    textViewNumberUpvote.getText().toString(),Integer.toString(votePOJO.getResults().getDownvote()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<VotePOJO> call, Throwable t) {
+                        Toast.makeText(DetailForumActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
     private void contentRequest(final String contentId, String access_token){
-
+        Log.d("FORUM iD",contentId);
+        Log.d("FORUM Akses Token",access_token);
         Call<ForumDetailPOJO> forumDetailPOJOCall = restServiceInterface.detailForum(contentId,access_token);
         forumDetailPOJOCall.enqueue(new Callback<ForumDetailPOJO>() {
             @Override
             public void onResponse(Call<ForumDetailPOJO> call, Response<ForumDetailPOJO> response) {
                 ForumDetailPOJO forumDetailPOJO = response.body();
-                textViewUsername.setText(forumDetailPOJO.getResults().getPostBy().getUsername());
-                textViewContentForum.setText(forumDetailPOJO.getResults().getTitle());
-                textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAtFromNow());
-                textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
-                textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
-                textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
-                textViewNumberComment.setText(Integer.toString(forumDetailPOJO.getResults().getComment())+" Jawaban");
-                imageViewUserPicture.setImageDrawable(null);
-                Glide.with(imageViewUserPicture.getContext()).load(forumDetailPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                if(forumDetailPOJO.getSuccess()){
+                    textViewUsername.setText(forumDetailPOJO.getResults().getPostBy().getUsername());
+                    textViewContentForum.setText(forumDetailPOJO.getResults().getTitle());
+                    textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAtFromNow());
+                    textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
+                    textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
+                    textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
+                    textViewNumberComment.setText(Integer.toString(forumDetailPOJO.getResults().getComment())+" Jawaban");
+                    imageViewUserPicture.setImageDrawable(null);
+                    Glide.with(imageViewUserPicture.getContext()).load(forumDetailPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+
+                    //Gamifikasi status awal
+                    //buttonFavorite.setVisibility(View.GONE);
+                    if(forumDetailPOJO.getResults().getFavorited()){
+                        buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                    }else{
+                        buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                    }
+
+                    //buttonUpvote.setVisibility(View.GONE);
+                    if(forumDetailPOJO.getResults().getUpvoted()){
+                        buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    }else{
+                        buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    }
+
+                    //buttonDownvote.setVisibility(View.GONE);
+                    if(forumDetailPOJO.getResults().getDownvoted()){
+                        buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                    }else{
+                        buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }
+                }else{
+                    Toast.makeText(DetailForumActivity.this, forumDetailPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -197,6 +312,35 @@ public class DetailForumActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void gamifikasiAksiRespon(
+            final int activityCode,
+            String textNumberFavoriteParam,
+            String textNumberUpvoteParam,
+            String textNumberDownvoteParam
+    ) {
+
+        //Ganti status Front End response
+        switch (activityCode) {
+            case 2://upvote
+                buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                textViewNumberDownvote.setText(textNumberUpvoteParam);
+
+                break;
+            case 3://downvote
+                buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                textViewNumberDownvote.setText(textNumberDownvoteParam);
+
+                break;
+            case 4://favorite
+                buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                textViewNumberFavorite.setText(textNumberFavoriteParam);
+                break;
+        }
+
     }
 
     @Override
