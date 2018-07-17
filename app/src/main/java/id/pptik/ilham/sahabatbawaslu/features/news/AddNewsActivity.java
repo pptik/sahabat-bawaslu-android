@@ -1,5 +1,6 @@
 package id.pptik.ilham.sahabatbawaslu.features.news;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,11 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -211,19 +217,37 @@ public class AddNewsActivity extends AppCompatActivity {
     }
 
     private void addHashtagEditText(final int hashTagCounter, Context context) {
-        final TextView textViewPilihGambar = new TextView(context);
-        textViewPilihGambar.setId(hashTagCounter);
-        textViewPilihGambar.setHint(R.string.ketuk_melihat_galeri);
-        textViewPilihGambar.setOnClickListener(new View.OnClickListener() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).withListener(new MultiplePermissionsListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), 100);
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if (report.areAllPermissionsGranted()) {
+                    final TextView textViewPilihGambar = new TextView(getApplicationContext());
+                    textViewPilihGambar.setId(hashTagCounter);
+                    textViewPilihGambar.setHint(R.string.ketuk_melihat_galeri);
+                    textViewPilihGambar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), 100);
+                        }
+                    });
+                    linearLayoutFlexibleEditText.addView(textViewPilihGambar);
+                } else
+                    Toast.makeText(getApplicationContext(), "Permisi dibutuhkan", Toast.LENGTH_SHORT).show();
             }
-        });
-        linearLayoutFlexibleEditText.addView(textViewPilihGambar);
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).check();
+
     }
 
     private void uploadFile(Uri fileUri){
