@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,12 +51,9 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.text_numbers_upvote)TextView textNumbersUpvote;
     @BindView(R.id.text_numbers_downvote)TextView textNumbersDownvote;
     @BindView(R.id.button_unduh_materi)Button buttonUnduhMateri;
-    @BindView(R.id.button_favorite_suplemen)
-    ImageView imageButtonFavorite;
-    @BindView(R.id.button_upvote_suplemen)
-    ImageView imageButtonUpvote;
-    @BindView(R.id.button_downvote_suplemen)
-    ImageView imageButtonDownvote;
+    @BindView(R.id.button_favorite_suplemen)ImageView imageButtonFavorite;
+    @BindView(R.id.button_upvote_suplemen)ImageView imageButtonUpvote;
+    @BindView(R.id.button_downvote_suplemen)ImageView imageButtonDownvote;
     Bundle bundle;
     String materialId, accessToken, title;
     RestServiceInterface restServiceInterface;
@@ -63,6 +61,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
     Intent intent;
     Request request;
     Task task;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -90,7 +89,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         final retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(materialId,accessToken);
-        Log.d("DM","ID MATERI: "+materialId+" Akses Token: "+accessToken);
+
         materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
             @Override
             public void onResponse(Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
@@ -101,11 +100,33 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                 textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
                 textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));
 
+                //Inisial Gamikasi
+                Log.d("Fav status: ",Boolean.toString(materialDetailPOJO.getResults().getFavorited()));
+                if(materialDetailPOJO.getResults().getFavorited()){
+                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                }else{
+                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                }
+
+                //buttonUpvote.setVisibility(View.GONE);
+                if(materialDetailPOJO.getResults().getUpvoted()){
+                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                }else{
+                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                }
+
+                //buttonDownvote.setVisibility(View.GONE);
+                if(materialDetailPOJO.getResults().getDownvoted()){
+                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                }else{
+                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                }
+
                 //Gamifikasi event handler
                 imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(SuplemenMaterialDetailActivity.this, "ABCDE", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SuplemenMaterialDetailActivity.this, "ABCDE", Toast.LENGTH_SHORT).show();
                         gamifikasiAksiRespon(materialId,4,1,title,accessToken);
                     }
                 });
@@ -201,6 +222,151 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<MaterialDetailPOJO> call, Throwable t) {
                 Log.e("DM",t.getLocalizedMessage());
+            }
+        });
+
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshRecycler);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
+                final retrofit2.Call<MaterialDetailPOJO> materialDetail = restServiceInterface.materialDetail(materialId,accessToken);
+                materialDetail.enqueue(new Callback<MaterialDetailPOJO>() {
+                    @Override
+                    public void onResponse(Call<MaterialDetailPOJO> call, Response<MaterialDetailPOJO> response) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        final MaterialDetailPOJO materialDetailPOJO = response.body();
+                        titlePost.setText(materialDetailPOJO.getResults().getTitle());
+                        contentPost.setText(materialDetailPOJO.getResults().getDesc());
+                        textNumbersUpvote.setText(Integer.toString(materialDetailPOJO.getResults().getUpvote()));
+                        textNumbersDownvote.setText(Integer.toString(materialDetailPOJO.getResults().getDownvote()));
+                        textNumbersFavorite.setText(Integer.toString(materialDetailPOJO.getResults().getFavorite()));
+
+                        //Inisial Gamikasi
+                        Log.d("Fav status: ",Boolean.toString(materialDetailPOJO.getResults().getFavorited()));
+                        if(materialDetailPOJO.getResults().getFavorited()){
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                        }else{
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                        }
+
+                        //buttonUpvote.setVisibility(View.GONE);
+                        if(materialDetailPOJO.getResults().getUpvoted()){
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                        }else{
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                        }
+
+                        //buttonDownvote.setVisibility(View.GONE);
+                        if(materialDetailPOJO.getResults().getDownvoted()){
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                        }else{
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                        }
+
+                        //Gamifikasi event handler
+                        imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Toast.makeText(SuplemenMaterialDetailActivity.this, "ABCDE", Toast.LENGTH_SHORT).show();
+                                gamifikasiAksiRespon(materialId,4,1,title,accessToken);
+                            }
+                        });
+
+                        imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                gamifikasiAksiRespon(materialId,2,1,title,accessToken);
+                            }
+                        });
+
+                        imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                gamifikasiAksiRespon(materialId,3,1,title,accessToken);
+                            }
+                        });
+
+                        buttonUnduhMateri.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FileDownloader downloader = FileDownloader
+                                        .createBuilder()
+                                        .build();
+
+                                for (int item = 0; item <materialDetailPOJO.getResults().getFiles().size();item++){
+                                    request = Request
+                                            .createBuilder()
+                                            .url(materialDetailPOJO.getResults().getFiles().get(item).getHttp_path())
+                                            .build();
+                                    task = downloader.newTask(request);
+                                    final int finalItem = item;
+                                    task.enqueue(new DownloadListener() {
+                                        @Override
+                                        public void onStart(Request request) {
+
+                                        }
+
+                                        @Override
+                                        public void onProgress(Request request, long curBytes, long totalBytes) {
+                                            if(finalItem == 0){
+                                                showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_sedang_diunduh));
+                                                TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_sedang_diunduh), TSnackbar.LENGTH_LONG);
+                                                snackbar.setActionTextColor(Color.WHITE);
+                                                View snackbarView = snackbar.getView();
+                                                snackbarView.setBackgroundColor(Color.parseColor("#E37114"));
+                                                TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                                                textView.setTextColor(Color.WHITE);
+                                                snackbar.show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onPause(Request request) {
+
+                                        }
+
+                                        @Override
+                                        public void onRestart(Request request) {
+
+                                        }
+
+                                        @Override
+                                        public void onFinished(Request request) {
+                                            if(finalItem - materialDetailPOJO.getResults().getFiles().size() == -1){
+                                                showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_selesai_diunduh));
+                                                TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_selesai_diunduh), TSnackbar.LENGTH_LONG);
+                                                snackbar.setActionTextColor(Color.WHITE);
+                                                View snackbarView = snackbar.getView();
+                                                snackbarView.setBackgroundColor(Color.parseColor("#E37114"));
+                                                TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                                                textView.setTextColor(Color.WHITE);
+                                                snackbar.show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancel(Request request) {
+
+                                        }
+
+                                        @Override
+                                        public void onFailed(Request request, Exception e) {
+
+                                        }
+                                    });
+                                }
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<MaterialDetailPOJO> call, Throwable t) {
+                        Log.e("DM",t.getLocalizedMessage());
+                    }
+                });
+
             }
         });
 

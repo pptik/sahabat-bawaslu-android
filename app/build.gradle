@@ -6,6 +6,8 @@ android {
         applicationId "id.pptik.ilham.sahabatbawaslu"
         minSdkVersion 19
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 12
+        versionName "2.0"
     }
     buildTypes {
         release {

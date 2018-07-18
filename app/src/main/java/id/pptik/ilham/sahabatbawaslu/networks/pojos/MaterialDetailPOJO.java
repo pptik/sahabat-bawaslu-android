@@ -58,9 +58,22 @@ public class MaterialDetailPOJO {
         @Expose
         private int downvote;
 
+
         @SerializedName("favorite")
         @Expose
         private int favorite;
+
+        @SerializedName("upvoted")
+        @Expose
+        private Boolean upvoted;
+
+        @SerializedName("downvoted")
+        @Expose
+        private Boolean downvoted;
+
+        @SerializedName("favorited")
+        @Expose
+        private Boolean favorited;
 
         @SerializedName("title")
         @Expose
@@ -83,6 +96,7 @@ public class MaterialDetailPOJO {
         @Expose
         private List<Files> files = null;
 
+
         public List<Files> getFiles() {
             return files;
         }
@@ -99,6 +113,18 @@ public class MaterialDetailPOJO {
 
         public int getType() {
             return type;
+        }
+
+        public Boolean getUpvoted() {
+            return upvoted;
+        }
+
+        public Boolean getDownvoted() {
+            return downvoted;
+        }
+
+        public Boolean getFavorited() {
+            return favorited;
         }
 
         public String getTitle() {
