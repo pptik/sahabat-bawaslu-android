@@ -89,12 +89,33 @@ public class MaterialsListPOJO {
         @SerializedName("created_at")
         @Expose
         private String createdAt;
+        @SerializedName("upvoted")
+        @Expose
+        private Boolean upvoted;
+        @SerializedName("downvoted")
+        @Expose
+        private Boolean downvoted;
+        @SerializedName("favorited")
+        @Expose
+        private Boolean favorited;
         @SerializedName("created_at_from_now")
         @Expose
         private String createdAtFromNow;
         @SerializedName("updated_at")
         @Expose
         private List<Object> updatedAt = null;
+
+        public Boolean getUpvoted() {
+            return upvoted;
+        }
+
+        public Boolean getDownvoted() {
+            return downvoted;
+        }
+
+        public Boolean getFavorited() {
+            return favorited;
+        }
 
         public String getId() {
             return id;

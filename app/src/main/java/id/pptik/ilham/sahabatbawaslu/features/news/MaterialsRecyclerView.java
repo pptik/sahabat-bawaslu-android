@@ -431,7 +431,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
                     restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
                     final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 2,
-                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            1, titlePost[position], access_token);
                     voteAction.enqueue(new Callback<VotePOJO>() {
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
@@ -465,7 +465,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
                     restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
                     final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 2,
-                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            1, titlePost[position], access_token);
                     voteAction.enqueue(new Callback<VotePOJO>() {
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
@@ -501,17 +501,19 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
                     restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
                     final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 3,
-                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            1, titlePost[position], access_token);
                     voteAction.enqueue(new Callback<VotePOJO>() {
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                             VotePOJO votePOJO = response.body();
                             Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                            Log.d("DOWN",Integer.toString(votePOJO.getResults().getDownvote()));
-                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
-                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            holder.buttonDownvote.setClickable(false);
-                            holder.buttonUpvote.setClickable(true);
+                            if(votePOJO.getSuccess()) {
+                                Log.d("DOWN",Integer.toString(votePOJO.getResults().getDownvote()));
+                                holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                                holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                                holder.buttonDownvote.setClickable(false);
+                                holder.buttonUpvote.setClickable(true);
+                            }
                         }
 
                         @Override
@@ -534,7 +536,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
                     restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
                     final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 3,
-                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            1, titlePost[position], access_token);
                     voteAction.enqueue(new Callback<VotePOJO>() {
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
@@ -604,7 +606,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
                     restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
                     final Call<VotePOJO> voteAction = restServiceInterface.voteAction(contentId[position], 4,
-                            Integer.parseInt(contentType[position]), titlePost[position], access_token);
+                            1, titlePost[position], access_token);
                     voteAction.enqueue(new Callback<VotePOJO>() {
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {

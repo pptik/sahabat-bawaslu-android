@@ -396,6 +396,8 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                         case 2:
                             textNumbersUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
                             textNumbersDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                             /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
                             imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);*/
                             ;
@@ -403,6 +405,8 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                         case 3:
                             textNumbersUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
                             textNumbersDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                             /*imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                             imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);*/
                             ;
@@ -410,6 +414,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                         case 4:
                             //imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
                             //imageButtonFavorite.setClickable(false);
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
                             textNumbersFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
                             ;
                             break;
