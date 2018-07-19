@@ -90,6 +90,7 @@ public class ProfileUserFragment extends Fragment {
     @BindView(R.id.user_profile_phone)TextView textViewPhone;
     @BindView(R.id.profile_poin)TextView textViewPoin;
     @BindView(R.id.user_profile_photo)ImageButton IButtonPhoto;
+    @BindView(R.id.user_reference_code)TextView textViewRefCode;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
     public RestServiceInterface restServiceInterface;
@@ -159,8 +160,10 @@ public class ProfileUserFragment extends Fragment {
                     ProfilePOJO profilePOJO = response.body();
                     if (Integer.parseInt(role)==2){
                         textViewPoin.setText(profilePOJO.getResults().getPoin().toString());
+                        textViewRefCode.setVisibility(View.GONE);
                     }else {
                         textViewPoin.setText(profilePOJO.getResults().getLeaderPoin().toString());
+                        textViewRefCode.setText(profilePOJO.getResults().getReferenceCode().toString());
                     }
                     textViewEmail.setText(profilePOJO.getResults().getEmail());
                     textViewUsername.setText(profilePOJO.getResults().getUsername());
