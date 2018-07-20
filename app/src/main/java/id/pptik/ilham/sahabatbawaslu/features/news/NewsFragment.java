@@ -204,92 +204,113 @@ public class NewsFragment extends Fragment {
         progressDialog.show();
 
         if (RestServiceClass.isNetworkAvailable(context)) {
-            Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam, accessToken);
+            final Call<DashboardPOJO> dashboardPOJOCall = restServiceInterface.dashboard(skipParam, accessToken);
             dashboardPOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
-                    //Adapter
-                    MaterialsRecyclerView.usernameList.clear();
-                    MaterialsRecyclerView.datePostList.clear();
-                    MaterialsRecyclerView.titlePostList.clear();
-                    MaterialsRecyclerView.contentPostList.clear();
-                    MaterialsRecyclerView.userPictureProfileList.clear();
-                    MaterialsRecyclerView.newsMediaList.clear();
-                    MaterialsRecyclerView.textNumberFavoriteList.clear();
-                    MaterialsRecyclerView.textNumberDownvoteList.clear();
-                    MaterialsRecyclerView.textNumberUpvoteList.clear();
-                    MaterialsRecyclerView.textNumberCommentList.clear();
-                    MaterialsRecyclerView.newsTypeList.clear();
-                    MaterialsRecyclerView.activityCodeList.clear();
-                    MaterialsRecyclerView.contentIdList.clear();
-                    MaterialsRecyclerView.contentTypeList.clear();
-                    MaterialsRecyclerView.contentTextList.clear();
-                    MaterialsRecyclerView.activityTextList.clear();
-                    MaterialsRecyclerView.statusUpvoteList.clear();
-                    MaterialsRecyclerView.statusDownvoteList.clear();
-                    MaterialsRecyclerView.statusFavoriteList.clear();
-
-                    //Fragment
-                    username.clear();
-                    datePost.clear();
-                    contentPost.clear();
-                    userPicturePost.clear();
-                    contentType.clear();
-                    titlePost.clear();
-                    contentLabel.clear();
-                    activityLabel.clear();
-                    numberFavorite.clear();
-                    numberUpvote.clear();
-                    numberDownvote.clear();
-                    numberComments.clear();
-                    upvoteStatus.clear();
-                    downvoteStatus.clear();
-                    favoriteStatus.clear();
-                    upvoteStatus.clear();
-                    downvoteStatus.clear();
-                    favoriteStatus.clear();
-                    newsType.clear();
-                    newsMedia.clear();
-                    contentId.clear();
-                    activityType.clear();
-
                     DashboardPOJO dashboardPOJO = response.body();
-                    for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
-                        username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
-                        datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
-                        titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
-                        contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
-                        userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
-                        contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
-                        activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
-                        contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
-                        activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
-                        numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
-                        numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
-                        numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
-                        numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
-                        upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
-                        downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
-                        favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
-                        newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
-                        contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
-                        if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
-                            newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
-                        }else{
-                            newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+
+                    if (dashboardPOJO.getSuccess()){
+
+                        //Adapter
+                        MaterialsRecyclerView.usernameList.clear();
+                        MaterialsRecyclerView.datePostList.clear();
+                        MaterialsRecyclerView.titlePostList.clear();
+                        MaterialsRecyclerView.contentPostList.clear();
+                        MaterialsRecyclerView.userPictureProfileList.clear();
+                        MaterialsRecyclerView.newsMediaList.clear();
+                        MaterialsRecyclerView.textNumberFavoriteList.clear();
+                        MaterialsRecyclerView.textNumberDownvoteList.clear();
+                        MaterialsRecyclerView.textNumberUpvoteList.clear();
+                        MaterialsRecyclerView.textNumberCommentList.clear();
+                        MaterialsRecyclerView.newsTypeList.clear();
+                        MaterialsRecyclerView.activityCodeList.clear();
+                        MaterialsRecyclerView.contentIdList.clear();
+                        MaterialsRecyclerView.contentTypeList.clear();
+                        MaterialsRecyclerView.contentTextList.clear();
+                        MaterialsRecyclerView.activityTextList.clear();
+                        MaterialsRecyclerView.statusUpvoteList.clear();
+                        MaterialsRecyclerView.statusDownvoteList.clear();
+                        MaterialsRecyclerView.statusFavoriteList.clear();
+
+                        //Fragment
+                        username.clear();
+                        datePost.clear();
+                        contentPost.clear();
+                        userPicturePost.clear();
+                        contentType.clear();
+                        titlePost.clear();
+                        contentLabel.clear();
+                        activityLabel.clear();
+                        numberFavorite.clear();
+                        numberUpvote.clear();
+                        numberDownvote.clear();
+                        numberComments.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
+                        newsType.clear();
+                        newsMedia.clear();
+                        contentId.clear();
+                        activityType.clear();
+
+
+                        for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
+                            username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
+                            datePost.add(dashboardPOJO.getResults().get(item).getDashboard().getCreatedAt());
+                            titlePost.add(dashboardPOJO.getResults().get(item).getDashboard().getTitle());
+                            contentPost.add(dashboardPOJO.getResults().get(item).getDashboard().getSynopsis());
+                            userPicturePost.add(dashboardPOJO.getResults().get(item).getDashboard().getUserDetail().getDisplayPicture());
+                            contentLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getContentText());
+                            activityLabel.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityText());
+                            contentType.add(dashboardPOJO.getResults().get(item).getDashboard().getContent_code().toString());
+                            activityType.add(dashboardPOJO.getResults().get(item).getDashboard().getActivityCode());
+                            numberFavorite.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorite());
+                            numberUpvote.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvote());
+                            numberDownvote.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvote());
+                            numberComments.add(dashboardPOJO.getResults().get(item).getDashboard().getComment());
+                            upvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getUpvoted());
+                            downvoteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getDownvoted());
+                            favoriteStatus.add(dashboardPOJO.getResults().get(item).getDashboard().getFavorited());
+                            newsType.add(dashboardPOJO.getResults().get(item).getDashboard().getNewsType());
+                            contentId.add(dashboardPOJO.getResults().get(item).getDashboard().getId());
+                            if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                                newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                            }else{
+                                newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                            }
                         }
+                        mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
+                                userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
+                                numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
+                                newsType, newsMedia, contentId, activityType
+                        );
+                        //mAdapter.notifyDataSetChanged();
+
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
+
+                    }else{
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
+
+                        Toast.makeText(context, dashboardPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     }
-                    mAdapter = new MaterialsRecyclerView(username, datePost, contentPost,
-                            userPicturePost, contentType, titlePost, contentLabel, activityLabel, numberFavorite,
-                            numberUpvote, numberDownvote, numberComments, upvoteStatus, downvoteStatus, favoriteStatus, getActivity(),
-                            newsType, newsMedia, contentId, activityType
-                    );
-                    //mAdapter.notifyDataSetChanged();
-
-                    mRecyclerView.setAdapter(mAdapter);
-
-                    progressDialog.setProgress(100);
-                    progressDialog.dismiss();
                 }
 
                 @Override
@@ -340,6 +361,20 @@ public class NewsFragment extends Fragment {
                         if (dashboardPOJO.getResults().size() == 0) {
                             loadMore = false;
                         } else {
+                            if (!dashboardPOJO.getSuccess()){
+                                Toast.makeText(getActivity().getApplicationContext(), dashboardPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                                sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.commit();
+
+                                Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                getActivity().finish();
+                                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                            }
+
                             for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
 
                                 username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());
@@ -434,6 +469,21 @@ public class NewsFragment extends Fragment {
             dashboardSearchTitlePOJOCall.enqueue(new Callback<DashboardPOJO>() {
                 @Override
                 public void onResponse(Call<DashboardPOJO> call, Response<DashboardPOJO> response) {
+                    DashboardPOJO dashboardPOJO = response.body();
+                    if (!dashboardPOJO.getSuccess()){
+                        Toast.makeText(getActivity().getApplicationContext(), dashboardPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+
                     //Adapter
                     MaterialsRecyclerView.usernameList.clear();
                     MaterialsRecyclerView.datePostList.clear();
@@ -479,7 +529,7 @@ public class NewsFragment extends Fragment {
                     contentId.clear();
                     activityType.clear();
 
-                    DashboardPOJO dashboardPOJO = response.body();
+
 
                     for (int item = 0; item < dashboardPOJO.getResults().size(); item++) {
                         username.add(dashboardPOJO.getResults().get(item).getDashboard().getPostBy().getUsername());

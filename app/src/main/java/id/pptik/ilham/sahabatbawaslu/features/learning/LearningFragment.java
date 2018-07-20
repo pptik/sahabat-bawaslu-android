@@ -170,6 +170,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             callMaterialsList.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    MaterialsListPOJO materialsListPOJO = response.body();
+
+                    if (materialsListPOJO.getSuccess()){
                     //Adapter
                     LearningRecyclerView.materialTypeList.clear();
                     LearningRecyclerView.datePostList.clear();
@@ -195,7 +198,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     downvoteStatus.clear();
                     favoriteStatus.clear();
 
-                    MaterialsListPOJO materialsListPOJO = response.body();
+
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                         authors.add(materialsListPOJO.getResults().get(materi).getType());
                         datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
@@ -219,6 +222,22 @@ public class LearningFragment extends android.support.v4.app.Fragment {
 
                     progressDialog.setProgress(100);
                     progressDialog.dismiss();
+                    }else{
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
+
+                        Toast.makeText(context, materialsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
                 }
 
                 @Override
@@ -286,7 +305,19 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     favorites.clear();
                     materialIds.clear();*/
 
+                    if (!materialsListPOJO.getSuccess()){
+                        Toast.makeText(context, materialsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
 
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                         authors.add(materialsListPOJO.getResults().get(materi).getType());
                         datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
@@ -353,6 +384,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             callMaterialsSearchTitle.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    MaterialsListPOJO materialsListPOJO = response.body();
 
                     //Adapter
                     LearningRecyclerView.materialTypeList.clear();
@@ -376,7 +408,22 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     favorites.clear();
                     materialIds.clear();
 
-                    MaterialsListPOJO materialsListPOJO = response.body();
+
+
+                    if (!materialsListPOJO.getSuccess()){
+                        Toast.makeText(getActivity().getApplicationContext(), materialsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                         authors.add(materialsListPOJO.getResults().get(materi).getType());
                         datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());
@@ -591,7 +638,7 @@ public class LearningFragment extends android.support.v4.app.Fragment {
         skip = 5;
         //Ambil Data dari Networking REST
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         final String access_token = sharedPreferences.getString("accessToken","abcde");
 
         progressDialog.setMessage(getResources().getString(R.string.mohon_tunggu_label));
@@ -604,6 +651,8 @@ public class LearningFragment extends android.support.v4.app.Fragment {
             materialsListPOJOCall.enqueue(new Callback<MaterialsListPOJO>() {
                 @Override
                 public void onResponse(Call<MaterialsListPOJO> call, Response<MaterialsListPOJO> response) {
+                    MaterialsListPOJO materialsListPOJO = response.body();
+
                     //Adapter
                     LearningRecyclerView.materialTypeList.clear();
                     LearningRecyclerView.datePostList.clear();
@@ -626,7 +675,21 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                     favorites.clear();
                     materialIds.clear();
 
-                    MaterialsListPOJO materialsListPOJO = response.body();
+                    if (!materialsListPOJO.getSuccess()){
+                        Toast.makeText(getActivity().getApplicationContext(), materialsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                    }
+
                     for (int materi = 0;materi<materialsListPOJO.getResults().size();materi++){
                         authors.add(materialsListPOJO.getResults().get(materi).getType());
                         datePosts.add(materialsListPOJO.getResults().get(materi).getCreatedAtFromNow());

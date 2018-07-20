@@ -12,6 +12,9 @@ import java.util.List;
  */
 
 public class MaterialsListPOJO {
+    @SerializedName("success")
+    public Boolean success;
+
     @SerializedName("rc")
     public String rc;
 
@@ -28,6 +31,10 @@ public class MaterialsListPOJO {
     @SerializedName("results")
     @Expose
     private List<Results> results = null;
+
+    public Boolean getSuccess() {
+        return success;
+    }
 
     public MaterialsListPOJO(int skip, String access_token) {
         this.skip = skip;

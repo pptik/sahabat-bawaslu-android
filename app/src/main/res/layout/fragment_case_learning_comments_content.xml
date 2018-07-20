@@ -92,7 +92,7 @@
                             android:textColor="@color/abu"
                             android:textSize="11sp"
                             android:textStyle="bold"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
                     </RelativeLayout>
                 </RelativeLayout>
 

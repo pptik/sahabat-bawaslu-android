@@ -33,7 +33,7 @@ public class LeaderboardRecyclerView extends RecyclerView.Adapter<LeaderboardRec
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvUsername, tvPoin;
+        public TextView tvUsername, tvPoin, tvPeringkat;
 
         public ImageView ivThumbnail;
 
@@ -41,6 +41,7 @@ public class LeaderboardRecyclerView extends RecyclerView.Adapter<LeaderboardRec
             super(itemView);
             tvUsername = (TextView) itemView.findViewById(R.id.text_view_username);
             tvPoin = (TextView) itemView.findViewById(R.id.text_view_poin);
+            tvPeringkat = (TextView) itemView.findViewById(R.id.text_view_peringkat);
             ivThumbnail = (ImageView) itemView.findViewById(R.id.image_view_thubmnail);
         }
     }
@@ -79,6 +80,7 @@ public class LeaderboardRecyclerView extends RecyclerView.Adapter<LeaderboardRec
 
         //Identitas pengguna dan resume kegiatan
         holder.tvUsername.setText(username[position]);
+        holder.tvPeringkat.setText("#"+(position+1));
         holder.tvPoin.setText(Integer.toString(poin[position]));
         holder.ivThumbnail.setImageDrawable(null);
         Glide.with(holder.ivThumbnail.getContext()).load(thumbnail[position]).into(holder.ivThumbnail);

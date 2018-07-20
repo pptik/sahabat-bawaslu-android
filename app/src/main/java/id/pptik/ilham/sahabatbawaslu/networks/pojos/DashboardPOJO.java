@@ -14,6 +14,9 @@ public class DashboardPOJO {
     @SerializedName("rc")
     public String rc;
 
+    @SerializedName("success")
+    public Boolean success;
+
     @SerializedName("rm")
     public String rm;
 
@@ -23,6 +26,9 @@ public class DashboardPOJO {
     @SerializedName("access_token")
     public String access_token;
 
+    public Boolean getSuccess() {
+        return success;
+    }
 
     public DashboardPOJO(int skip, String access_token) {
         this.skip = skip;
@@ -32,6 +38,7 @@ public class DashboardPOJO {
     public String getRm() {
         return rm;
     }
+
 
     @SerializedName("results")
     @Expose
