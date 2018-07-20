@@ -162,13 +162,8 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                             task.enqueue(new DownloadListener() {
                                 @Override
                                 public void onStart(Request request) {
-
-                                }
-
-                                @Override
-                                public void onProgress(Request request, long curBytes, long totalBytes) {
                                     if(finalItem == 0){
-                                        showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_sedang_diunduh));
+                                        showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_sedang_diunduh), false);
                                         TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_sedang_diunduh), TSnackbar.LENGTH_LONG);
                                         snackbar.setActionTextColor(Color.WHITE);
                                         View snackbarView = snackbar.getView();
@@ -177,6 +172,11 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                                         textView.setTextColor(Color.WHITE);
                                         snackbar.show();
                                     }
+                                }
+
+                                @Override
+                                public void onProgress(Request request, long curBytes, long totalBytes) {
+
                                 }
 
                                 @Override
@@ -192,7 +192,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                                 @Override
                                 public void onFinished(Request request) {
                                     if(finalItem - materialDetailPOJO.getResults().getFiles().size() == -1){
-                                        showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_selesai_diunduh));
+                                        showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_selesai_diunduh), true);
                                         TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_selesai_diunduh), TSnackbar.LENGTH_LONG);
                                         snackbar.setActionTextColor(Color.WHITE);
                                         View snackbarView = snackbar.getView();
@@ -286,79 +286,6 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
                                 gamifikasiAksiRespon(materialId,3,1,title,accessToken);
                             }
                         });
-
-                        buttonUnduhMateri.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                FileDownloader downloader = FileDownloader
-                                        .createBuilder()
-                                        .build();
-
-                                for (int item = 0; item <materialDetailPOJO.getResults().getFiles().size();item++){
-                                    request = Request
-                                            .createBuilder()
-                                            .url(materialDetailPOJO.getResults().getFiles().get(item).getHttp_path())
-                                            .build();
-                                    task = downloader.newTask(request);
-                                    final int finalItem = item;
-                                    task.enqueue(new DownloadListener() {
-                                        @Override
-                                        public void onStart(Request request) {
-
-                                        }
-
-                                        @Override
-                                        public void onProgress(Request request, long curBytes, long totalBytes) {
-                                            if(finalItem == 0){
-                                                showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_sedang_diunduh));
-                                                TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_sedang_diunduh), TSnackbar.LENGTH_LONG);
-                                                snackbar.setActionTextColor(Color.WHITE);
-                                                View snackbarView = snackbar.getView();
-                                                snackbarView.setBackgroundColor(Color.parseColor("#E37114"));
-                                                TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-                                                textView.setTextColor(Color.WHITE);
-                                                snackbar.show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onPause(Request request) {
-
-                                        }
-
-                                        @Override
-                                        public void onRestart(Request request) {
-
-                                        }
-
-                                        @Override
-                                        public void onFinished(Request request) {
-                                            if(finalItem - materialDetailPOJO.getResults().getFiles().size() == -1){
-                                                showNotification(getResources().getString(R.string.app_name),getResources().getString(R.string.download_selesai_diunduh));
-                                                TSnackbar snackbar = TSnackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.download_selesai_diunduh), TSnackbar.LENGTH_LONG);
-                                                snackbar.setActionTextColor(Color.WHITE);
-                                                View snackbarView = snackbar.getView();
-                                                snackbarView.setBackgroundColor(Color.parseColor("#E37114"));
-                                                TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
-                                                textView.setTextColor(Color.WHITE);
-                                                snackbar.show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancel(Request request) {
-
-                                        }
-
-                                        @Override
-                                        public void onFailed(Request request, Exception e) {
-
-                                        }
-                                    });
-                                }
-
-                            }
-                        });
                     }
 
                     @Override
@@ -429,7 +356,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void showNotification(String title, String content) {
+    private void showNotification(String title, String content, boolean isDone) {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -445,16 +372,31 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         //mBuilder.setContentIntent(pi);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
-                .setSmallIcon(R.mipmap.ic_launcher) // notification icon
-                .setContentTitle(title) // title for notification
-                .setContentText(content)// message for notification
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
-                //.setContentIntent(pi)
-                .setAutoCancel(true); // clear notification after click
+        if(!isDone) {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
+                    .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+                    .setContentTitle(title) // title for notification
+                    .setContentText(content)// message for notification
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    //.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    //.setContentIntent(pi)
+                    .setAutoCancel(true); // clear notification after click
 
-        mNotificationManager.notify(0, mBuilder.build());
+            mNotificationManager.notify(0, mBuilder.build());
+        }else{
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
+                    .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+                    .setContentTitle(title) // title for notification
+                    .setContentText(content)// message for notification
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                    //.setContentIntent(pi)
+                    .setAutoCancel(true); // clear notification after
+
+            mNotificationManager.notify(0, mBuilder.build());
+        }
+
+
 
     }
 
