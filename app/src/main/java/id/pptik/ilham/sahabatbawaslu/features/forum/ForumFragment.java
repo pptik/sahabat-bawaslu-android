@@ -218,7 +218,10 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                         datePosts.add(forumsListPOJO.getResults().get(forum).getForum().getCreatedAtFromNow());
 
                         for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getForum().getTags().size();hashtag++){
-                            hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getForum().getTags().get(hashtag)+" ");
+                            String hashTag = forumsListPOJO.getResults().get(forum).getForum().getTags().get(hashtag);
+                            if(!hashTag.equals("")){
+                                hashtagStringBuilder.append("#" + hashTag + " ");
+                            }
                         }
 
                         hashtag.add(hashtagStringBuilder.toString());
@@ -375,9 +378,11 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                             getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                         }
 
-                        progressDialog.setProgress(100);
-                        progressDialog.dismiss();
+
                     }
+
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
 
                 @Override

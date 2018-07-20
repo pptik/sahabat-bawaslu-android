@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -228,6 +229,7 @@ public class AddNewsActivity extends AppCompatActivity {
                     final TextView textViewPilihGambar = new TextView(getApplicationContext());
                     textViewPilihGambar.setId(hashTagCounter);
                     textViewPilihGambar.setHint(R.string.ketuk_melihat_galeri);
+                    textViewPilihGambar.setHintTextColor(Color.BLACK);
                     textViewPilihGambar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -272,6 +274,7 @@ public class AddNewsActivity extends AppCompatActivity {
                 if(uploadImagePOJO.getSuccess()){
                     final TextView textView = (TextView)findViewById(photosCounter);
                     textView.setText(uploadImagePOJO.getResults().getHttpPath());
+                    textView.setTextColor(Color.BLACK);
                     textView.setEnabled(false);
                     /*JsonParser parser = new JsonParser();
                     JsonObject jsonObject = parser.parse("{\"a\": \"A\"}").getAsJsonObject();*/

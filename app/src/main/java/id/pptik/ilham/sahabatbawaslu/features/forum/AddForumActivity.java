@@ -88,6 +88,8 @@ public class AddForumActivity extends AppCompatActivity {
                         hashTagMap.put("Tags[" + counter + "]", hashTagContent.get(counter));
 
                     }
+                }else if(hashTagCounter == 0){
+                    hashTagMap.put("Tags[0]", "");
                 }
                 sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
                 accessToken = sharedPreferences.getString("accessToken", "abcde");
