@@ -123,7 +123,9 @@ public class LearningFragment extends android.support.v4.app.Fragment {
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
                 if (itemCount - pos == 1) {
-                    getMaterialsListScrolled(access_token, view.getContext(), skip, itemCount);
+                    if(itemCount >= 5) {
+                        getMaterialsListScrolled(access_token, view.getContext(), skip, itemCount);
+                    }
                 }
             }
 

@@ -232,6 +232,15 @@ public class VideoMaterialDetailRevisedActivity extends AppCompatActivity implem
                     textViewNumberDownVote.setText(Integer.toString(materialDetailVideoPOJO.getResults().getDownvote()));
                     textViewNumberFavorite.setText(Integer.toString(materialDetailVideoPOJO.getResults().getFavorite()));
 
+                    //imageViewUserPicture
+                    /*imageViewUserPicture.setImageDrawable(null);
+                    if(dashboardPOJO.getResults().get(item).getDashboard().getFiles() == null){
+                        newsMedia.add("http://filehosting.pptik.id/ioaa/defaultphoto.png");
+                    }else{
+                        newsMedia.add(dashboardPOJO.getResults().get(item).getDashboard().getFiles().get(0).getHttpPath());
+                    }*/
+                    //Log.d("FOTO DETAIL VIDEO",materialDetailVideoPOJO.getResults().getUserDetail().getDisplayPicture().toString());
+                    Glide.with(imageViewUserPicture.getRootView().getContext()).load( "http://filehosting.pptik.id/ioaa/defaultphoto.png").into(imageViewUserPicture);
                     //Gamifikasi status awal
                     /*if(materialDetailVideoPOJO.getResults().getFavorited()){
                         imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);

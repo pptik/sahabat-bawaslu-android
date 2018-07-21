@@ -436,11 +436,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                             VotePOJO votePOJO = response.body();
-                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                            Log.d("UP",Integer.toString(votePOJO.getResults().getFavorite()));
-                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
-                            holder.buttonDownvote.setClickable(true);
-                            holder.buttonUpvote.setClickable(false);
+                            if (votePOJO.getSuccess()){
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                                Log.d("UP",Integer.toString(votePOJO.getResults().getFavorite()));
+                                holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                                holder.buttonDownvote.setClickable(true);
+                                holder.buttonUpvote.setClickable(false);
+                            }else{
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -470,12 +474,16 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                             VotePOJO votePOJO = response.body();
-                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                            Log.d("UP",Integer.toString(votePOJO.getResults().getUpvote()));
-                            holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
-                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            holder.buttonDownvote.setClickable(true);
-                            holder.buttonUpvote.setClickable(false);
+                            if (votePOJO.getSuccess()) {
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                                Log.d("UP", Integer.toString(votePOJO.getResults().getUpvote()));
+                                holder.tvNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
+                                holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                                holder.buttonDownvote.setClickable(true);
+                                holder.buttonUpvote.setClickable(false);
+                            }else{
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -513,6 +521,8 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                                 holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
                                 holder.buttonDownvote.setClickable(false);
                                 holder.buttonUpvote.setClickable(true);
+                            }else{
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -541,11 +551,15 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                             VotePOJO votePOJO = response.body();
-                            Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                            Log.d("DOWN",Integer.toString(votePOJO.getResults().getFavorite()));
-                            holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
-                            holder.buttonDownvote.setClickable(false);
-                            holder.buttonUpvote.setClickable(true);
+                            if (votePOJO.getSuccess()) {
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                                Log.d("DOWN", Integer.toString(votePOJO.getResults().getFavorite()));
+                                holder.tvNumberDownvote.setText(Integer.toString(votePOJO.getResults().getDownvote()));
+                                holder.buttonDownvote.setClickable(false);
+                                holder.buttonUpvote.setClickable(true);
+                            }else{
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -611,9 +625,13 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         @Override
                         public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                             VotePOJO votePOJO = response.body();
+                            if (votePOJO.getSuccess()){
                             Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                             Log.d("FAV",Integer.toString(votePOJO.getResults().getFavorite()));
                             holder.tvNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
+                            }else{
+                                Toast.makeText(activity, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override

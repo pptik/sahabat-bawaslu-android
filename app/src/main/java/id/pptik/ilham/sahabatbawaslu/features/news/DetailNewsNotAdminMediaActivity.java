@@ -381,7 +381,7 @@ public class DetailNewsNotAdminMediaActivity extends AppCompatActivity {
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 VotePOJO votePOJO = response.body();
                 Toast.makeText(DetailNewsNotAdminMediaActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                if (!votePOJO.getRc().equals("0050")){
+                if (votePOJO.getSuccess()){
                     switch(activityCode){
                         case 2:
                             textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
@@ -401,6 +401,8 @@ public class DetailNewsNotAdminMediaActivity extends AppCompatActivity {
                             textViewNumberFavorite.setText(Integer.toString(votePOJO.getResults().getFavorite()));
                             ;break;
                     }
+                }else{
+                    Toast.makeText(DetailNewsNotAdminMediaActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                 }
             }
 

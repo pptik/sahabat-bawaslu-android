@@ -362,7 +362,7 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
             public void onResponse(Call<VotePOJO> call, Response<VotePOJO> response) {
                 VotePOJO votePOJO = response.body();
                 Toast.makeText(DetailNewsAdminActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
-                if (!votePOJO.getRc().equals("0050")) {
+                if (votePOJO.getSuccess()) {
                     switch (activityCode) {
                         case 2:
                             textViewNumberUpvote.setText(Integer.toString(votePOJO.getResults().getUpvote()));
@@ -385,6 +385,8 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
                             ;
                             break;
                     }
+                }else{
+                    Toast.makeText(DetailNewsAdminActivity.this, votePOJO.getRm(), Toast.LENGTH_SHORT).show();
                 }
             }
 
