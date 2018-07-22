@@ -3,6 +3,8 @@ package id.pptik.ilham.sahabatbawaslu.features.login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -12,10 +14,12 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.pptik.ilham.sahabatbawaslu.BuildConfig;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.LoginInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityLoginBinding;
@@ -40,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String FlagPengguna = "flag";
     private SharedPreferences sharedPreferences;
 
+    @BindView(R.id.version_name)TextView textViewVersionName;
     @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,12 @@ public class LoginActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         ButterKnife.bind(this);
+        /*PackageManager manager = getApplicationContext().getPackageManager();
+        PackageInfo info = manager.getPackageInfo(
+                context.getPackageName(), 0);*/
+        String version = BuildConfig.VERSION_NAME;
 
+        textViewVersionName.setText("Versi "+version);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

@@ -134,9 +134,11 @@ public class ForumFragment extends android.support.v4.app.Fragment {
 
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
-                //if (itemCount - pos == 1) {
-                    getForumsListScrolled(access_token, skip, itemCount);
-                //}
+                if (itemCount - pos == 1) {
+                    if(itemCount >= 5) {
+                        getForumsListScrolled(access_token, skip, itemCount);
+                    }
+                }
             }
 
             @Override

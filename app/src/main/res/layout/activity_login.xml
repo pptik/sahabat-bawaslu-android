@@ -105,6 +105,13 @@
                 android:onClick="@{(v)->loginevent.onClickSignUpPage()}"
                 />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/version_name"
+            android:text="@string/version_name"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
 </layout>
