@@ -134,9 +134,9 @@ public class ForumFragment extends android.support.v4.app.Fragment {
 
                 int itemCount = mLayoutManager.getItemCount();
                 int pos = layoutManager.findLastCompletelyVisibleItemPosition();
-                if (itemCount - pos == 1) {
+                //if (itemCount - pos == 1) {
                     getForumsListScrolled(access_token, skip, itemCount);
-                }
+                //}
             }
 
             @Override
@@ -426,78 +426,73 @@ public class ForumFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onResponse(Call<ForumsListPOJO> call, Response<ForumsListPOJO> response) {
 
-
                     ForumsListPOJO forumsListPOJO = response.body();
-                    if (!forumsListPOJO.getSuccess()){
-                        Toast.makeText(getActivity().getApplicationContext(), forumsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
 
-                        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(LoginActivity.SessionPengguna, getActivity().getApplicationContext().MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear();
-                        editor.commit();
+                    if (forumsListPOJO.getSuccess()){
 
-                        Intent intent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                        getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                    }
-                    //Fragment
-                    datePosts.clear();
-                    hashtag.clear();
-                    titles.clear();
-                    upVotes.clear();
-                    downVotes.clear();
-                    favorites.clear();
-                    upvoteStatus.clear();
-                    downvoteStatus.clear();
-                    favoriteStatus.clear();
+                        //Fragment
+                        datePosts.clear();
+                        hashtag.clear();
+                        titles.clear();
+                        upVotes.clear();
+                        downVotes.clear();
+                        favorites.clear();
+                        forumId.clear();
+                        upvoteStatus.clear();
+                        downvoteStatus.clear();
+                        favoriteStatus.clear();
 
-                    //Adapter
-                    ForumRecyclerView.materialTypeList.clear();
-                    ForumRecyclerView.datePostList.clear();
-                    ForumRecyclerView.hashtagList.clear();
-                    ForumRecyclerView.titleList.clear();
-                    ForumRecyclerView.forumIdList.clear();
-                    ForumRecyclerView.upVoteNumbersList.clear();
-                    ForumRecyclerView.downVoteNumbersList.clear();
-                    ForumRecyclerView.commentNumbersList.clear();
-                    ForumRecyclerView.favoriteNumbersList.clear();
-                    ForumRecyclerView.contentIdList.clear();
-                    ForumRecyclerView.statusUpvoteList.clear();
-                    ForumRecyclerView.statusDownvoteList.clear();
-                    ForumRecyclerView.statusFavoriteList.clear();
+                        //Adapter
+                        ForumRecyclerView.materialTypeList.clear();
+                        ForumRecyclerView.datePostList.clear();
+                        ForumRecyclerView.hashtagList.clear();
+                        ForumRecyclerView.titleList.clear();
+                        ForumRecyclerView.forumIdList.clear();
+                        ForumRecyclerView.upVoteNumbersList.clear();
+                        ForumRecyclerView.downVoteNumbersList.clear();
+                        ForumRecyclerView.commentNumbersList.clear();
+                        ForumRecyclerView.favoriteNumbersList.clear();
+                        ForumRecyclerView.contentIdList.clear();
+                        ForumRecyclerView.statusUpvoteList.clear();
+                        ForumRecyclerView.statusDownvoteList.clear();
+                        ForumRecyclerView.statusFavoriteList.clear();
 
-                    for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
-                        datePosts.add(forumsListPOJO.getResults().get(forum).getForum().getCreatedAtFromNow());
+                        Log.d("PJNG KEMBALIAN",Integer.toString(forumsListPOJO.getResults().size()));
+                        for (int forum = 0;forum<forumsListPOJO.getResults().size();forum++){
+                            //datePosts.add(forumsListPOJO.getResults().get(forum).getForum().getCreatedAtFromNow());
 
-                        for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getForum().getTags().size();hashtag++){
-                            hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getForum().getTags().get(hashtag)+" ");
+                            for (int hashtag = 0; hashtag<forumsListPOJO.getResults().get(forum).getForum().getTags().size();hashtag++){
+                                hashtagStringBuilder.append("#"+forumsListPOJO.getResults().get(forum).getForum().getTags().get(hashtag)+" ");
+                            }
+
+                            hashtag.add(hashtagStringBuilder.toString());
+                            titles.add(forumsListPOJO.getResults().get(forum).getForum().getTitle());
+                            upVotes.add(forumsListPOJO.getResults().get(forum).getForum().getUpvote());
+                            downVotes.add(forumsListPOJO.getResults().get(forum).getForum().getDownvote());
+                            comments.add(forumsListPOJO.getResults().get(forum).getForum().getComment());
+                            favorites.add(forumsListPOJO.getResults().get(forum).getForum().getFavorite());
+                            forumId.add(forumsListPOJO.getResults().get(forum).getForum().getId());
+
+
+                            upvoteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getUpvoted());
+                            downvoteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getDownvoted());
+                            favoriteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getFavorited());
+                            //Clear String hashtag Builder
+                            hashtagStringBuilder = new StringBuilder();
                         }
 
-                        hashtag.add(hashtagStringBuilder.toString());
-                        titles.add(forumsListPOJO.getResults().get(forum).getForum().getTitle());
-                        upVotes.add(forumsListPOJO.getResults().get(forum).getForum().getUpvote());
-                        downVotes.add(forumsListPOJO.getResults().get(forum).getForum().getDownvote());
-                        comments.add(forumsListPOJO.getResults().get(forum).getForum().getComment());
-                        favorites.add(forumsListPOJO.getResults().get(forum).getForum().getFavorite());
-                        forumId.add(forumsListPOJO.getResults().get(forum).getForum().getId());
+                        mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,
+                                favorites,upVotes,downVotes,comments,forumId,upvoteStatus,
+                                downvoteStatus,favoriteStatus,getActivity());
+                        mAdapter.notifyDataSetChanged();
+                        mRecyclerView.setAdapter(mAdapter);
 
-
-                        upvoteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getUpvoted());
-                        downvoteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getDownvoted());
-                        favoriteStatus.add(forumsListPOJO.getResults().get(forum).getForum().getFavorited());
-                        //Clear String hashtag Builder
-                        hashtagStringBuilder = new StringBuilder();
+                        progressDialog.setProgress(100);
+                        progressDialog.dismiss();
+                    }else{
+                        Toast.makeText(getActivity().getApplicationContext(), forumsListPOJO.getRm(), Toast.LENGTH_SHORT).show();
                     }
 
-                    mAdapter = new ForumRecyclerView(datePosts,forumId,hashtag,titles,
-                            favorites,upVotes,downVotes,comments,forumId,upvoteStatus,
-                            downvoteStatus,favoriteStatus,getActivity());
-                    mAdapter.notifyDataSetChanged();
-                    mRecyclerView.setAdapter(mAdapter);
-
-                    progressDialog.setProgress(100);
-                    progressDialog.dismiss();
                 }
 
                 @Override

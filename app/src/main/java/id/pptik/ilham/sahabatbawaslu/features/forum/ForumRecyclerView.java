@@ -161,7 +161,7 @@ public class ForumRecyclerView extends RecyclerView.Adapter<ForumRecyclerView.Vi
 
         holder.tvHashtag.setText(hashtag[position]);
         holder.tvTitlePost.setText(title[position]);
-        holder.tvDatePost.setText("dibuat "+datePost[position]);
+        //holder.tvDatePost.setText("dibuat "+datePost[position]);
 
         holder.tvCommentNumbers.setText(Integer.toString(commentNumbers[position])+" Jawaban");
 
