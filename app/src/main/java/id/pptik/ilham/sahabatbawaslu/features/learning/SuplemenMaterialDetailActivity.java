@@ -43,6 +43,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
+
 public class SuplemenMaterialDetailActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.title_post)TextView titlePost;
@@ -72,7 +74,9 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         ButterKnife.bind(this);
         toolbar.setTitle(getResources().getString(R.string.materi_label));
@@ -84,6 +88,7 @@ public class SuplemenMaterialDetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         materialId = bundle.getString(MaterialsRecyclerView.MATERIAL_ID);
         title = bundle.getString(MaterialsRecyclerView.TITLE);
+        //Log.d("DEBUG SUPLEMEN",title);
         sharedPreferences = this.getSharedPreferences("User", Context.MODE_PRIVATE);
         accessToken = sharedPreferences.getString("accessToken", "abcde");
 

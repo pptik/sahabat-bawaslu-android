@@ -93,6 +93,7 @@ public class ProfileUserFragment extends Fragment {
     @BindView(R.id.user_reference_code)TextView textViewRefCode;
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
+    String fileUriString, contextString;
     public RestServiceInterface restServiceInterface;
     public ProfileUserFragment() {
         // Required empty public constructor
@@ -209,7 +210,7 @@ public class ProfileUserFragment extends Fragment {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
 
             android.net.Uri selectedImage = data.getData();
-            uploadFile(selectedImage,getContext());
+
 
         }
     }
@@ -220,6 +221,7 @@ public class ProfileUserFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
         File originalFile = FileUtils.getFile(context,fileUri);
+       
         RequestBody filePart = RequestBody.create(null,originalFile);
         MultipartBody.Part file = MultipartBody.Part.createFormData("image",originalFile.getName(),filePart);
 

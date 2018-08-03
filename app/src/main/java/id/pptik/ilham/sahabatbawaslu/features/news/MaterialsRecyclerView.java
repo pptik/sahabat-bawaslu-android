@@ -297,7 +297,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
                         public void onClick(View v) {
                             Log.d("XYZ","CONTENT ID: "+contentId[position]);
                             Log.d("XYZ","CONTENT TYPE: "+contentType[position]);
-                            materialAdapter(contentId[position], access_token, activity);
+                            materialAdapter(contentId[position], access_token, activity,titlePost[position]);
                         }
                     });
                     holder.tvNumberComment.setVisibility(View.GONE);
@@ -676,7 +676,7 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
 
     }
 
-    private void materialAdapter(final String content_id, final String access_token, final Activity activity){
+    private void materialAdapter(final String content_id, final String access_token, final Activity activity, final String title){
         Log.d("XYZ","Content Id: "+content_id);
         Log.d("XYZ","Akses Token: "+access_token);
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
@@ -686,23 +686,33 @@ public class MaterialsRecyclerView extends RecyclerView.Adapter<MaterialsRecycle
             @Override
             public void onResponse(Call<MaterialDetailGeneralPOJO> call, Response<MaterialDetailGeneralPOJO> response) {
                 MaterialDetailGeneralPOJO materialDetailGeneralPOJO = response.body();
-                Log.d("XYZ","tipe materi di response: "+materialDetailGeneralPOJO.getResults().getType());
+                //Log.d("XYZ","tipe materi di response: "+materialDetailGeneralPOJO.getResults().getType());
+
                 switch (materialDetailGeneralPOJO.getResults().getType()){
                     case 0://video
                         Intent intentVideo = new Intent(activity , VideoMaterialDetailRevisedActivity.class);
-                        intentVideo.putExtra(MATERIAL_ID,content_id);
+                        Bundle bundleMateri = new Bundle();
+                        bundleMateri.putString(MATERIAL_ID,content_id);
+                        bundleMateri.putString(TITLE,title);
+                        intentVideo.putExtras(bundleMateri);
                         activity.startActivity(intentVideo);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 1://suplemen
                         Intent intentSuplemen = new Intent(activity , SuplemenMaterialDetailActivity.class);
-                        intentSuplemen.putExtra(MATERIAL_ID,content_id);
+                        Bundle bundleMateri2 = new Bundle();
+                        bundleMateri2.putString(MATERIAL_ID,content_id);
+                        bundleMateri2.putString(TITLE,title);
+                        intentSuplemen.putExtras(bundleMateri2);
                         activity.startActivity(intentSuplemen);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                     case 2://kasus
                         Intent intentKasus = new Intent(activity , CaseMaterialDetailActivity.class);
-                        intentKasus.putExtra(MATERIAL_ID,content_id);
+                        Bundle bundleMateri3 = new Bundle();
+                        bundleMateri3.putString(MATERIAL_ID,content_id);
+                        bundleMateri3.putString(TITLE,title);
+                        intentKasus.putExtras(bundleMateri3);
                         activity.startActivity(intentKasus);
                         activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;

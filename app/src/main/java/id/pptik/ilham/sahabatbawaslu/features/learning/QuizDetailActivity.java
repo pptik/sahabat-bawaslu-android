@@ -35,6 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
+
 public class QuizDetailActivity extends AppCompatActivity implements SendQuizData {
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.recycler_view)RecyclerView recyclerView;
@@ -69,7 +71,9 @@ public class QuizDetailActivity extends AppCompatActivity implements SendQuizDat
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         ButterKnife.bind(this);
 

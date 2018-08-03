@@ -34,6 +34,9 @@ import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
 import id.pptik.ilham.sahabatbawaslu.features.signup.SignUpActivity;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabLayout;
 import id.pptik.ilham.sahabatbawaslu.features.slidingtab.SlidingTabsBasicProfileUserFragment;
+
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
+
 public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
     @BindView(R.id.toolbar)Toolbar toolbar;
     SlidingTabLayout slidingTabLayout;
@@ -52,7 +55,9 @@ public class ProfileUserActivity extends AppCompatActivity implements PopupMenu.
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         toolbar.setTitle(getResources().getString(R.string.dashboard_label));
         setSupportActionBar(toolbar);
