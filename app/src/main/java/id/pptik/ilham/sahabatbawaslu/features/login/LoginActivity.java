@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String SessionPengguna = "User";
     public static final String FlagPengguna = "flag";
     private SharedPreferences sharedPreferences;
+    final public static boolean greaterThanEqualLollipop = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
     @BindView(R.id.version_name)TextView textViewVersionName;
     @BindView(R.id.LinearLayoutParent)LinearLayout linearLayout;
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         //setContentView(R.layout.activity_login);
         activityLoginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+        //activityLoginBinding = DataBindingUtil.setContentView(LoginActivity.this,R.layout.activity_login);
         ButterKnife.bind(this);
         /*PackageManager manager = getApplicationContext().getPackageManager();
         PackageInfo info = manager.getPackageInfo(
@@ -72,7 +75,12 @@ public class LoginActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+
+
+
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent));
+        }
 
         progressDialog = new ProgressDialog(LoginActivity.this);
 

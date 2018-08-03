@@ -35,6 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
 import static id.pptik.ilham.sahabatbawaslu.features.news.MaterialsRecyclerView.FORUM_ID;
 
 public class AddAnswerActivity extends AppCompatActivity {
@@ -59,7 +60,9 @@ public class AddAnswerActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         toolbar = (android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.add_answer_label));

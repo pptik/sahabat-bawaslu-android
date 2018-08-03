@@ -45,6 +45,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
+
 public class DetailNewsAdminActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -126,7 +128,9 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         ButterKnife.bind(this);
 

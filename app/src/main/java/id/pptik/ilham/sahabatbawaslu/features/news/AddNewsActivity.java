@@ -68,6 +68,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Multipart;
 
+import static id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity.greaterThanEqualLollipop;
+
 public class AddNewsActivity extends AppCompatActivity {
     private ActivityAddNewsBinding activityAddNewsBinding;
     @BindView(R.id.toolbar)
@@ -175,7 +177,9 @@ public class AddNewsActivity extends AppCompatActivity {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        if (greaterThanEqualLollipop){
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.oranyeGelap));
+        }
 
         ButterKnife.bind(this);
         toolbar.setTitle(getResources().getString(R.string.add_news_label));
@@ -254,7 +258,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
     private void uploadFile(Uri fileUri){
         File originalFile = FileUtils.getFile(this,fileUri);
-        RequestBody filePart = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)),originalFile);
+        RequestBody filePart = RequestBody.create(MediaType.parse(this.getApplicationContext().getContentResolver().getType(fileUri)),originalFile);
         MultipartBody.Part file = MultipartBody.Part.createFormData("image",originalFile.getName(),filePart);
 
         Retrofit.Builder builder = new Retrofit.Builder()

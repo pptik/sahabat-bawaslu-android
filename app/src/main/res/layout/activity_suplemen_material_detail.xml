@@ -176,7 +176,7 @@
                     android:orientation="horizontal"
                     android:padding="15dp"
                     android:gravity="center_horizontal"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     >
                     <ImageView
                         android:id="@+id/button_favorite"
