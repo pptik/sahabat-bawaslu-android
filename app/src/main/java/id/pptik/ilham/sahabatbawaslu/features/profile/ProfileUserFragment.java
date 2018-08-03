@@ -209,7 +209,6 @@ public class ProfileUserFragment extends Fragment {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
 
             android.net.Uri selectedImage = data.getData();
-
             uploadFile(selectedImage,getContext());
 
         }
@@ -221,7 +220,7 @@ public class ProfileUserFragment extends Fragment {
         progressDialog.setProgress(0);
         progressDialog.show();
         File originalFile = FileUtils.getFile(context,fileUri);
-        RequestBody filePart = RequestBody.create(MediaType.parse(context.getContentResolver().getType(fileUri)),originalFile);
+        RequestBody filePart = RequestBody.create(null,originalFile);
         MultipartBody.Part file = MultipartBody.Part.createFormData("image",originalFile.getName(),filePart);
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -233,7 +232,6 @@ public class ProfileUserFragment extends Fragment {
 
 
         Call<UploadImagePOJO> uploadImagePOJOCall = restServiceInterfaceImage.uploadMedia(file);
-
         uploadImagePOJOCall.enqueue(new Callback<UploadImagePOJO>() {
             @Override
             public void onResponse(Call<UploadImagePOJO> call, Response<UploadImagePOJO> response) {

@@ -254,7 +254,7 @@ public class AddNewsActivity extends AppCompatActivity {
 
     private void uploadFile(Uri fileUri){
         File originalFile = FileUtils.getFile(this,fileUri);
-        RequestBody filePart = RequestBody.create(MediaType.parse(getContentResolver().getType(fileUri)),originalFile);
+        RequestBody filePart = RequestBody.create(null,originalFile);
         MultipartBody.Part file = MultipartBody.Part.createFormData("image",originalFile.getName(),filePart);
 
         Retrofit.Builder builder = new Retrofit.Builder()
