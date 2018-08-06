@@ -210,7 +210,7 @@ public class ProfileUserFragment extends Fragment {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
 
             android.net.Uri selectedImage = data.getData();
-
+            uploadFile(selectedImage,getContext());
 
         }
     }
