@@ -63,6 +63,7 @@ public class DetailForumActivity extends AppCompatActivity {
     @BindView(R.id.button_favorite)ImageView buttonFavorite;
     @BindView(R.id.button_upvote)ImageView buttonUpvote;
     @BindView(R.id.button_downvote)ImageView buttonDownvote;
+    @BindView(R.id.hashtag)TextView textViewHashtag;
 
     Intent intent;
     String contentId, accessToken;
@@ -80,6 +81,7 @@ public class DetailForumActivity extends AppCompatActivity {
     private List<String> answerId = new ArrayList<String>();
     private List<Integer> answerLevel = new ArrayList<Integer>();
     private List<Integer> answerReplyCounter = new ArrayList<Integer>();
+    private StringBuilder hashtagStringBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,41 +228,55 @@ public class DetailForumActivity extends AppCompatActivity {
         forumDetailPOJOCall.enqueue(new Callback<ForumDetailPOJO>() {
             @Override
             public void onResponse(Call<ForumDetailPOJO> call, Response<ForumDetailPOJO> response) {
-                ForumDetailPOJO forumDetailPOJO = response.body();
-                if(forumDetailPOJO.getSuccess()){
-                    textViewUsername.setText(forumDetailPOJO.getResults().getPostBy().getUsername());
-                    textViewContentForum.setText(forumDetailPOJO.getResults().getTitle());
-                    textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAtFromNow());
-                    textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
-                    textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
-                    textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
-                    textViewNumberComment.setText(Integer.toString(forumDetailPOJO.getResults().getComment())+" Jawaban");
-                    imageViewUserPicture.setImageDrawable(null);
-                    Glide.with(imageViewUserPicture.getContext()).load(forumDetailPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                try {
+                    ForumDetailPOJO forumDetailPOJO = response.body();
+                    if(forumDetailPOJO.getSuccess()){
 
-                    //Gamifikasi status awal
-                    //buttonFavorite.setVisibility(View.GONE);
-                    if(forumDetailPOJO.getResults().getFavorited()){
-                        buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-                    }else{
-                        buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-                    }
+                        for (int hashtag = 0; hashtag < forumDetailPOJO.getResults().getTags().size(); hashtag++) {
+                            String hashTag = forumDetailPOJO.getResults().getTags().get(hashtag);
+                            if (!hashTag.equals("")) {
+                                hashtagStringBuilder.append("#" + hashTag + " ");
+                            }
+                        }
 
-                    //buttonUpvote.setVisibility(View.GONE);
-                    if(forumDetailPOJO.getResults().getUpvoted()){
-                        buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-                    }else{
-                        buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                    }
 
-                    //buttonDownvote.setVisibility(View.GONE);
-                    if(forumDetailPOJO.getResults().getDownvoted()){
-                        buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                        textViewUsername.setText(forumDetailPOJO.getResults().getPostBy().getUsername());
+                        textViewContentForum.setText(forumDetailPOJO.getResults().getTitle());
+                        textViewDatePost.setText(forumDetailPOJO.getResults().getCreatedAtFromNow());
+                        textViewNumberFavorite.setText(Integer.toString(forumDetailPOJO.getResults().getFavorite()));
+                        textViewNumberUpvote.setText(Integer.toString(forumDetailPOJO.getResults().getUpvote()));
+                        textViewNumberDownvote.setText(Integer.toString(forumDetailPOJO.getResults().getDownvote()));
+                        textViewNumberComment.setText(Integer.toString(forumDetailPOJO.getResults().getComment())+" Jawaban");
+                        imageViewUserPicture.setImageDrawable(null);
+                        Glide.with(imageViewUserPicture.getContext()).load(forumDetailPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                        textViewHashtag.setText(hashtagStringBuilder.toString());
+                        //Gamifikasi status awal
+                        //buttonFavorite.setVisibility(View.GONE);
+                        if(forumDetailPOJO.getResults().getFavorited()){
+                            buttonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                        }else{
+                            buttonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                        }
+
+                        //buttonUpvote.setVisibility(View.GONE);
+                        if(forumDetailPOJO.getResults().getUpvoted()){
+                            buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                        }else{
+                            buttonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                        }
+
+                        //buttonDownvote.setVisibility(View.GONE);
+                        if(forumDetailPOJO.getResults().getDownvoted()){
+                            buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                        }else{
+                            buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                        }
                     }else{
-                        buttonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                        Toast.makeText(DetailForumActivity.this, forumDetailPOJO.getRm(), Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(DetailForumActivity.this, forumDetailPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Err: ", e.toString());
                 }
             }
 

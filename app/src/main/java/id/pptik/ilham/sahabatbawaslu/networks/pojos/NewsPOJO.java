@@ -88,6 +88,10 @@ public class NewsPOJO {
         @Expose
         private int comment;
 
+        @SerializedName("tags")
+        @Expose
+        private List<String> tags = null;
+
         public class PostBy {
 
             @SerializedName("user_id")
@@ -228,6 +232,8 @@ public class NewsPOJO {
         public int getComment() {
             return comment;
         }
+
+        public List<String> getTags() { return tags; }
     }
 
 

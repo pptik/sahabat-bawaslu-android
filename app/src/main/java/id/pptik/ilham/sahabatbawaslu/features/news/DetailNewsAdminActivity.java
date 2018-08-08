@@ -79,6 +79,7 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButtonTambahKomentar;
     @BindView(R.id.html_text)
     HtmlTextView htmlTextView;
+    @BindView(R.id.hashtag) TextView textViewHashtag;
     String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
@@ -102,6 +103,7 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
 
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
+    private StringBuilder hashtagStringBuilder = new StringBuilder();
 
     /*usernameSubKomentar,
     datePostSubKomentar, userProfilePictureSubKomentar,
@@ -190,76 +192,89 @@ public class DetailNewsAdminActivity extends AppCompatActivity {
         newsDetailCall.enqueue(new Callback<NewsPOJO>() {
             @Override
             public void onResponse(Call<NewsPOJO> call, Response<NewsPOJO> response) {
-                NewsPOJO newsPOJO = response.body();
-
-                if (!newsPOJO.getSuccess()) {
-                    Toast.makeText(DetailNewsAdminActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                } else {
-                    iconNumbersUpvote.setVisibility(View.GONE);
-                    iconNumbersDownvote.setVisibility(View.GONE);
-                    textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
-                    htmlTextView.setHtml(newsPOJO.getResults().getContent(), new HtmlHttpImageGetter(htmlTextView));
-                    Log.e("HTML", "HTML:" + newsPOJO.getResults().getContent());
-                    textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                    textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
-                    textViewNumberUpvote.setVisibility(View.GONE);
-                    textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
-                    textViewNumberDownVote.setVisibility(View.GONE);
-                    textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                    textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
-                    textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()) + " Komentar");
-                    textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
-                    imageViewUserPicture.setImageDrawable(null);
-                    Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
-
-                    //Gamifikasi status awal
-                    if (newsPOJO.getResults().getFavorited()) {
-                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                try {
+                    NewsPOJO newsPOJO = response.body();
+                    if (!newsPOJO.getSuccess()) {
+                        Toast.makeText(DetailNewsAdminActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
                     } else {
-                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-                    }
-
-                    imageButtonUpvote.setVisibility(View.GONE);
-                    if (newsPOJO.getResults().getUpvoted()) {
-                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-                    } else {
-                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                    }
-
-                    imageButtonDownvote.setVisibility(View.GONE);
-                    if (newsPOJO.getResults().getDownvoted()) {
-                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
-                    } else {
-                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    }
-
-                    //Gamifikasi event handler
-                    imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            gamifikasiAksiRespon(contentId, 4, 2, title, access_token);
+                        iconNumbersUpvote.setVisibility(View.GONE);
+                        iconNumbersDownvote.setVisibility(View.GONE);
+                        textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
+                        htmlTextView.setHtml(newsPOJO.getResults().getContent(), new HtmlHttpImageGetter(htmlTextView));
+                        Log.e("HTML", "HTML:" + newsPOJO.getResults().getContent());
+                        textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
+                        textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
+                        textViewNumberUpvote.setVisibility(View.GONE);
+                        textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
+                        textViewNumberDownVote.setVisibility(View.GONE);
+                        textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
+                        textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()));
+                        textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment()) + " Komentar");
+                        textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
+                        imageViewUserPicture.setImageDrawable(null);
+                        Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                        //hashtag
+                        for (int hashtag = 0; hashtag < newsPOJO.getResults().getTags().size(); hashtag++) {
+                            String hashTag = newsPOJO.getResults().getTags().get(hashtag);
+                            if (!hashTag.equals("")) {
+                                hashtagStringBuilder.append("#" + hashTag + " ");
+                            }
                         }
-                    });
 
-                    imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
-                            gamifikasiAksiRespon(contentId, 2, 2, title, access_token);
+                        textViewHashtag.setText(hashtagStringBuilder.toString());
+                        //Gamifikasi status awal
+                        if (newsPOJO.getResults().getFavorited()) {
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                        } else {
+                            imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
                         }
-                    });
 
-                    imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
-                            gamifikasiAksiRespon(contentId, 3, 2, title, access_token);
+                        imageButtonUpvote.setVisibility(View.GONE);
+                        if (newsPOJO.getResults().getUpvoted()) {
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                        } else {
+                            imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                         }
-                    });
+
+                        imageButtonDownvote.setVisibility(View.GONE);
+                        if (newsPOJO.getResults().getDownvoted()) {
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                        } else {
+                            imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                        }
+
+                        //Gamifikasi event handler
+                        imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                gamifikasiAksiRespon(contentId, 4, 2, title, access_token);
+                            }
+                        });
+
+                        imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
+                                gamifikasiAksiRespon(contentId, 2, 2, title, access_token);
+                            }
+                        });
+
+                        imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
+                                gamifikasiAksiRespon(contentId, 3, 2, title, access_token);
+                            }
+                        });
+                    }
+                    commentList(contentId, access_token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Err: ", e.toString());
+                }finally {
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
                 }
-                commentList(contentId, access_token);
-                progressDialog.setProgress(100);
-                progressDialog.dismiss();
             }
 
             @Override

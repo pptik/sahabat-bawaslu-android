@@ -64,6 +64,7 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     @BindView(R.id.swipeRefreshRecycler)SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.icon_numbers_upvote)ImageView iconNumbersUpvote;
     @BindView(R.id.icon_numbers_downvote)ImageView iconNumbersDownvote;
+    @BindView(R.id.hashtag) TextView textViewHashtag;
     String contentId, title;
     Intent intent;
     RestServiceInterface restServiceInterface;
@@ -83,12 +84,14 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
     private ArrayList<List<String>> userProfilePictureSubKomentar = new ArrayList<List<String>>();
 
 
+
     private List<String> commentId = new ArrayList<String>();
     private List<Integer> commentNumber = new ArrayList<Integer>();
     public static final String CONTENT_ID = "";
     //public static final String TITLE = "";
     private int counterRefreshDataOnResume = 0;
     //private String access_token;
+    private StringBuilder hashtagStringBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,86 +169,101 @@ public class DetailNewsNotAdminTextActivity extends AppCompatActivity {
         newsDetailCall.enqueue(new Callback<NewsPOJO>() {
             @Override
             public void onResponse(Call<NewsPOJO> call, Response<NewsPOJO> response) {
-                NewsPOJO newsPOJO = response.body();
-                if (newsPOJO.getSuccess() != true){
-                    Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                }
-
-                //Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
-                iconNumbersUpvote.setVisibility(View.GONE);
-                iconNumbersDownvote.setVisibility(View.GONE);
-                if(newsPOJO.getResults().getPostBy()==null){
-                    textViewUsername.setText("Pengguna");
-                }else{
-                    textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
-                }
-
-                textViewContentPostNonAdminText.setText(newsPOJO.getResults().getContent());
-                textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
-                textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
-                textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
-                textViewNumberUpvote.setVisibility(View.GONE);
-                textViewNumberDownVote.setVisibility(View.GONE);
-                textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment())+" Komentar");
-                textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
-                imageViewUserPicture.setImageDrawable(null);
-                Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
-
-                //Gamifikasi status awal
-                if(newsPOJO.getResults().getFavorited()){
-                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
-                }else{
-                    imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-                }
-
-                imageButtonUpvote.setVisibility(View.GONE);
-                if(newsPOJO.getResults().getUpvoted()){
-                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
-                }else{
-                    imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                }
-
-                imageButtonDownvote.setVisibility(View.GONE);
-                if(newsPOJO.getResults().getDownvoted()){
-                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
-                }else{
-                    imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                }
-
-                //Gamifikasi event handler
-                imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*String contentID,
-                        final int activityCode, int contentCode,
-                        String title, String accessToken,
-                        int textNumberFavoriteParam,
-                        int textNumberUpvoteParam, int textNumberDownvoteParam,
-                        final int position*/
-
-                        gamifikasiAksiRespon(contentId,4,2,title,access_token);
+                try {
+                    NewsPOJO newsPOJO = response.body();
+                    if (newsPOJO.getSuccess() != true){
+                        Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
                     }
-                });
 
-                imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
-                        gamifikasiAksiRespon(contentId,2,2,title,access_token);
+                    //Toast.makeText(DetailNewsNotAdminTextActivity.this, newsPOJO.getRm(), Toast.LENGTH_SHORT).show();
+                    iconNumbersUpvote.setVisibility(View.GONE);
+                    iconNumbersDownvote.setVisibility(View.GONE);
+                    if(newsPOJO.getResults().getPostBy()==null){
+                        textViewUsername.setText("Pengguna");
+                    }else{
+                        textViewUsername.setText(newsPOJO.getResults().getPostBy().getUsername());
                     }
-                });
 
-                imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
-                        gamifikasiAksiRespon(contentId,3,2,title,access_token);
+                    textViewContentPostNonAdminText.setText(newsPOJO.getResults().getContent());
+                    textViewNumberFavorite.setText(Integer.toString(newsPOJO.getResults().getFavorite()));
+                    textViewNumberUpvote.setText(Integer.toString(newsPOJO.getResults().getUpvote()));
+                    textViewNumberDownVote.setText(Integer.toString(newsPOJO.getResults().getDownvote()));
+                    textViewNumberUpvote.setVisibility(View.GONE);
+                    textViewNumberDownVote.setVisibility(View.GONE);
+                    textViewNumberKomentar.setText(Integer.toString(newsPOJO.getResults().getComment())+" Komentar");
+                    textViewDatePost.setText(newsPOJO.getResults().getCreatedAtFromNow());
+                    imageViewUserPicture.setImageDrawable(null);
+                    Glide.with(imageViewUserPicture.getContext()).load(newsPOJO.getResults().getUserDetail().getDisplayPicture()).into(imageViewUserPicture);
+                    //hashtag
+
+                    for (int hashtag = 0; hashtag < newsPOJO.getResults().getTags().size(); hashtag++) {
+                        String hashTag = newsPOJO.getResults().getTags().get(hashtag);
+                        if(!hashTag.equals("")){
+                            hashtagStringBuilder.append("#" + hashTag + " ");
+                        }
                     }
-                });
 
-                commentList(contentId, access_token);
-                progressDialog.setProgress(100);
-                progressDialog.dismiss();
+                    textViewHashtag.setText(hashtagStringBuilder.toString());
+                    //Gamifikasi status awal
+                    if(newsPOJO.getResults().getFavorited()){
+                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_black_18dp);
+                    }else{
+                        imageButtonFavorite.setImageResource(R.drawable.ic_favorite_border_black_18dp);
+                    }
+
+                    imageButtonUpvote.setVisibility(View.GONE);
+                    if(newsPOJO.getResults().getUpvoted()){
+                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_18dp);
+                    }else{
+                        imageButtonUpvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    }
+
+                    imageButtonDownvote.setVisibility(View.GONE);
+                    if(newsPOJO.getResults().getDownvoted()){
+                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_18dp);
+                    }else{
+                        imageButtonDownvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }
+
+                    //Gamifikasi event handler
+                    imageButtonFavorite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            /*String contentID,
+                            final int activityCode, int contentCode,
+                            String title, String accessToken,
+                            int textNumberFavoriteParam,
+                            int textNumberUpvoteParam, int textNumberDownvoteParam,
+                            final int position*/
+
+                            gamifikasiAksiRespon(contentId,4,2,title,access_token);
+                        }
+                    });
+
+                    imageButtonUpvote.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "UP", Toast.LENGTH_SHORT).show();
+                            gamifikasiAksiRespon(contentId,2,2,title,access_token);
+                        }
+                    });
+
+                    imageButtonDownvote.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(DetailNewsNotAdminTextActivity.this, "DOWN", Toast.LENGTH_SHORT).show();
+                            gamifikasiAksiRespon(contentId,3,2,title,access_token);
+                        }
+                    });
+
+                    commentList(contentId, access_token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("Err: ", e.toString());
+                }finally {
+                    progressDialog.setProgress(100);
+                    progressDialog.dismiss();
+                }
 
             }
 

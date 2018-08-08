@@ -9,7 +9,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,16 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,13 +46,11 @@ import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddNewsBinding;
 import id.pptik.ilham.sahabatbawaslu.models.NewsModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
-import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddForumPojo;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsMediaPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.UploadImagePOJO;
 import id.pptik.ilham.sahabatbawaslu.utils.FileUtils;
 import id.pptik.ilham.sahabatbawaslu.view_models.NewsViewModel;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -66,7 +58,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Multipart;
 
 public class AddNewsActivity extends AppCompatActivity {
     private ActivityAddNewsBinding activityAddNewsBinding;
@@ -83,10 +74,17 @@ public class AddNewsActivity extends AppCompatActivity {
     TextView textViewTambahFoto;
     @BindView(R.id.imageButtonAddPhotos)
     ImageButton imageButtonAddPhotos;
+    @BindView(R.id.text_view_tambah_hashtag)
+    TextView textViewTambahHashtag;
+    @BindView(R.id.imageButtonAddHashtag)
+    ImageButton imageButtonAddHashTag;
     private int photosCounter = 0;
     private Map<String, JsonObject> photosMap;
     private List<JsonObject> photosContent;
     private ArrayList<String> photoFiles;
+    private HashMap<String, String> hashTagMap;
+    private ArrayList<String> hashTagContent;
+    private int hashTagCounter = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -96,10 +94,13 @@ public class AddNewsActivity extends AppCompatActivity {
         photosMap = new HashMap<String, JsonObject>();
         photosContent = new ArrayList<JsonObject>();
         photoFiles = new ArrayList<String>();
+        hashTagMap = new HashMap<String, String>();
+        hashTagContent = new ArrayList<String>();
 
         restServiceInterface = RestServiceClass.getClient().create(RestServiceInterface.class);
         activityAddNewsBinding = DataBindingUtil.setContentView(this,R.layout.activity_add_news);
         final NewsViewModel userViewModel = new NewsViewModel(new NewsModel());
+
         //Binding View Model
         editTextCaption = (EditText)findViewById(R.id.edit_text_caption);
         buttonSubmit = (Button)findViewById(R.id.button_masuk);
@@ -112,14 +113,32 @@ public class AddNewsActivity extends AppCompatActivity {
         activityAddNewsBinding.setAddnewsevent(new NewsInterface() {
             @Override
             public void onClickAddNews() {
+                //CEK HASTAG
+                if (hashTagCounter > 0) {
+
+                    for (int counter = 0; counter < hashTagCounter; counter++) {
+                        EditText editText = (EditText) (linearLayoutFlexibleEditText).getChildAt(counter);
+                        hashTagContent.add(counter, editText.getText().toString());
+                    }
+
+                    for (int counter = 0; counter < hashTagContent.size(); counter++) {
+
+                        hashTagMap.put("Tags[" + counter + "]", hashTagContent.get(counter));
+
+                    }
+                }else if(hashTagCounter == 0){
+                    hashTagMap.put("Tags[0]", "");
+                }
+
                 if (photosCounter > 0) {//Berita media
                     for (int counter = 0; counter < photosContent.size(); counter++) {
                         photosMap.put("Files[" + counter + "]", photosContent.get(counter));
                     }
 
                     Log.d("PHOTOFILESARRAY",photoFiles.toString());
+
                     Call<AddNewsMediaPOJO> addNewsMediaPOJOCall = restServiceInterface.
-                            newsCreateMedia(editTextCaption.getText().toString(), photoFiles.toString(), access_token);
+                            newsCreateMedia(editTextCaption.getText().toString(), photoFiles.toString(), hashTagMap, access_token);
                     addNewsMediaPOJOCall.enqueue(new Callback<AddNewsMediaPOJO>() {
                         @Override
                         public void onResponse(Call<AddNewsMediaPOJO> call, Response<AddNewsMediaPOJO> response) {
@@ -146,7 +165,8 @@ public class AddNewsActivity extends AppCompatActivity {
                     });
 
                 }else if(photosCounter == 0){//Berita teks
-                    Call<AddNewsPOJO> callAddNews = restServiceInterface.newsCreateText(editTextCaption.getText().toString(),access_token);
+                    Call<AddNewsPOJO> callAddNews = restServiceInterface.newsCreateText(
+                            editTextCaption.getText().toString(), hashTagMap, access_token);
                     callAddNews.enqueue(new Callback<AddNewsPOJO>() {
                         @Override
                         public void onResponse(Call<AddNewsPOJO> call, Response<AddNewsPOJO> response) {
@@ -186,7 +206,7 @@ public class AddNewsActivity extends AppCompatActivity {
         imageButtonAddPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addHashtagEditText(photosCounter,v.getContext());
+                addPhotosEditText(photosCounter,v.getContext());
 
             }
         });
@@ -194,10 +214,32 @@ public class AddNewsActivity extends AppCompatActivity {
         textViewTambahFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addHashtagEditText(photosCounter,v.getContext());
+                addPhotosEditText(photosCounter,v.getContext());
 
             }
         });
+
+        imageButtonAddHashTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addHashtagEditText(hashTagCounter, v.getContext());
+                hashTagCounter++;
+            }
+        });
+        textViewTambahHashtag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addHashtagEditText(hashTagCounter, v.getContext());
+                hashTagCounter++;
+            }
+        });
+    }
+
+    private void addHashtagEditText(final int hashTagCounter, Context context) {
+        final EditText editTextHashtag = new EditText(context);
+        editTextHashtag.setId(hashTagCounter);
+        editTextHashtag.setHint(R.string.tuliskan_hashtag_label);
+        linearLayoutFlexibleEditText.addView(editTextHashtag);
     }
 
     @Override
@@ -217,7 +259,7 @@ public class AddNewsActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    private void addHashtagEditText(final int hashTagCounter, Context context) {
+    private void addPhotosEditText(final int hashTagCounter, Context context) {
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,

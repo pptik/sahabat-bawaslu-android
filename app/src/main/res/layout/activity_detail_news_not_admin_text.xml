@@ -178,6 +178,17 @@
                             android:textColor="@color/abu"
                             android:textSize="20sp" />
                     </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/hashtag"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:textSize="15sp"
+                        android:layout_below="@+id/relativelayout_news_nonadmin_text"
+                        android:textColor="@color/abu"
+                        android:layout_height="75dp"
+                        android:layout_marginBottom="20dp"
+                        />
                 </RelativeLayout>
 
                 <LinearLayout

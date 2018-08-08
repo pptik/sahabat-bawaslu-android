@@ -40,6 +40,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp">
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -51,6 +52,25 @@
                         android:text="@={news.content}"
                         android:hint="@string/caption_label"/>
                 </android.support.design.widget.TextInputLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonAddHashtag"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_add_white_24dp" />
+
+                    <TextView
+                        android:id="@+id/text_view_tambah_hashtag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/imageButtonAddHashtag"
+                        android:text="@string/tambah_hashtag_label"
+                        android:textSize="20sp" />
+                </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -69,6 +89,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/tambah_foto_label"/>
                 </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/linearLayoutFlexibleEditText"
                     android:layout_width="match_parent"
@@ -77,7 +98,9 @@
                     android:layout_marginTop="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    ></LinearLayout>
+                    >
+
+                </LinearLayout>
                 <Button
                     android:id="@+id/button_masuk"
                     android:layout_width="match_parent"
