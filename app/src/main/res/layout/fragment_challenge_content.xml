@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_margin="8dp">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/challenge_title"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:textSize="15sp"
+                    android:text="Challenge!"
+                    android:textColor="@color/abu"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:id="@+id/challenge_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/challenge_title"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/post_content_label"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/abu"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/challenge_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/abu"
+                        android:visibility="visible"
+                        android:text="@string/expire_label"
+                        />
+                    <TextView
+                        android:id="@+id/expire"
+                        android:layout_width="120dp"
+                        android:text="@string/date_label"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="left"
+                        android:textColor="@color/abu"
+                        android:visibility="visible"/>
+
+                    <TextView
+                        android:id="@+id/poin"
+                        android:layout_width="120dp"
+                        android:text="poin"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right"
+                        android:textColor="@color/abu"
+                        android:visibility="visible"/>
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

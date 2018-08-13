@@ -13,6 +13,7 @@ import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsMediaPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddNewsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AddSubCommentPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.AnswersListPOJO;
+import id.pptik.ilham.sahabatbawaslu.networks.pojos.ChallengePOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.CommentsPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardPOJO;
 import id.pptik.ilham.sahabatbawaslu.networks.pojos.DashboardV2POJO;
@@ -271,5 +272,9 @@ public interface RestServiceInterface {
     @FormUrlEncoded
     @POST("users/update/dp")
     Call<UpdateDPPOJO> UPDATE_DPPOJO_CALL(@Header("access_token") String access_token, @Field("DP") String DP);
+
+    @FormUrlEncoded
+    @POST("challenges/list")
+    Call<ChallengePOJO> challengesList(@Field("Skip") int skip, @Header("access_token") String access_token);
 
 }

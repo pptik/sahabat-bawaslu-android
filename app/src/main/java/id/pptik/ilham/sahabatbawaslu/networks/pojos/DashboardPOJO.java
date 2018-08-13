@@ -66,6 +66,10 @@ public class DashboardPOJO {
             @Expose
             private String desc;
 
+            @SerializedName("challenge")
+            @Expose
+            private boolean challenge;
+
             @SerializedName("synopsis")
             @Expose
             private String synopsis;
@@ -144,6 +148,8 @@ public class DashboardPOJO {
             public String getDesc() {
                 return desc;
             }
+
+            public boolean isChallenge() { return challenge; }
 
             public String getSynopsis() {
                 return synopsis;

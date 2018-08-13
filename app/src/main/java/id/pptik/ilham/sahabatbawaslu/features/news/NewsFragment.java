@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import id.pptik.ilham.sahabatbawaslu.R;
+import id.pptik.ilham.sahabatbawaslu.features.challenge.ChallengeActivity;
 import id.pptik.ilham.sahabatbawaslu.features.gamification.LeaderboardActivity;
 import id.pptik.ilham.sahabatbawaslu.features.login.LoginActivity;
 import id.pptik.ilham.sahabatbawaslu.features.notification.NotificationActivity;
@@ -723,6 +724,10 @@ public class NewsFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.pop_up_challenge:
+                        startActivity(new Intent(getContext(), ChallengeActivity.class));
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
                     case R.id.pop_up_profile_user:
                         Intent intentProfileUser = new Intent(getContext(), ProfileUserActivity.class);
                         startActivity(intentProfileUser);

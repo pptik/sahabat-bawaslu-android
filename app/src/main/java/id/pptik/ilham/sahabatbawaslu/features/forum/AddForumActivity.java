@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
 import id.pptik.ilham.sahabatbawaslu.R;
 import id.pptik.ilham.sahabatbawaslu.commands.ForumsInterface;
 import id.pptik.ilham.sahabatbawaslu.databinding.ActivityAddForumBinding;
-import id.pptik.ilham.sahabatbawaslu.features.news.AddNewsActivity;
 import id.pptik.ilham.sahabatbawaslu.models.ForumsModel;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceClass;
 import id.pptik.ilham.sahabatbawaslu.networks.RestServiceInterface;
@@ -47,7 +46,7 @@ public class AddForumActivity extends AppCompatActivity {
     EditText editTextTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.linearLayoutFlexibleEditText)
+    @BindView(R.id.linearLayoutFlexibleHashtag)
     LinearLayout linearLayoutFlexibleEditText;
     @BindView(R.id.imageButtonAddHashtag)
     ImageButton imageButtonAddHashTag;

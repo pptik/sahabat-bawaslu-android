@@ -179,7 +179,7 @@
                             android:textSize="20sp" />
 
                         <LinearLayout
-                            android:id="@+id/linearLayoutFlexibleEditText"
+                            android:id="@+id/linearLayoutFlexibleHashtag"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
