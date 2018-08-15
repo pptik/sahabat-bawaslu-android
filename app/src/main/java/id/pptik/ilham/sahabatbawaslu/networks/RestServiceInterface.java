@@ -145,11 +145,26 @@ public interface RestServiceInterface {
                                      @Header("access_token") String access_token);
 
     @FormUrlEncoded
+    @POST("news/create/text")
+    Call<AddNewsPOJO> newsCreateText(@Field("Content") String content,
+                                     @FieldMap Map<String, String> hashtags,
+                                     @Header("access_token") String access_token,
+                                     @Field("Challenge_id") String challenge_id);
+
+    @FormUrlEncoded
     @POST("news/create/activities2")
     Call<AddNewsMediaPOJO> newsCreateMedia(@Field("Content") String content,
                                            @Field ("Files") String files,
                                            @FieldMap Map<String, String> hashtags,
                                            @Header("access_token") String access_token);
+
+    @FormUrlEncoded
+    @POST("news/create/activities2")
+    Call<AddNewsMediaPOJO> newsCreateMedia(@Field("Content") String content,
+                                           @Field ("Files") String files,
+                                           @FieldMap Map<String, String> hashtags,
+                                           @Header("access_token") String access_token,
+                                           @Field("Challenge_id") String challenge_id);
 
     /*@FormUrlEncoded
     @POST("news/create/activities2")

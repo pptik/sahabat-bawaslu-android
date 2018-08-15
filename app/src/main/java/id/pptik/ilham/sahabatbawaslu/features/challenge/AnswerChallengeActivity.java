@@ -77,8 +77,6 @@ public class AnswerChallengeActivity extends AppCompatActivity {
     LinearLayout linearLayoutFlexibleHashtag;
     @BindView(R.id.linearLayoutFlexiblePhoto)
     LinearLayout linearLayoutFlexiblePhoto;
-    @BindView(R.id.linearLayoutChallengeList)
-    LinearLayout linearLayoutChallengeList;
     @BindView(R.id.text_view_tambah_foto)
     TextView textViewTambahFoto;
     @BindView(R.id.imageButtonAddPhotos)
@@ -87,10 +85,6 @@ public class AnswerChallengeActivity extends AppCompatActivity {
     TextView textViewTambahHashtag;
     @BindView(R.id.imageButtonAddHashtag)
     ImageButton imageButtonAddHashTag;
-    @BindView(R.id.text_view_jawab_challenge)
-    TextView textViewJawabChallenge;
-    @BindView(R.id.imageButtonJawabChallenge)
-    ImageButton imageButtonJawabChallenge;
     private int photosCounter = 0;
     private Map<String, JsonObject> photosMap;
     private List<JsonObject> photosContent;
@@ -127,6 +121,7 @@ public class AnswerChallengeActivity extends AppCompatActivity {
         activityAddNewsBinding.setAddnewsevent(new NewsInterface() {
             @Override
             public void onClickAddNews() {
+                final String challengeID = getIntent().getExtras().getString("CHALLENGE_ID");
                 //CEK HASTAG
                 if (hashTagCounter > 0) {
 
@@ -150,9 +145,10 @@ public class AnswerChallengeActivity extends AppCompatActivity {
                     }
 
                     Log.d("PHOTOFILESARRAY",photoFiles.toString());
-
+                    Log.d("CHALLENGE_ID",challengeID);
                     Call<AddNewsMediaPOJO> addNewsMediaPOJOCall = restServiceInterface.
-                            newsCreateMedia(editTextCaption.getText().toString(), photoFiles.toString(), hashTagMap, access_token);
+                            newsCreateMedia(editTextCaption.getText().toString(), photoFiles.toString(), hashTagMap,
+                                    access_token, challengeID );
                     addNewsMediaPOJOCall.enqueue(new Callback<AddNewsMediaPOJO>() {
                         @Override
                         public void onResponse(Call<AddNewsMediaPOJO> call, Response<AddNewsMediaPOJO> response) {
@@ -179,8 +175,9 @@ public class AnswerChallengeActivity extends AppCompatActivity {
                     });
 
                 }else if(photosCounter == 0){//Berita teks
+                    Log.d("CHALLENGE_ID",challengeID);
                     Call<AddNewsPOJO> callAddNews = restServiceInterface.newsCreateText(
-                            editTextCaption.getText().toString(), hashTagMap, access_token);
+                            editTextCaption.getText().toString(), hashTagMap, access_token, challengeID);
                     callAddNews.enqueue(new Callback<AddNewsPOJO>() {
                         @Override
                         public void onResponse(Call<AddNewsPOJO> call, Response<AddNewsPOJO> response) {
@@ -217,6 +214,8 @@ public class AnswerChallengeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Toast.makeText(this, getIntent().getExtras().getString("CHALLENGE_ID"), Toast.LENGTH_SHORT).show();
+
         imageButtonAddPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,54 +247,6 @@ public class AnswerChallengeActivity extends AppCompatActivity {
             }
         });
 
-        imageButtonJawabChallenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChallengeList(v.getContext());
-
-            }
-        });
-        textViewJawabChallenge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChallengeList(v.getContext());
-            }
-        });
-    }
-
-    private void showChallengeList(Context context) {
-        if(!isShowChallengeList){
-            isShowChallengeList = true;
-            final TextView textViewPilihChallenge = new TextView(getApplicationContext());
-            textViewPilihChallenge.setHint(R.string.pilih_challenge);
-            textViewPilihChallenge.setHintTextColor(Color.BLACK);
-
-            final Spinner spinnerChallengeList = new Spinner(getApplicationContext());
-            Spinner.LayoutParams lp = new Spinner.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            spinnerChallengeList.setLayoutParams(lp);
-            // Spinner Drop down elements
-            List<String> categories = new ArrayList<String>();
-            categories.add("Automobile");
-            categories.add("Business Services");
-            categories.add("Computers");
-            categories.add("Education");
-            categories.add("Personal");
-            categories.add("Travel");
-
-            // Creating adapter for spinner
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_dropdown_item, categories);
-
-            // Drop down layout style - list view with radio button
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-
-            // attaching data adapter to spinner
-            spinnerChallengeList.setAdapter(dataAdapter);
-
-            linearLayoutChallengeList.addView(textViewPilihChallenge);
-            linearLayoutChallengeList.addView(spinnerChallengeList);
-        }
     }
 
     private void addHashtagEditText(final int hashTagCounter, Context context) {
