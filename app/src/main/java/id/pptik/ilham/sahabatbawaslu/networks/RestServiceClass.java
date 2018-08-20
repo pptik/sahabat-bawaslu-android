@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestServiceClass {
-    public static final String BASE_URL = "http://167.205.7.233:8184/";
+    public static final String BASE_URL = "http://167.205.7.233:8183/";
     public static final String BASE_URL_MEDIA = "http://167.205.7.233:3077/";
     private static Retrofit retrofit = null;
 

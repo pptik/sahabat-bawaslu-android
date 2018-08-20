@@ -39,6 +39,7 @@ public class ChallengeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private RestServiceInterface restServiceInterface;
     private List<String> idsChallenge = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
     private List<String> contents = new ArrayList<>();
     private List<Integer> poins = new ArrayList<>();
     private List<String> expire = new ArrayList<>();
@@ -94,6 +95,7 @@ public class ChallengeActivity extends AppCompatActivity {
             challengesListPOJOCall.enqueue(new Callback<ChallengePOJO>() {
                 @Override
                 public void onResponse(Call<ChallengePOJO> call, Response<ChallengePOJO> response) {
+                    titles.clear();
                     contents.clear();
                     poins.clear();
                     expire.clear();
@@ -102,12 +104,13 @@ public class ChallengeActivity extends AppCompatActivity {
                     if(challengePOJO.getSuccess()){
                         for(int i=0; i<challengePOJO.getResults().size(); i++){
                             idsChallenge.add(challengePOJO.getResults().get(i).get_id());
+                            titles.add(challengePOJO.getResults().get(i).getmTitle());
                             contents.add(challengePOJO.getResults().get(i).getContent());
                             poins.add(challengePOJO.getResults().get(i).getPoin());
                             expire.add(challengePOJO.getResults().get(i).getExpire());
                         }
 
-                        mAdapter = new ChallengeRecyclerView(idsChallenge, contents, poins, expire, ChallengeActivity.this);
+                        mAdapter = new ChallengeRecyclerView(titles, idsChallenge, contents, poins, expire, ChallengeActivity.this);
                         mAdapter.notifyDataSetChanged();
                         recyclerViewChallenge.setAdapter(mAdapter);
 

@@ -214,7 +214,7 @@ public class AnswerChallengeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Toast.makeText(this, getIntent().getExtras().getString("CHALLENGE_ID"), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, getIntent().getExtras().getString("CHALLENGE_ID"), Toast.LENGTH_SHORT).show();
 
         imageButtonAddPhotos.setOnClickListener(new View.OnClickListener() {
             @Override

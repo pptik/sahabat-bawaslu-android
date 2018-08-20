@@ -50,6 +50,8 @@ public class ChallengePOJO {
 
     public class Result {
 
+        @SerializedName("title")
+        private String mTitle;
         @SerializedName("content")
         private String mContent;
         @SerializedName("created_at")
@@ -101,6 +103,9 @@ public class ChallengePOJO {
             m_id = _id;
         }
 
+        public String getmTitle() { return mTitle; }
+
+        public void setmTitle(String mTitle) { this.mTitle = mTitle; }
     }
 
 }

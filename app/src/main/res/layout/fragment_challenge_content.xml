@@ -27,14 +27,15 @@
                     android:id="@+id/challenge_title"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
                     android:text="Challenge!"
-                    android:textColor="@color/abu"
+                    android:textColor="@color/oranyeTerang"
                     android:layout_marginBottom="15dp"
                     android:layout_height="wrap_content"
                     />
 
-                <TextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/challenge_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

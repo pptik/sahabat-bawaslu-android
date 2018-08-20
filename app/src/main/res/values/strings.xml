@@ -31,6 +31,7 @@
     <string name="pastikan_internet_label">Mohon pastikan anda terhubung dengan Internet</string>
     <string name="exit_app_label">Apakah anda ingin keluar dari aplikasi ini?</string>
     <string name="ensure_quiz_label">Apakah anda ingin mulai mengerjakan kuis ini?</string>
+    <string name="ensure_challenge_label">Apakah anda ingin mengikuti challenge ini?</string>
     <string name="mohon_tunggu_label">Mohon tunggu sedang dalam proses</string>
     <string name="informasi_akun_label">INFORMASI AKUN</string>
     <string name="username_label">Username</string>
